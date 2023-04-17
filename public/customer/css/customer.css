@@ -1,0 +1,293 @@
+/* Poppins font */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+body {
+    font-family: "Poppins", sans-serif !important;
+    background-color: #eef2ff !important;
+    overflow-x: hidden !important;
+}
+
+.icon-heart-hover:hover {
+    border-color: #fc4f4f !important;
+    background-color: white !important;
+}
+
+.icon-heart-hover:hover i {
+    color: #fc4f4f !important;
+}
+
+.icon-cart-hover:hover {
+    border-color: #4b49ac !important;
+    background-color: white !important;
+}
+
+.icon-cart-hover:hover i {
+    color: #4b49ac !important;
+}
+
+.text-theme {
+    color: #4b49ac !important;
+}
+
+.text-theme-two {
+    color: #10a19d !important;
+}
+
+.text-heart {
+    color: #fc4f4f !important;
+}
+
+.text-theme-seondary {
+    color: #b2b2b2 !important;
+}
+
+.bg-theme {
+    background-color: #4b49ac !important;
+}
+
+.bg-heart {
+    background-color: #fc4f4f !important;
+}
+
+.dark-theme {
+    background-color: #444444;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.btn-theme {
+    background-color: #4b49ac !important;
+    color: white !important;
+    border: white 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-theme:hover {
+    background-color: white !important;
+    color: #4b49ac !important;
+    border: #4b49ac 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-theme-two {
+    background-color: #fc4f4f !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-theme-two:hover {
+    background-color: white !important;
+    color: #fc4f4f !important;
+    border: #fc4f4f 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-confirm {
+    background-color: #4b49ac !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-unconfirm {
+    background-color: white !important;
+    color: #4b49ac !important;
+    border: #4b49ac 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-checklist {
+    background-color: #4b49ac !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-checklist:hover {
+    background-color: white !important;
+    color: #4b49ac !important;
+    border: #4b49ac 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-hapus {
+    background-color: #ff597b !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-hapus:hover {
+    background-color: white !important;
+    color: #ff597b !important;
+    border: #ff597b 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-cancel {
+    background-color: white !important;
+    color: #ff597b !important;
+    border: #ff597b 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-cancel:hover {
+    background-color: #ff597b !important;
+    color: white !important;
+    border: white 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-checklist-on {
+    background-color: white !important;
+    color: #4b49ac !important;
+    border: #4b49ac 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-delete {
+    background-color: #fc4f4f !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-delete:hover {
+    background-color: white !important;
+    color: #fc4f4f !important;
+    border: #fc4f4f 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.search-theme {
+    background-color: #4b49ac !important;
+    color: white !important;
+    border: #4b49ac 2px solid !important;
+}
+
+.search-theme:hover {
+    background-color: white !important;
+    color: #4b49ac !important;
+    border: #4b49ac 2px solid !important;
+}
+
+.nav-item .nav-link:hover {
+    color: white !important;
+}
+
+.footer-bg {
+    background-color: #f3f9fb !important;
+}
+
+.ready-content {
+    color: white !important;
+    background-color: #10a19d !important;
+}
+
+.run-out-content {
+    color: white !important;
+    background-color: #fc4f4f !important;
+}
+
+.pre-order-content {
+    color: white !important;
+    background-color: #2b4865 !important;
+}
+
+.card-hover:hover {
+    box-shadow: 0px 5px 40px rgba(29, 34, 47, 0.15) !important;
+}
+
+.main-layer {
+    z-index: 10 !important;
+}
+
+.limit-text-title {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.limit-text {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.modal-yes {
+    background-color: #4b49ac;
+    color: white !important;
+}
+
+.modal-no {
+    background-color: #344d67;
+    color: white !important;
+}
+
+.cart-disable {
+    border-color: #4b49ac !important;
+    color: #4b49ac !important;
+    background-color: white !important;
+}
+
+/* Font size */
+.fs-20 {
+    font-size: 16px;
+}
+
+.text-justify {
+    text-align: justify !important;
+}
+
+#footer .social-links a {
+    font-size: 18px;
+    display: inline-block;
+    background: #4b49ac;
+    color: #fff;
+    line-height: 1;
+    padding: 8px 0;
+    margin-right: 4px;
+    border-radius: 5px;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    transition: 0.3s;
+}
+
+#footer .social-links a:hover {
+    background: #3194db;
+    color: #fff;
+    text-decoration: none;
+}
+
+.fw-medium {
+    font-weight: 600 !important;
+}
+
+.fw-bold {
+    font-weight: 700;
+}
+
+.logo-1 {
+    display: block; /* tampilkan logo satu */
+}
+
+.logo-2 {
+    display: none; /* sembunyikan logo dua */
+}
+
+/* media query untuk layar kurang dari 450 pixel */
+@media (max-width: 450px) {
+    .logo-1 {
+        display: none; /* sembunyikan logo satu */
+    }
+
+    .logo-2 {
+        display: block; /* tampilkan logo dua */
+    }
+}
