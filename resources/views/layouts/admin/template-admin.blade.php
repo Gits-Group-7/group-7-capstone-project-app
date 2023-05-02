@@ -19,7 +19,8 @@
     @yield('css')
 
     {{-- Taskbar Icon --}}
-    <link rel="icon" type="image/png" class="title-color" href="{{ asset('admin/images/title-logo-new.svg') }}" />
+    <link rel="icon" type="image/png" class="title-color"
+        href="{{ asset('admin/images/print-shop-logo-bar.png') }}" />
 
     @yield('title')
 </head>

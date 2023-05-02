@@ -8,7 +8,7 @@
                 <!-- Grid column -->
                 <div class="col-12 col-lg-3 col-sm-12 mb-4">
                     <!-- Content -->
-                    <img src="{{ asset('admin/images/gws-logo-footer.png') }}" class="img-fluid" alt="">
+                    <img src="{{ asset('admin/images/print-shop-logo-card.png') }}" class="img-fluid" alt="">
 
                     </a>
                 </div>
@@ -21,7 +21,7 @@
                         Store
                     </h6>
                     <ul class="list-unstyled mb-4">
-                        <li><a class="text-black-50" href="#">About us</a></li>
+                        <li><a class="text-black-50" href="#">Tentang Kami</a></li>
                         <li><a class="text-black-50" href="#">Blogs</a></li>
                     </ul>
                 </div>
@@ -60,10 +60,11 @@
                     <!-- Links -->
                     <h6 class="text-uppercase text-black mb-2 fw-bold">Contact Us</h6>
                     <a class="text-decoration-none text-theme fw-bold" href="mailto: gws.service@shopify.com"
-                        target="_blank">gws.service@shopify.com</a>
-                    <p class="text-secondary pt-2">Jalan Medan Merdeka Barat Nomor 12, Gambir, Jakarta Pusat, DKI
-                        Jakarta,
-                        Indonesia</p>
+                        target="_blank">printshop.id@gmail.com</a>
+                    <p class="text-secondary pt-2 text-justify">
+                        Jalan Raya Jember No. KM13, Kawang, Labanasem, Kecamatan Kabat, Kabupaten Banyuwangi, Jawa Timur
+                        68461.
+                    </p>
                 </div>
                 <!-- Grid column -->
             </div>
@@ -75,17 +76,18 @@
     <div class="">
         <div class="container">
             <div class="row py-4 justify-content-between border-top">
-                <div class="col-4 d-flex">
+                <div class="col-5 d-flex">
                     <div class="my-auto">
-                        <p class="pt-1"><span class="fw-bold text-black">Gadget Web Store</span> <br>
-                            <i class="text-seondary">"Your Partner in Tech, Every Step of the Way"</i>
+                        <p class="pt-1"><span class="fw-bold text-black">Print-Shop</span> <br>
+                            <i class="text-seondary">"Tampil stylish dengan produk custom terbaik dari Print
+                                Shop!"</i>
                         </p>
                     </div>
                 </div>
 
                 <div class="col-4 d-flex">
                     <div class="mx-auto my-auto">
-                        <p class="text-black pt-1">Copyright © {{ now()->year }} GadgetWebStore.com</p>
+                        <p class="text-black pt-1">Copyright © {{ now()->year }} Printshop.id</p>
                     </div>
                 </div>
 

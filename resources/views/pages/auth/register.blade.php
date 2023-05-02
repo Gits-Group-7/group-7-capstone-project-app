@@ -12,7 +12,7 @@
                     <div class="col-lg-4 mx-auto">
                         <div class="auth-form-light text-left py-5 px-4 px-sm-5 card-hover rounded">
                             <div class="mb-4">
-                                <img src="{{ asset('admin/images/title-logo-new.svg') }}" width="45" alt="logo">
+                                <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
                             <h4>Buat akun baru</h4>
                             <h6 class="font-weight-light text-secondary mt-2">

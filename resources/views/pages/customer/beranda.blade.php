@@ -1,7 +1,7 @@
 @extends('layouts.customer.template-customer')
 
 @section('title')
-    <title>Dashboard Product | Gadget Web Store</title>
+    <title>Selamat datang di Print-Shop | Online Shop Outfit Terbaik!</title>
 @endsection
 
 @section('css')
@@ -48,16 +48,18 @@
                         <div class="card-banner h-auto p-5 bg-theme rounded-5" style="height: 350px;">
                             <div>
                                 <h4 class="text-white">
-                                    Selamat datang di Gadget Web Store! 🥰<br />
+                                    Selamat datang di<br>Print-Shop! 🥰<br />
                                 </h4>
-                                <p class="text-white text-justify">
-                                    Kami adalah toko online yang menyediakan berbagai
-                                    macam gadget terbaru dengan harga terjangkau dan kualitas yang terjamin. Dari
-                                    smartphone, laptop, tablet, hingga aksesoris gadget lainnya, semua tersedia di sini
-                                    dengan pilihan merek terkenal dan spesifikasi terbaik. Dapatkan pengalaman belanja
-                                    gadget online yang menyenangkan dan memuaskan hanya di Gadget Web Store!
+                                <img src="{{ asset('admin/images/welcome-image.svg') }}" class="img-fluid mt-2"
+                                    alt="">
+                                <p class="text-white text-justify mt-3">
+                                    &ensp;&ensp;&ensp;&ensp;Selamat datang, Temukan berbagai pilihan baju dan
+                                    outfit berkualitas terbaik dengan harga terjangkau hanya di Print Shop, toko online
+                                    terpercaya untuk layanan sablon dan custom.
                                 </p>
-                                <a href="#produk" class="btn btn-theme shadow-0">Lihat Produk Yuk</a>
+                                <center>
+                                    <a href="#produk" class="btn btn-theme shadow-0">Temukan Produk & Jasa Menarik</a>
+                                </center>
                             </div>
                         </div>
                     </div>

@@ -5,17 +5,17 @@
         <div class="container">
             <div class="row gy-3">
                 <!-- Left elements -->
-                <div class="col-lg-2 col-sm-4 col-4">
-                    <a href="{{ route('customer.beranda') }}" class="float-start">
-                        <img class="logo-1" src="{{ asset('admin/images/gws-logo.png') }}" height="50" />
-                        <img class="logo-2" src="{{ asset('admin/images/title-logo-new.svg') }}" height="50" />
+                <div class="col-lg-2 col-sm-4 col-4 d-flex">
+                    <a href="{{ route('customer.beranda') }}" class="float-start my-auto">
+                        <img class="logo-1 img-fluid" src="{{ asset('admin/images/print-shop-logo-title.png') }}" />
+                        <img class="logo-2 img-fluid" src="{{ asset('admin/images/print-shop-logo.png') }}" />
                     </a>
                 </div>
                 <!-- Left elements -->
 
                 <!-- Center elements -->
                 <div class="order-lg-last col-lg-5 col-sm-8 col-8">
-                    <div class="d-flex float-end">
+                    <div class="d-flex float-end p-3">
                         <a href="" class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
                             <i class="fa-solid fa-store m-1 me-md-2"></i>
                             <p class="d-none d-md-block mb-0">Toko</p>
@@ -35,7 +35,7 @@
                             <a href="{{ route('login.page') }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
                                 <i class="fas fa-user-alt m-1 me-md-2"></i>
-                                <p class="d-none d-md-block mb-0">Masuk</p>
+                                <p class="d-none d-md-block mb-0">Login</p>
                             </a>
                         @endif
 
@@ -44,11 +44,12 @@
                 <!-- Center elements -->
 
                 <!-- Right elements -->
-                <div class="col-lg-5 col-md-12 col-12">
-                    <div class="input-group float-center">
+                <div class="col-lg-5 col-md-12 col-12 d-flex">
+                    <div class="input-group float-center my-auto">
                         <div class="form-outline">
                             <input type="search" id="form1" class="form-control" />
-                            <label class="form-label" for="form1">Mau cari gadget apa hari ini?</label>
+                            <label class="form-label" for="form1">
+                                Temukan produk atau jasa favoritmu dengan mudah di sini!</label>
                         </div>
                         <button type="button" class="btn search-theme shadow-0">
                             <i class="fas fa-search"></i>
@@ -80,14 +81,47 @@
                         <a class="nav-link active" href="{{ route('customer.beranda') }}">Beranda</a>
                     </li>
 
-                    @foreach ($category_nav as $item)
-                        <li class="nav-item">
-                            <a class="nav-link"
-                                href="{{ route('customer.beranda') }}#{{ underscore($item->name) }}">{{ $item->name }}</a>
-                        </li>
-                    @endforeach
+                    <!-- Navbar dropdown Product -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-mdb-toggle="dropdown" aria-expanded="false">
+                            Katalog Produk
+                        </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @foreach ($category_nav as $item)
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('customer.beranda') }}#{{ underscore($item->name) }}">{{ $item->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </li>
 
-                    <!-- Navbar dropdown -->
+                    <!-- Navbar dropdown Service -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-mdb-toggle="dropdown" aria-expanded="false">
+                            Katalog Jasa
+                        </a>
+                        <!-- Dropdown menu -->
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li>
+                                <a class="dropdown-item" href="#">Jasa Sablon Kaos</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Jasa Cetak Baju</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Jasa Konveksi Baju</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#">Jasa Desain Kaos Tim</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Navbar dropdown Lain-lain -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-mdb-toggle="dropdown" aria-expanded="false">

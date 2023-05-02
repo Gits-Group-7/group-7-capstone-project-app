@@ -22,7 +22,8 @@
     <link rel="stylesheet" href="{{ asset('customer/css/customer.css') }}" />
 
     {{-- Taskbar Icon --}}
-    <link rel="icon" type="image/png" class="title-color" href="{{ asset('admin/images/title-logo-new.svg') }}" />
+    <link rel="icon" type="image/png" class="title-color"
+        href="{{ asset('admin/images/print-shop-logo-bar.png') }}" />
 
     {{-- Owl Css --}}
     <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
