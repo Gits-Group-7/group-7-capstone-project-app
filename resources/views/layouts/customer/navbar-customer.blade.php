@@ -95,7 +95,7 @@
                         </a>
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            @foreach ($category_nav as $item)
+                            @foreach ($category_products as $item)
                                 <li>
                                     <a class="dropdown-item"
                                         href="{{ route('customer.beranda') }}#{{ underscore($item->name) }}">{{ $item->name }}</a>
@@ -106,24 +106,18 @@
 
                     <!-- Navbar dropdown Service -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownServices" role="button"
                             data-mdb-toggle="dropdown" aria-expanded="false">
                             Katalog Jasa
                         </a>
                         <!-- Dropdown menu -->
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a class="dropdown-item" href="#">Jasa Sablon Kaos</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Jasa Cetak Baju</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Jasa Konveksi Baju</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Jasa Desain Kaos Tim</a>
-                            </li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                            @foreach ($category_services as $item)
+                                <li>
+                                    <a class="dropdown-item"
+                                        href="{{ route('customer.beranda') }}#{{ underscore($item->name) }}">{{ $item->name }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </li>
 
@@ -136,13 +130,13 @@
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
+                                <a class="dropdown-item" href="#">About</a>
+                            </li>
+                            <li>
                                 <a class="dropdown-item" href="#">Promo</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">Support</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#">Abous Us</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">Join with Us</a>

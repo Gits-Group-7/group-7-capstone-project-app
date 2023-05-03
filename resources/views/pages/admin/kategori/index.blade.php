@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Index Kategori | POS APP</title>
+    <title>Index Kategori | Print-Shop</title>
 @endsection
 
 @section('content')
@@ -53,6 +53,7 @@
                                         <tr class="mx-auto">
                                             <th width="10%" class="text-center">No</th>
                                             <th width="25%" class="text-center">Nama</th>
+                                            <th width="15%" class="text-center">Jenis</th>
                                             <th class="text-center">Deskripsi</th>
                                             <th width="15%" class="text-center">Status</th>
                                             <th width="15%" class="text-center">Option</th>
@@ -67,6 +68,7 @@
                                             <tr class="shadow-sm">
                                                 <td class="text-center">{{ $no }}</td>
                                                 <td class="text-center">{{ $item->name }}</td>
+                                                <td class="text-center">{{ $item->type }}</td>
                                                 <td class="text-center">{{ $item->description }}</td>
                                                 <td class="text-center">{{ $item->status }}</td>
                                                 <td class="text-center">

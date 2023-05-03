@@ -63,6 +63,27 @@
 
                                             <div class="col-md-6">
                                                 <div class="form-group">
+                                                    <label for="type">Jenis Kategori</label>
+                                                    <select class="form-control @error('type') is-invalid @enderror"
+                                                        id="type" name="type">
+                                                        <option value="">Pilih Jenis Kategori</option>
+                                                        <option value="product"
+                                                            {{ $category->type == 'product' ? 'selected' : '' }}>Produk
+                                                        </option>
+                                                        <option value="service"
+                                                            {{ $category->type == 'service' ? 'selected' : '' }}>Jasa
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                @if ($errors->has('type'))
+                                                    <div class="invalid feedback text-danger mb-3">
+                                                        *option status harus di pilih
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
                                                     <label for="status">Status</label>
                                                     <select class="form-control @error('status') is-invalid @enderror"
                                                         id="status" name="status">

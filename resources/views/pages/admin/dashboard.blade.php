@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Dashboard Admin | POS APP</title>
+    <title>Dashboard Admin | Print-Shop</title>
 @endsection
 
 @section('content')

@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Tambah Kategori | POS APP</title>
+    <title>Tambah Kategori | Print-Shop</title>
 @endsection
 
 @section('content')
@@ -55,6 +55,23 @@
                                                 @if ($errors->has('name'))
                                                     <div class="invalid feedback text-danger mb-3">
                                                         *field nama harus di isi
+                                                    </div>
+                                                @endif
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="type">Jenis Kategori</label>
+                                                    <select class="form-control @error('type') is-invalid @enderror"
+                                                        id="type" name="type">
+                                                        <option value="">Pilih Jenis Kategori</option>
+                                                        <option value="product">Produk</option>
+                                                        <option value="service">Jasa</option>
+                                                    </select>
+                                                </div>
+                                                @if ($errors->has('type'))
+                                                    <div class="invalid feedback text-danger mb-3">
+                                                        *option jenis kategori harus di pilih
                                                     </div>
                                                 @endif
                                             </div>

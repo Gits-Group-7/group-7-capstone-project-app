@@ -7,7 +7,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 // Route Beranda Cuustomer
@@ -50,7 +49,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 // special route for role admin
-Route::middleware(['auth', 'admin', 'redirect.if.not.authenticated'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     // Dashboard admin
     Route::get('/admin/dashboard', [AuthAdminController::class, 'dashboard'])->name('admin.dashboard');
 

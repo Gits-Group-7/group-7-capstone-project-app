@@ -16,7 +16,8 @@ class PageController extends Controller
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'categories' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
             'products' => Product::all(),
-            'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
 
         return view('pages.customer.beranda', $data);

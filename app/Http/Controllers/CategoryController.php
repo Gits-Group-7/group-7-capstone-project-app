@@ -46,14 +46,16 @@ class CategoryController extends Controller
         // validasi field
         $validated = $request->validate([
             'name' => 'required',
+            'type' => 'required',
             'status' => 'required',
         ]);
 
         // insert data category
         Category::create([
             'name' => $validated['name'],
-            'description' => $request->description,
+            'type' => $validated['type'],
             'status' => $validated['status'],
+            'description' => $request->description,
         ]);
 
         return redirect()->route('category.index');
@@ -98,14 +100,16 @@ class CategoryController extends Controller
         // validasi field
         $validated = $request->validate([
             'name' => 'required',
+            'type' => 'required',
             'status' => 'required',
         ]);
 
         // update data caetegory
         Category::where('id', $id)->update([
             'name' => $validated['name'],
-            'description' => $request->description,
+            'type' => $validated['type'],
             'status' => $validated['status'],
+            'description' => $request->description,
         ]);
 
         return redirect()->route('category.index');

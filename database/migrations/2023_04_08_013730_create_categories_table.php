@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('name', 50)->nullable(false);
             $table->text('description')->nullable(true);
+            $table->string('type', 50)->nullable(false);
             $table->string('status', 20)->nullable(false);
             $table->timestamps();
         });

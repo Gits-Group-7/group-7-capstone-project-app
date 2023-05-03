@@ -9,6 +9,22 @@
         </li>
         <hr>
         <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#category-nav" aria-expanded="false"
+                aria-controls="category-nav">
+                <i class="ti-bookmark menu-icon"></i>
+                <span class="menu-title">Kategori</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="category-nav">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.index') }}">Daftar Kategori</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.create') }}">Tambah
+                            Kategori</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#product-nav" aria-expanded="false"
                 aria-controls="product-nav">
                 <i class="ti-package menu-icon"></i>
@@ -17,7 +33,7 @@
             </a>
             <div class="collapse" id="product-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('product.index') }}">Index Produk</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('product.index') }}">Daftar Produk</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ route('product.create') }}">Tambah Produk</a>
                     </li>
@@ -25,22 +41,70 @@
             </div>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#category-nav" aria-expanded="false"
-                aria-controls="category-nav">
-                <i class="ti-pie-chart   menu-icon"></i>
-                <span class="menu-title">Kategori</span>
+            <a class="nav-link" data-toggle="collapse" href="#service-nav" aria-expanded="false"
+                aria-controls="service-nav">
+                <i class="ti-briefcase menu-icon"></i>
+                <span class="menu-title">Jasa</span>
                 <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="category-nav">
+            <div class="collapse" id="service-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.index') }}">Index Kategori</a>
+                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Jasa</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.create') }}">Tambah
-                            Kategori</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="#!">Tambah Jasa</a>
+                    </li>
                 </ul>
             </div>
         </li>
         <hr>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#transaction-nav" aria-expanded="false"
+                aria-controls="transaction-nav">
+                <i class="ti-shopping-cart menu-icon"></i>
+                <span class="menu-title">Transaksi</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="transaction-nav">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Transaksi</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#order-nav" aria-expanded="false"
+                aria-controls="order-nav">
+                <i class="ti-shopping-cart-full menu-icon"></i>
+                <span class="menu-title">Order</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="order-nav">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Order</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#customer-service-nav" aria-expanded="false"
+                aria-controls="customer-service-nav">
+                <i class="ti-server menu-icon"></i>
+                <span class="menu-title">CS Data</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="customer-service-nav">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Customer</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="#!">Transaksi Order</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="#!">Transaksi Details</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="#!">Order Details</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         {{-- start template menu --}}
         {{-- <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
@@ -81,6 +145,7 @@
                 </ul>
             </div>
         </li> --}}
+        <hr>
         <li class="nav-item">
             <a class="nav-link" href="pages/documentation/documentation.html">
                 <i class="icon-paper menu-icon"></i>
