@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -18,6 +20,16 @@ class PageController extends Controller
         ];
 
         return view('pages.customer.beranda', $data);
+    }
+
+    public function logout(Request $request)
+    {
+        // fungsi logout
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('customer.beranda');
     }
 
     // template function route (tidak dipakai)

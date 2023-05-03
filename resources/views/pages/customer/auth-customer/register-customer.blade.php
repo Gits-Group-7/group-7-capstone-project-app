@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Login Page | POS APP</title>
+    <title>Register Account | New Customer</title>
 @endsection
 
 @section('content')
@@ -14,11 +14,21 @@
                             <div class="mb-4">
                                 <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
-                            <h4>Hai, kamu kembali lagi..</h4>
-                            <h6 class="font-weight-light text-secondary mt-2">Selamat datang kembali..</h6>
-
-                            <form action="{{ route('do.login') }}" method="POST" class="pt-3">
+                            <h4>Buat akun baru</h4>
+                            <h6 class="font-weight-light text-secondary mt-2">
+                                Selamat datang pengguna baru (Customer)
+                            </h6>
+                            <form action="{{ route('customer.do.register') }}" class="pt-3" method="POST">
                                 @csrf
+
+                                <div class="form-group">
+                                    <input type="text"
+                                        class="form-control form-control-lg rounded @error('name') is-invalid @enderror"
+                                        id="name" placeholder="Name" name="name">
+                                    @error('name')
+                                        <div id="nameHelp" class="form-text">{{ $message }}</div>
+                                    @enderror
+                                </div>
 
                                 <div class="form-group">
                                     <input type="email"
@@ -38,15 +48,24 @@
                                     @enderror
                                 </div>
 
+                                <div class="form-group">
+                                    <input type="password"
+                                        class="form-control form-control-lg rounded @error('password_confirmation') is-invalid @enderror"
+                                        id="password_confirmation" placeholder="Confirm Password"
+                                        name="password_confirmation">
+                                    @error('password_confirmation')
+                                        <div id="passwordConfirmationHelp" class="form-text">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <div class="mt-3">
                                     <button type="submit"
-                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN
-                                        IN</button>
+                                        class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">DAFTAR</button>
                                 </div>
 
                                 <div class="text-center mt-4 font-weight-light">
-                                    <b>Belum punya akun?</b> <a href="{{ route('register.page') }}"
-                                        class="text-primary"><b>Signup</b></a>
+                                    <b>Sudah punya akun?</b> <a href="{{ route('customer.login') }}"
+                                        class="text-primary"><b>Login</b></a>
                                 </div>
                             </form>
                         </div>

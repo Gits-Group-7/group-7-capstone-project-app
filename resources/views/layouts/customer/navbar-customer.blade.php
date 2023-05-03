@@ -25,14 +25,20 @@
                             <i class="fas fa-shopping-cart m-1 me-md-2"></i>
                             <p class="d-none d-md-block mb-0">Keranjang</p>
                         </a>
-                        @if (auth()->user() != null)
+                        @if (auth()->user() != null && auth()->user()->role == 'admin')
                             <a href="{{ route('admin.dashboard') }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
                                 <i class="fas fa-user-alt m-1 me-md-2"></i>
                                 <p class="d-none d-md-block mb-0">{{ Auth::user()->name }}</p>
                             </a>
+                        @elseif (Auth()->user() != null && auth()->user()->role == 'customer')
+                            <a href="{{ route('customer.profile') }}"
+                                class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
+                                <i class="fas fa-user-alt m-1 me-md-2"></i>
+                                <p class="d-none d-md-block mb-0">{{ Auth::user()->name }}</p>
+                            </a>
                         @else
-                            <a href="{{ route('login.page') }}"
+                            <a href="{{ route('customer.login') }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
                                 <i class="fas fa-user-alt m-1 me-md-2"></i>
                                 <p class="d-none d-md-block mb-0">Login</p>

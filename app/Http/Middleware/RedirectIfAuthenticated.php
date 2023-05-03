@@ -20,8 +20,10 @@ class RedirectIfAuthenticated
     public function handle(Request $request, Closure $next, ...$guards)
     {
         //  melakukan pengecekan jika user sudah login namun mengakses halaman login dan register
-        if (Auth::check() && Auth::user()) {
+        if (Auth::check() && Auth::user() && auth()->user()->role == 'admin') {
             return redirect()->route('admin.dashboard');
+        } else if (Auth::check() && Auth::user() && auth()->user()->role == 'customer') {
+            return redirect()->route('customer.profile');
         }
 
         $guards = empty($guards) ? [null] : $guards;

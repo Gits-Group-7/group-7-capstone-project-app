@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Product;
-use App\Models\TransactionDetail;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
@@ -12,27 +9,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 
-class AuthController extends Controller
+class AuthCustomerController extends Controller
 {
     public function register()
     {
-        return view('pages.auth.register');
+        return view('pages.customer.auth-customer.register-customer');
     }
 
     public function login()
     {
-        return view('pages.auth.login');
+        return view('pages.customer.auth-customer.login-customer');
     }
 
-    public function dashboard()
+    public function profile()
     {
-        $data = [
-            'productsCount' => Product::count(),
-            'categoriesCount' => Category::count(),
-            'transaction_details' => TransactionDetail::all(),
-        ];
-
-        return view('pages.admin.dashboard', $data);
+        return view('pages.customer.profile.index');
     }
 
     public function doRegister(Request $request)
@@ -55,7 +46,7 @@ class AuthController extends Controller
         // langsung memberikan akses login setelah melakukan register
         Auth::login($user);
 
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('customer.profile');
     }
 
     public function doLogin(Request $request)
@@ -70,22 +61,16 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin/dashboard');
+            if (auth()->check() && auth()->user()->role == 'admin') {
+                return redirect()->intended('/admin/dashboard');
+            } else if (auth()->check() && auth()->user()->role == 'customer') {
+                return redirect()->intended('/customer/profile');
+            }
         }
 
         // menampilkan pesan error jika kredential yang dimasukkan salah
         return back()->withErrors([
             'email' => 'Email and password invalid.',
         ])->onlyInput('email');
-    }
-
-    public function logout(Request $request)
-    {
-        // fungsi logout
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('customer.beranda');
     }
 }

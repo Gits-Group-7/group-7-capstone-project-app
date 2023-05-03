@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Registeration Page | POS APP</title>
+    <title>Register Account | Admin Print Shop</title>
 @endsection
 
 @section('content')
@@ -16,9 +16,9 @@
                             </div>
                             <h4>Buat akun baru</h4>
                             <h6 class="font-weight-light text-secondary mt-2">
-                                Selamat datang pengguna baru
+                                Selamat datang pengguna baru (Admin)
                             </h6>
-                            <form action="{{ route('do.register') }}" class="pt-3" method="POST">
+                            <form action="{{ route('admin.do.register') }}" class="pt-3" method="POST">
                                 @csrf
 
                                 <div class="form-group">
@@ -64,7 +64,7 @@
                                 </div>
 
                                 <div class="text-center mt-4 font-weight-light">
-                                    <b>Sudah punya akun?</b> <a href="{{ route('login.page') }}"
+                                    <b>Sudah punya akun?</b> <a href="{{ route('admin.login') }}"
                                         class="text-primary"><b>Login</b></a>
                                 </div>
                             </form>

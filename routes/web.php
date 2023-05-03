@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AuthAdminController;
+use App\Http\Controllers\AuthCustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 // Route Beranda Cuustomer
@@ -19,8 +21,8 @@ Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->na
 Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
 Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
 
-// route action logout (available customer & admin)
-Route::get('/logout', [AuthController::class, "logout"])->name('logout.page');
+// route action logout customer & admin
+Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
 
 // Route Cart
 Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
@@ -28,21 +30,29 @@ Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->
 Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
-// available route for customer only (guest)
+// route for guest user
 Route::middleware(['guest'])->group(function () {
-    // Route Auth
-    Route::get('/login', [AuthController::class, "login"])->name('login.page');
-    Route::get('/register', [AuthController::class, "register"])->name('register.page');
+    // Route Auth Admin
+    Route::get('/admin-login', [AuthAdminController::class, "login"])->name('admin.login');
+    Route::get('/admin-register', [AuthAdminController::class, "register"])->name('admin.register');
 
-    // Route Action Auth
-    Route::post('/register', [AuthController::class, "doRegister"])->name('do.register');
-    Route::post('/login', [AuthController::class, "doLogin"])->name('do.login');
+    // Route Action Auth Admin
+    Route::post('/admin-register', [AuthAdminController::class, "doRegister"])->name('admin.do.register');
+    Route::post('/admin-login', [AuthAdminController::class, "doLogin"])->name('admin.do.login');
+
+    // Route Auth Customer
+    Route::get('/customer-login', [AuthCustomerController::class, "login"])->name('customer.login');
+    Route::get('/customer-register', [AuthCustomerController::class, "register"])->name('customer.register');
+
+    // Route Action Auth Customer
+    Route::post('/customer-register', [AuthCustomerController::class, "doRegister"])->name('customer.do.register');
+    Route::post('/customer-login', [AuthCustomerController::class, "doLogin"])->name('customer.do.login');
 });
 
-// available route for admin only
-Route::middleware(['auth'])->group(function () {
+// special route for role admin
+Route::middleware(['auth', 'admin', 'redirect.if.not.authenticated'])->prefix('admin')->group(function () {
     // Dashboard admin
-    Route::get('/admin/dashboard', [AuthController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AuthAdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Route Category
     Route::get('/admin/index-kategori', [CategoryController::class, 'index'])->name('category.index');
@@ -59,9 +69,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/hapus-produk/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/admin/simpan-produk', [ProductController::class, 'store'])->name('product.store');
     Route::put('/admin/ubah-produk/{id}', [ProductController::class, 'update'])->name('product.update');
-
-    // Route Template Page (route tidak dipakai)
-    // Route::get('/admin-button', [PageController::class, 'buttonPage'])->name('admin.button');
-    // Route::get('/admin-form', [PageController::class, 'formPage'])->name('admin.form');
-    // Route::get('/admin-chart', [PageController::class, 'chartPage'])->name('admin.chart');
 });
+
+// special route for role customer
+Route::middleware(['auth', 'customer'])->group(function () {
+    Route::get('/customer/profile', [AuthCustomerController::class, 'profile'])->name('customer.profile');
+});
+
+// Route Template Page (route tidak dipakai)
+// Route::get('/admin-button', [PageController::class, 'buttonPage'])->name('admin.button');
+// Route::get('/admin-form', [PageController::class, 'formPage'])->name('admin.form');
+// Route::get('/admin-chart', [PageController::class, 'chartPage'])->name('admin.chart');
