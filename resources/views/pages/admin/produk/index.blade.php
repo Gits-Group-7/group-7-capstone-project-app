@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Index Produk | Print-Shop</title>
+    <title>Daftar Produk | Print-Shop</title>
 @endsection
 
 @php
@@ -115,7 +115,8 @@
                                                         <div class="modal-body">
                                                             <p>
                                                                 <img src="{{ Storage::url($item->photo) }}"
-                                                                    class="img-fluid rounded" alt="{{ $item->name }}">
+                                                                    class="img-fluid rounded mb-3"
+                                                                    alt="{{ $item->name }}">
                                                                 Nama : {{ $item->name }}<br>
                                                                 Kategori : {{ $item->category->name }}<br>
                                                                 Harga : Rp. {{ priceConversion($item->price) }}<br>

@@ -102,9 +102,22 @@
     </section>
     <!-- intro -->
 
+    {{-- banner katalog produk --}}
+    <section>
+        <div class="container mt-5">
+            <div class="row d-flex">
+                <div class="col-12 my-auto">
+                    <div class="alert bg-theme text-white" role="alert">
+                        <h3 class="text-center">KATALOG PRODUK</h3>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    {{-- katalog produk --}}
     <section id="produk">
         {{-- diynamic content product --}}
-        @foreach ($categories as $item)
+        @foreach ($categories_products as $item)
             @if ($item->category->status == 'Aktif')
                 <section id="{{ underscore($item->category->name) }}">
                     <div class="container my-5">
@@ -181,6 +194,106 @@
                                                             <button type="submit"
                                                                 class="btn btn-checklist icon-cart-hover mt-2"
                                                                 title="Tambah ke keranjang?"> ADD TO CART
+                                                            </button>
+                                                        @endif
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    @endif
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            @endif
+        @endforeach
+    </section>
+
+    {{-- banner katalog jasa --}}
+    <section>
+        <div class="container mt-5">
+            <div class="row d-flex">
+                <div class="col-12 my-auto">
+                    <div class="alert bg-theme-two text-white" role="alert">
+                        <h3 class="text-center">KATALOG JASA</h3>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    {{-- katalog jasa --}}
+    <section id="jasa">
+        {{-- diynamic content product --}}
+        @foreach ($categories_services as $item)
+            @if ($item->category->status == 'Aktif')
+                <section id="{{ underscore($item->category->name) }}">
+                    <div class="container my-5">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="alert alert-primary" role="alert">
+                                    <h3 class="text-center">{{ $item->category->name }}</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="slider owl-carousel owl-theme">
+
+                                @foreach ($services as $value)
+                                    @if ($item->category_id == $value->category_id)
+                                        <form action="{{ route('cart.store', $value->id) }}" method="POST">
+                                            @csrf
+
+                                            <div class="item col-md-12 d-flex justify-content-center p-1">
+                                                <div class="card my-2 shadow-sm p-4 card-hover">
+                                                    <a href="#!" class="img-wrap">
+                                                        <img src="{{ Storage::url($value->photo) }}"
+                                                            class="card-img-top rounded" title="{{ $value->name }}"
+                                                            style="aspect-ratio: 1 / 1">
+                                                    </a>
+                                                    <div class="card-body p-0 pt-2">
+                                                        <h6 class="card-title mt-2 pt-2 limit-text"
+                                                            title="{{ $value->name }}">
+                                                            <span class="text-black fw-bold">{{ $value->name }}</span>
+                                                        </h6>
+
+                                                        <div class="row justify-content-between my-2">
+                                                            <div class="col-6 d-flex">
+                                                                <span class="card-text">
+                                                                    <span class="text-theme-two fw-bold">Rp.
+                                                                        {{ priceConversion($value->price_per_pcs) }}</span>
+                                                                    <br>
+                                                                    <span
+                                                                        class="fw-medium text-theme">{{ $value->category->name }}</span>
+                                                                </span>
+                                                            </div>
+
+                                                            <div class="col-6 d-flex">
+                                                                <div class="btn ready-content my-auto mx-auto">
+                                                                    {{ $value->estimation }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @if ($carts->contains('product_id', $value->id))
+                                                        <a href="#!" type="button"
+                                                            class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                            title="Produk ada di keranjang"> On My Cart
+                                                        </a>
+                                                    @else
+                                                        @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                            <a href="#!" type="button"
+                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                title="Produk ada di keranjang"> Product Unavailable
+                                                            </a>
+                                                        @else
+                                                            <button type="submit"
+                                                                class="btn btn-checklist icon-cart-hover mt-2"
+                                                                title="Order Jasa?"> ADD TO CART
                                                             </button>
                                                         @endif
                                                     @endif

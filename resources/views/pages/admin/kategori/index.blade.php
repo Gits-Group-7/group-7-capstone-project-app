@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Index Kategori | Print-Shop</title>
+    <title>Daftar Kategori | Print-Shop</title>
 @endsection
 
 @section('content')

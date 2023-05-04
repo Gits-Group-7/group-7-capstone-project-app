@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,8 +15,10 @@ class PageController extends Controller
     {
         $data = [
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
-            'categories' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
+            'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
+            'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),
             'products' => Product::all(),
+            'services' => Service::all(),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];

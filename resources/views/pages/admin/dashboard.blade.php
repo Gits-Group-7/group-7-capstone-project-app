@@ -45,7 +45,7 @@
             <div class="col-md-6 grid-margin transparent">
                 <div class="row">
                     <div class="col-md-6 mb-4 stretch-card transparent">
-                        <div class="card card-tale">
+                        <div class="card card-dark-blue">
                             <a href="{{ route('product.index') }}" class="menu-card">
                                 <div class="card-body">
                                     <p class="mb-4 font-weight-bold">Manajemen Produk</p>
@@ -56,44 +56,45 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-4 stretch-card transparent">
-                        <div class="card card-dark-blue">
-                            <a href="{{ route('category.index') }}" class="menu-card">
+                        <div class="card card-tale">
+                            <a href="{{ route('service.index') }}" class="menu-card">
                                 <div class="card-body">
-                                    <p class="mb-4 font-weight-bold">Manajemen Kategori</p>
-                                    <p class="fs-30 mb-2">{{ $categoriesCount }}</p>
-                                    <p>CRUD Data Category</p>
+                                    <p class="mb-4 font-weight-bold">Manajemen Jasa</p>
+                                    <p class="fs-30 mb-2">{{ $servicesCount }}</p>
+                                    <p>CRUD Data Service</p>
                                 </div>
                             </a>
                         </div>
                     </div>
                 </div>
-                {{-- <div class="row">
+                <div class="row">
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-blue">
-                            <a href="#!" class="menu-card">
+                            <a href="{{ route('service.index') }}" class="menu-card">
                                 <div class="card-body">
-                                    <p class="mb-4 font-weight-bold">List Data Transaksi</p>
-                                    <p class="fs-30 mb-2">34040</p>
-                                    <p>Datatable Data Transaction</p>
+                                    <p class="mb-4 font-weight-bold">Manajemen Transaksi Produk</p>
+                                    <p class="fs-30 mb-2">52</p>
+                                    <p>CRUD Data Transaction</p>
                                 </div>
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-6 stretch-card transparent">
+                    <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-danger">
-                            <a href="#!" class="menu-card">
+                            <a href="{{ route('service.index') }}" class="menu-card">
                                 <div class="card-body">
-                                    <p class="mb-4 font-weight-bold">List Data Detail Transaksi</p>
-                                    <p class="fs-30 mb-2">47033</p>
-                                    <p>Datatable Data Transaction Details</p>
+                                    <p class="mb-4 font-weight-bold">Manajemen Pesanan Jasa</p>
+                                    <p class="fs-30 mb-2">20</p>
+                                    <p>CRUD Data Order</p>
                                 </div>
                             </a>
                         </div>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
-        <div class="row">
+
+        {{-- <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body card-hover rounded">
@@ -135,7 +136,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 

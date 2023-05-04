@@ -49,9 +49,9 @@
             </a>
             <div class="collapse" id="service-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Jasa</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('service.index') }}">Daftar Jasa</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Tambah Jasa</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('service.create') }}">Tambah Jasa</a>
                     </li>
                 </ul>
             </div>

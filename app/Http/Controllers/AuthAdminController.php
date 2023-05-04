@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\TransactionDetail;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
@@ -28,7 +29,7 @@ class AuthAdminController extends Controller
     {
         $data = [
             'productsCount' => Product::count(),
-            'categoriesCount' => Category::count(),
+            'servicesCount' => Service::count(),
             'transaction_details' => TransactionDetail::all(),
         ];
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,7 +55,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AuthAdminController::class, 'dashboard'])->name('admin.dashboard');
 
     // Route Category
-    Route::get('/admin/index-kategori', [CategoryController::class, 'index'])->name('category.index');
+    Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/admin/tambah-kategori', [CategoryController::class, 'create'])->name('category.create');
     Route::get('/admin/edit-kategori/{id}', [CategoryController::class, 'edit'])->name('category.edit');
     Route::get('/admin/hapus-kategori/{id}', [CategoryController::class, 'destroy'])->name('category.destroy');
@@ -62,12 +63,20 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/admin/ubah-kategori/{id}', [CategoryController::class, 'update'])->name('category.update');
 
     // Route Produk
-    Route::get('/admin/index-produk', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/admin/daftar-produk', [ProductController::class, 'index'])->name('product.index');
     Route::get('/admin/tambah-produk', [ProductController::class, 'create'])->name('product.create');
     Route::get('/admin/edit-produk/{id}', [ProductController::class, 'edit'])->name('product.edit');
     Route::get('/admin/hapus-produk/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
     Route::post('/admin/simpan-produk', [ProductController::class, 'store'])->name('product.store');
     Route::put('/admin/ubah-produk/{id}', [ProductController::class, 'update'])->name('product.update');
+
+    // Route Jasa
+    Route::get('/admin/daftar-jasa', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/admin/tambah-jasa', [ServiceController::class, 'create'])->name('service.create');
+    Route::get('/admin/edit-jasa/{id}', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::get('/admin/hapus-jasa/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
+    Route::post('/admin/simpan-jasa', [ServiceController::class, 'store'])->name('service.store');
+    Route::put('/admin/ubah-jasa/{id}', [ServiceController::class, 'update'])->name('service.update');
 });
 
 // special route for role customer
