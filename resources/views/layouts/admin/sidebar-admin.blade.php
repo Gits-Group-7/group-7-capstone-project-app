@@ -19,8 +19,8 @@
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item"> <a class="nav-link" href="{{ route('category.index') }}">Daftar Kategori</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.create') }}">Tambah
-                            Kategori</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('category.create') }}">Tambah Kategori</a>
+                    </li>
                 </ul>
             </div>
         </li>
@@ -94,13 +94,17 @@
             </a>
             <div class="collapse" id="customer-service-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Customer</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.customer') }}">Daftar
+                            Customer</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Transaksi Order</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.transaction.order') }}">Transaksi
+                            Order</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Transaksi Details</a>
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('admin.transaction.details') }}">Transaksi Details</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Order Details</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.order.details') }}">Order
+                            Details</a>
                     </li>
                 </ul>
             </div>

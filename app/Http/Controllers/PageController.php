@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,6 +25,30 @@ class PageController extends Controller
         ];
 
         return view('pages.customer.beranda', $data);
+    }
+
+    public function customer()
+    {
+        $data = [
+            'customers' => User::where('role', 'customer')->orderBy('created_at', 'desc')->get(),
+        ];
+
+        return view('pages.admin.layanan-customer.cutomer', $data);
+    }
+
+    public function transactionOrder()
+    {
+        return view('pages.admin.layanan-customer.transaction-order');
+    }
+
+    public function transactionDetails()
+    {
+        return view('pages.admin.layanan-customer.transaction-details');
+    }
+
+    public function orderDetails()
+    {
+        return view('pages.admin.layanan-customer.order-details');
     }
 
     public function logout(Request $request)

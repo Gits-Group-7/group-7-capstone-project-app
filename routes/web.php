@@ -49,10 +49,14 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/customer-login', [AuthCustomerController::class, "doLogin"])->name('customer.do.login');
 });
 
-// special route for role admin
+// special route for role admin`
 Route::middleware(['auth', 'admin'])->group(function () {
     // Dashboard admin
     Route::get('/admin/dashboard', [AuthAdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/admin/daftar-customer', [PageController::class, 'customer'])->name('admin.customer');
+    Route::get('/admin/daftar-transaksi-order', [PageController::class, 'transactionOrder'])->name('admin.transaction.order');
+    Route::get('/admin/daftar-transaksi-details', [PageController::class, 'transactionDetails'])->name('admin.transaction.details');
+    Route::get('/admin/daftar-order-details', [PageController::class, 'orderDetails'])->name('admin.order.details');
 
     // Route Category
     Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');

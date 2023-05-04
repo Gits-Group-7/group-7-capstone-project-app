@@ -70,22 +70,22 @@
                 <div class="row">
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-blue">
-                            <a href="{{ route('service.index') }}" class="menu-card">
+                            <a href="#!" class="menu-card">
                                 <div class="card-body">
                                     <p class="mb-4 font-weight-bold">Manajemen Transaksi Produk</p>
                                     <p class="fs-30 mb-2">52</p>
-                                    <p>CRUD Data Transaction</p>
+                                    <p>Update Tracking Transaction</p>
                                 </div>
                             </a>
                         </div>
                     </div>
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-danger">
-                            <a href="{{ route('service.index') }}" class="menu-card">
+                            <a href="#!" class="menu-card">
                                 <div class="card-body">
                                     <p class="mb-4 font-weight-bold">Manajemen Pesanan Jasa</p>
                                     <p class="fs-30 mb-2">20</p>
-                                    <p>CRUD Data Order</p>
+                                    <p>Update Tracking Order</p>
                                 </div>
                             </a>
                         </div>

@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Update Kategori | POS APP</title>
+    <title>Update Kategori | Print-Shop</title>
 @endsection
 
 @section('content')
@@ -125,4 +125,8 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('admin/js/file-upload.js') }}"></script>
 @endsection
