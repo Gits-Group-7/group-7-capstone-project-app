@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class Category extends Model
+class Service extends Model
 {
     use HasFactory;
 
@@ -27,23 +27,19 @@ class Category extends Model
         });
     }
 
-    // fillable column
     protected $fillable = [
         'name',
+        'photo',
+        'price_per_pcs',
+        'price_per_dozen',
+        'estimation',
         'description',
-        'type',
-        'status',
+        'category_id',
     ];
 
-    // satu kategori memiliki banyak produk
-    public function product()
+    // suatu service berpengaruh terhadap satu kategori
+    public function category()
     {
-        return $this->hasMany(Product::class);
-    }
-
-    // satu kategori memiliki banyak service
-    public function service()
-    {
-        return $this->hasMany(Service::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

@@ -35,5 +35,12 @@ class CategorySeeder extends Seeder
             'type' => 'service',
             'status' => 'Aktif',
         ]);
+        Category::create([
+            'id' => '4',
+            'name' => 'Konveksi Baju',
+            'description' => 'Meliputi jasa konveksi baju atau kaos',
+            'type' => 'service',
+            'status' => 'Aktif',
+        ]);
     }
 }

@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('services', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->string('name', 255)->nullable(false);
             $table->string('photo', 255)->nullable(false);
-            $table->unsignedInteger('price')->nullable(false);
-            $table->unsignedInteger('stock')->nullable(false);
-            $table->string('condition', 20)->nullable(false);
-            $table->string('status', 20)->nullable(false);
+            $table->unsignedInteger('price_per_pcs')->nullable(false);
+            $table->unsignedInteger('price_per_dozen')->nullable(false);
+            $table->string('estimation', 20)->nullable(false);
             $table->text('description')->nullable(true);
             $table->string('category_id'); // foreign key
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); // foreign key access
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('services');
     }
 };
