@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Update Produk | POS APP</title>
+    <title>Update Produk | Print-Shop</title>
 @endsection
 
 @section('content')
@@ -110,8 +110,8 @@
                                                     <select class="form-control @error('condition') is-invalid @enderror"
                                                         id="condition" name="condition">
                                                         <option value="">Pilih Kondisi Produk</option>
-                                                        <option value="Baru"
-                                                            {{ $products->condition == 'Baru' ? 'selected' : '' }}>Baru
+                                                        <option value="New"
+                                                            {{ $products->condition == 'New' ? 'selected' : '' }}>New
                                                         </option>
                                                         <option value="Like a New"
                                                             {{ $products->condition == 'Like a New' ? 'selected' : '' }}>
@@ -152,21 +152,6 @@
                                                 @if ($errors->has('stock'))
                                                     <div class="invalid feedback text-danger mb-3">
                                                         *field stock harus di isi
-                                                    </div>
-                                                @endif
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="warranty">Garansi (Tahun)</label>
-                                                    <input type="number"
-                                                        class="form-control @error('warranty') is-invalid @enderror"
-                                                        id="warranty" placeholder="Tahun Garansi" name="warranty"
-                                                        min="0" value="{{ $products->warranty }}">
-                                                </div>
-                                                @if ($errors->has('warranty'))
-                                                    <div class="invalid feedback text-danger mb-3">
-                                                        *field warranty harus di isi
                                                     </div>
                                                 @endif
                                             </div>

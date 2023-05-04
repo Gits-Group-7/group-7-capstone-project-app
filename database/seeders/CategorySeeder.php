@@ -23,6 +23,13 @@ class CategorySeeder extends Seeder
         ]);
         Category::create([
             'id' => '2',
+            'name' => 'Outfit',
+            'description' => 'Meliputi setelan baju outfit dan lain-lain',
+            'type' => 'product',
+            'status' => 'Aktif',
+        ]);
+        Category::create([
+            'id' => '3',
             'name' => 'Sablon Kaos',
             'description' => 'Meliputi jasa pemesanan baju untuk sablon kaos',
             'type' => 'service',

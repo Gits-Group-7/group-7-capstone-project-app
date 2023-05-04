@@ -32,7 +32,7 @@ class ProductController extends Controller
     {
         $data = [
             'action' => route('product.store'),
-            'categories' => Category::where('status', 'Aktif')->orderBy('name', 'asc')->get(),
+            'categories' => Category::where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
         ];
 
         return view('pages.admin.produk.create', $data);
@@ -53,7 +53,6 @@ class ProductController extends Controller
             'photo' => 'required|mimes:jpg,jpeg,png,webp|max:10240',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'warranty' => 'required|numeric',
             'condition' => 'required',
             'status' => 'required',
         ]);
@@ -71,7 +70,6 @@ class ProductController extends Controller
             'price' => $validated['price'],
             'stock' => $validated['stock'],
             'description' => $request->description,
-            'warranty' => $validated['warranty'],
             'condition' => $validated['condition'],
             'status' => $validated['status'],
         ]);
@@ -101,7 +99,7 @@ class ProductController extends Controller
         $data = [
             'products'  => Product::find($id),
             'action' => route('product.update', $id),
-            'categories' => Category::all(),
+            'categories' => Category::where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
         ];
 
         return view('pages.admin.produk.form', $data);
@@ -126,7 +124,6 @@ class ProductController extends Controller
             'photo' => 'mimes:jpg,jpeg,png,webp|max:10240',
             'price' => 'required|numeric',
             'stock' => 'required|numeric',
-            'warranty' => 'required|numeric',
             'condition' => 'required',
             'status' => 'required',
         ]);
@@ -150,7 +147,6 @@ class ProductController extends Controller
             'price' => $validated['price'],
             'stock' => $validated['stock'],
             'description' => $request->description,
-            'warranty' => $validated['warranty'],
             'condition' => $validated['condition'],
             'status' => $validated['status'],
         ]);

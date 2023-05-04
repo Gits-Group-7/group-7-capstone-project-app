@@ -14,9 +14,9 @@
                             <div class="mb-4">
                                 <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
-                            <h4>Buat akun baru</h4>
+                            <h4>Buat akun admin baru</h4>
                             <h6 class="font-weight-light text-secondary mt-2">
-                                Selamat datang pengguna baru (Admin)
+                                Buat akun baru untuk akses ke fitur admin.
                             </h6>
                             <form action="{{ route('admin.do.register') }}" class="pt-3" method="POST">
                                 @csrf

@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Login Page | Customer Print Shop</title>
+    <title>Login Akun | Customer Print Shop</title>
 @endsection
 
 @section('content')
@@ -14,8 +14,9 @@
                             <div class="mb-4">
                                 <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
-                            <h4>Hai, kamu kembali lagi.. (Customer)</h4>
-                            <h6 class="font-weight-light text-secondary mt-2">Selamat datang kembali..</h6>
+                            <h4>Hai, Selamat datang kembali!</h4>
+                            <h6 class="font-weight-light text-secondary mt-2">Masuk dan temukan berbagai
+                                penawaran menarik!</h6>
 
                             <form action="{{ route('customer.do.login') }}" method="POST" class="pt-3">
                                 @csrf

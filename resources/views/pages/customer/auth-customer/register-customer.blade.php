@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Register Account | New Customer</title>
+    <title>Register Akun | Pelanggan Baru Print Shop</title>
 @endsection
 
 @section('content')
@@ -14,9 +14,9 @@
                             <div class="mb-4">
                                 <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
-                            <h4>Buat akun baru</h4>
+                            <h4>Selamat datang di halaman Register!</h4>
                             <h6 class="font-weight-light text-secondary mt-2">
-                                Selamat datang pengguna baru (Customer)
+                                Isi data diri Anda untuk bergabung dengan kami.
                             </h6>
                             <form action="{{ route('customer.do.register') }}" class="pt-3" method="POST">
                                 @csrf

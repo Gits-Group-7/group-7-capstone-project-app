@@ -35,7 +35,7 @@ class Category extends Model
         'status',
     ];
 
-    // relasi ke tabel produk
+    // satu kategori memiliki banyak produk
     public function product()
     {
         return $this->hasMany(Product::class);

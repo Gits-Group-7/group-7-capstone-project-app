@@ -29,17 +29,17 @@ class Product extends Model
     }
 
     protected $fillable = [
-        'category_id',
         'name',
         'photo',
         'price',
         'stock',
-        'description',
-        'warranty',
         'condition',
         'status',
+        'description',
+        'category_id',
     ];
 
+    // suatu produk berpengaruh terhadap satu kategori
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');

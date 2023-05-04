@@ -15,15 +15,14 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('category_id');
             $table->string('name', 255)->nullable(false);
             $table->string('photo', 255)->nullable(false);
             $table->unsignedInteger('price')->nullable(false);
             $table->unsignedInteger('stock')->nullable(false);
-            $table->text('description')->nullable(true);
-            $table->unsignedInteger('warranty')->nullable(false);
             $table->string('condition', 20)->nullable(false);
             $table->string('status', 20)->nullable(false);
+            $table->text('description')->nullable(true);
+            $table->string('category_id'); // foreign key
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->timestamps();
         });

@@ -14,8 +14,9 @@
                             <div class="mb-4">
                                 <img src="{{ asset('admin/images/print-shop-logo.png') }}" width="45" alt="logo">
                             </div>
-                            <h4>Hai, kamu kembali lagi.. (Admin)</h4>
-                            <h6 class="font-weight-light text-secondary mt-2">Selamat datang kembali..</h6>
+                            <h4>Hai, Selamat datang kembali Admin.</h4>
+                            <h6 class="font-weight-light text-secondary mt-2">Login untuk mengakses halaman
+                                administrator.</h6>
 
                             <form action="{{ route('admin.do.login') }}" method="POST" class="pt-3">
                                 @csrf

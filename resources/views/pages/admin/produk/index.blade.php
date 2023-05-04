@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Index Produk | POS APP</title>
+    <title>Index Produk | Print-Shop</title>
 @endsection
 
 @php
@@ -60,7 +60,7 @@
                                     <thead>
                                         <tr class="mx-auto">
                                             <th class="text-center">No</th>
-                                            <th class="text-center">Nama</th>
+                                            <th width="30%" class="text-center">Nama</th>
                                             <th class="text-center" width="15%">Foto</th>
                                             <th class="text-center">Kategori</th>
                                             <th class="text-center">Harga</th>
@@ -83,7 +83,7 @@
                                                         alt="{{ $item->name }}">
                                                 </td>
                                                 <td class="text-center">{{ $item->category->name }}</td>
-                                                <td class="text-center">IDR {{ priceConversion($item->price) }}</td>
+                                                <td class="text-center">Rp. {{ priceConversion($item->price) }}</td>
                                                 <td class="text-center">{{ $item->stock }}</td>
                                                 <td class="text-center">{{ $item->status }}</td>
                                                 <td class="text-center">
@@ -118,7 +118,7 @@
                                                                     class="img-fluid rounded" alt="{{ $item->name }}">
                                                                 Nama : {{ $item->name }}<br>
                                                                 Kategori : {{ $item->category->name }}<br>
-                                                                Harga : {{ $item->price }}<br>
+                                                                Harga : Rp. {{ priceConversion($item->price) }}<br>
                                                                 Stok : {{ $item->stock }}<br>
                                                                 Status : {{ $item->status }}
                                                             </p>
