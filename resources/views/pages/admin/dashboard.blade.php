@@ -147,4 +147,9 @@
             $('#example').DataTable();
         });
     </script>
+
+    <script>
+        const DashboardNav = document.getElementById('dashboard-nav');
+        DashboardNav.classList.add('active');
+    </script>
 @endsection

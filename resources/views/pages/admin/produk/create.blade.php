@@ -188,4 +188,5 @@
 
 @section('script')
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
+    <script src="{{ asset('admin/js/template.js') }}"></script>
 @endsection

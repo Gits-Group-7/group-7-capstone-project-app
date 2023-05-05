@@ -9,7 +9,7 @@
         <div class="animated fadeIn">
             <div class="row justify-content-start">
                 <div class="col-sm-12">
-                    <div class="alert  alert-success alert-dismissible fade show" role="alert" data-aos="fade-down">
+                    <div class="alert  alert-success alert-dismissible fade show" role="alert">
                         <span class="badge badge-pill badge-success px-3 py-2">Selamat Datang
                             {{ Auth::user()->name }}</span>&ensp;
                         di Halaman Update Kategori
@@ -37,7 +37,6 @@
                 <div class="card-body">
                     <h4 class="card-title">Form Kategori</h4>
                     <div class="row">
-
                         <div class="col-md-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
@@ -129,4 +128,9 @@
 
 @section('script')
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
+
+    <script>
+        const CategoryNav = document.getElementById('kategori-nav');
+        CategoryNav.classList.add('active');
+    </script>
 @endsection

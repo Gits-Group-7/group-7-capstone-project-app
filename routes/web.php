@@ -58,6 +58,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/daftar-transaksi-details', [PageController::class, 'transactionDetails'])->name('admin.transaction.details');
     Route::get('/admin/daftar-order-details', [PageController::class, 'orderDetails'])->name('admin.order.details');
 
+    // update profil admin
+    Route::get('/admin/profile/{id}', [PageController::class, 'profile'])->name('admin.profile');
+    Route::put('/admin/profile/{id}', [PageController::class, 'update'])->name('admin.profile.update');
+
     // Route Category
     Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');
     Route::get('/admin/tambah-kategori', [CategoryController::class, 'create'])->name('category.create');
@@ -81,14 +85,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/hapus-jasa/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
     Route::post('/admin/simpan-jasa', [ServiceController::class, 'store'])->name('service.store');
     Route::put('/admin/ubah-jasa/{id}', [ServiceController::class, 'update'])->name('service.update');
+
+    // Route Template Page (route tidak dipakai)
+    Route::get('/admin-button', [PageController::class, 'buttonPage'])->name('admin.button');
+    Route::get('/admin-form', [PageController::class, 'formPage'])->name('admin.form');
+    Route::get('/admin-chart', [PageController::class, 'chartPage'])->name('admin.chart');
 });
 
 // special route for role customer
 Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/customer/profile', [AuthCustomerController::class, 'profile'])->name('customer.profile');
 });
-
-// Route Template Page (route tidak dipakai)
-// Route::get('/admin-button', [PageController::class, 'buttonPage'])->name('admin.button');
-// Route::get('/admin-form', [PageController::class, 'formPage'])->name('admin.form');
-// Route::get('/admin-chart', [PageController::class, 'chartPage'])->name('admin.chart');

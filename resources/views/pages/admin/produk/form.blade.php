@@ -206,4 +206,9 @@
 
 @section('script')
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
+
+    <script>
+        const productNav = document.getElementById('produk-nav');
+        productNav.classList.add('active');
+    </script>
 @endsection

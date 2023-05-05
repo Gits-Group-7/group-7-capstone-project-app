@@ -137,4 +137,6 @@
             $('#example').DataTable();
         });
     </script>
+
+    <script src="{{ asset('admin/js/template.js') }}"></script>
 @endsection

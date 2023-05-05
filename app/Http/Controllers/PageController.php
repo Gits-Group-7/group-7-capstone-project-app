@@ -27,6 +27,25 @@ class PageController extends Controller
         return view('pages.customer.beranda', $data);
     }
 
+    public function profile($id)
+    {
+        $data = [
+            'action' => route('admin.profile.update', $id),
+            'admin' => User::findOrFail($id),
+        ];
+
+        return view('pages.admin.profile.profile', $data);
+    }
+
+    public function update($id)
+    {
+        $data = User::findOrFail($id);
+
+        // perintah update profile admin
+
+        return view('pages.admin.profile.profile', $data);
+    }
+
     public function customer()
     {
         $data = [
@@ -62,18 +81,18 @@ class PageController extends Controller
     }
 
     // template function route (tidak dipakai)
-    // public function buttonPage()
-    // {
-    //     return view('template.button');
-    // }
+    public function buttonPage()
+    {
+        return view('template.button');
+    }
 
-    // public function formPage()
-    // {
-    //     return view('template.form');
-    // }
+    public function formPage()
+    {
+        return view('template.form');
+    }
 
-    // public function chartPage()
-    // {
-    //     return view('template.chart');
-    // }
+    public function chartPage()
+    {
+        return view('template.chart');
+    }
 }

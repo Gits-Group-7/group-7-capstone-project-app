@@ -1,14 +1,14 @@
 <!-- partial:partials/_sidebar.html -->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <ul class="nav">
-        <li class="nav-item">
+        <li class="nav-item" id="dashboard-nav">
             <a href="{{ route('admin.dashboard') }}" class="nav-link" href="index.html">
                 <i class="icon-grid menu-icon"></i>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>
         <hr>
-        <li class="nav-item">
+        <li class="nav-item" id="kategori-nav">
             <a class="nav-link" data-toggle="collapse" href="#category-nav" aria-expanded="false"
                 aria-controls="category-nav">
                 <i class="ti-bookmark menu-icon"></i>
@@ -24,7 +24,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="produk-nav">
             <a class="nav-link" data-toggle="collapse" href="#product-nav" aria-expanded="false"
                 aria-controls="product-nav">
                 <i class="ti-package menu-icon"></i>
@@ -40,7 +40,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="jasa-nav">
             <a class="nav-link" data-toggle="collapse" href="#service-nav" aria-expanded="false"
                 aria-controls="service-nav">
                 <i class="ti-briefcase menu-icon"></i>
@@ -57,7 +57,7 @@
             </div>
         </li>
         <hr>
-        <li class="nav-item">
+        <li class="nav-item" id="transaksi-nav">
             <a class="nav-link" data-toggle="collapse" href="#transaction-nav" aria-expanded="false"
                 aria-controls="transaction-nav">
                 <i class="ti-shopping-cart menu-icon"></i>
@@ -71,7 +71,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="pesanan-nav">
             <a class="nav-link" data-toggle="collapse" href="#order-nav" aria-expanded="false"
                 aria-controls="order-nav">
                 <i class="ti-shopping-cart-full menu-icon"></i>
@@ -85,7 +85,7 @@
                 </ul>
             </div>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" id="layanan-pelanggan-nav">
             <a class="nav-link" data-toggle="collapse" href="#customer-service-nav" aria-expanded="false"
                 aria-controls="customer-service-nav">
                 <i class="ti-server menu-icon"></i>
@@ -109,9 +109,18 @@
                 </ul>
             </div>
         </li>
+
         {{-- start template menu --}}
-        {{-- <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <hr>
+        <li class="nav-item">
+            <a class="nav-link" href="pages/documentation/documentation.html">
+                <i class="icon-paper menu-icon"></i>
+                <span class="menu-title">Documentation</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                aria-controls="ui-basic">
                 <i class="icon-layout menu-icon"></i>
                 <span class="menu-title">UI Elements</span>
                 <i class="menu-arrow"></i>
@@ -148,13 +157,6 @@
                     </li>
                 </ul>
             </div>
-        </li> --}}
-        <hr>
-        <li class="nav-item">
-            <a class="nav-link" href="pages/documentation/documentation.html">
-                <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Documentation</span>
-            </a>
         </li>
     </ul>
 </nav>

@@ -190,4 +190,9 @@
 
 @section('script')
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
+
+    <script>
+        const ServiceNav = document.getElementById('jasa-nav');
+        ServiceNav.classList.add('active');
+    </script>
 @endsection
