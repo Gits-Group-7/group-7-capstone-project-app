@@ -27,25 +27,6 @@ class PageController extends Controller
         return view('pages.customer.beranda', $data);
     }
 
-    public function profile($id)
-    {
-        $data = [
-            'action' => route('admin.profile.update', $id),
-            'admin' => User::findOrFail($id),
-        ];
-
-        return view('pages.admin.profile.profile', $data);
-    }
-
-    public function update($id)
-    {
-        $data = User::findOrFail($id);
-
-        // perintah update profile admin
-
-        return view('pages.admin.profile.profile', $data);
-    }
-
     public function customer()
     {
         $data = [

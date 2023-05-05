@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthCustomerController;
 use App\Http\Controllers\CartController;
@@ -58,9 +59,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/daftar-transaksi-details', [PageController::class, 'transactionDetails'])->name('admin.transaction.details');
     Route::get('/admin/daftar-order-details', [PageController::class, 'orderDetails'])->name('admin.order.details');
 
-    // update profil admin
-    Route::get('/admin/profile/{id}', [PageController::class, 'profile'])->name('admin.profile');
-    Route::put('/admin/profile/{id}', [PageController::class, 'update'])->name('admin.profile.update');
+    // update profile admin
+    Route::get('/admin/profile/{id}', [AdminProfileController::class, 'show'])->name('admin.profile');
+    Route::put('/admin/profile/{id}', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 
     // Route Category
     Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');

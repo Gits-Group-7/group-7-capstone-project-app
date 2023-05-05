@@ -26,7 +26,12 @@
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="{{ asset('admin/images/admin-profile.png') }}" alt="profile" />
+                    @if (Auth::user()->photo == 'empty')
+                        <img src="{{ asset('admin/images/admin-profile.png') }}" alt="profile" />
+                    @else
+                        <img src="{{ Storage::url(Auth::user()->photo) }}" alt="profile" />
+                    @endif
+
                 </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
                     <a href="{{ route('admin.profile', auth()->user()->id) }}" class="dropdown-item">
