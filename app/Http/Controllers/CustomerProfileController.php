@@ -98,19 +98,17 @@ class CustomerProfileController extends Controller
             $saveData['photo'] = $data->photo;
         }
 
-        return dd($validated['name']);
-
         // validasi field satu persatu sebelum melakukan update
-        // User::where('id', $id)->update([
-        //     'name' => $validated['name'],
-        //     'photo' =>  $saveData['photo'],
-        //     'birthdate' => $validated['birthdate'],
-        //     'gender' => $validated['gender'],
-        //     'phone' => $validated['phone'],
-        //     'email' => $validated['email'],
-        // ]);
+        User::where('id', $id)->update([
+            'name' => $validated['name'],
+            'photo' =>  $saveData['photo'],
+            'birthdate' => $validated['birthdate'],
+            'gender' => $validated['gender'],
+            'phone' => $validated['phone'],
+            'email' => $validated['email'],
+        ]);
 
-        // return redirect()->route('admin.profile', $data);
+        return redirect()->route('customer.profile', $data);
     }
 
     /**

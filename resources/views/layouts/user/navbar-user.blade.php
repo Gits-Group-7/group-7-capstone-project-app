@@ -27,7 +27,7 @@
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     @if (Auth::user()->photo == 'empty')
-                        <img src="{{ asset('admin/images/admin-profile.png') }}" alt="profile" />
+                        <img src="{{ asset('customer/images/profile-customer.png') }}" alt="profile" />
                     @else
                         <img src="{{ Storage::url(Auth::user()->photo) }}" alt="profile" />
                     @endif

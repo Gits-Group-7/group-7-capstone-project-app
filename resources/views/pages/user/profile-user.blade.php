@@ -14,25 +14,25 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
-
+    
     function toCamelCase($string)
     {
         $string = str_replace(' ', '', ucwords($string));
@@ -56,7 +56,7 @@
                                 <div class="my-auto pt-5">
                                     {{-- jika user tidak memiliki foto --}}
                                     @if (Auth::user()->photo == 'empty')
-                                        <img src="{{ asset('admin/images/admin-profile.png') }}" alt=""
+                                        <img src="{{ asset('customer/images/profile-customer.png') }}" alt=""
                                             class="img-fluid rounded-circle-img border p-1">
                                     @else
                                         {{-- jika user memiliki foto --}}
