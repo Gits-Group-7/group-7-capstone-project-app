@@ -21,11 +21,6 @@ class AuthCustomerController extends Controller
         return view('pages.customer.auth-customer.login-customer');
     }
 
-    public function profile()
-    {
-        return view('pages.customer.profile.index');
-    }
-
     public function doRegister(Request $request)
     {
         // fungsi validasi sebelum melakukan register
@@ -46,7 +41,7 @@ class AuthCustomerController extends Controller
         // langsung memberikan akses login setelah melakukan register
         Auth::login($user);
 
-        return redirect()->route('customer.profile');
+        return redirect()->route('customer.profile', $user->id);
     }
 
     public function doLogin(Request $request)
@@ -64,7 +59,8 @@ class AuthCustomerController extends Controller
             if (auth()->check() && auth()->user()->role == 'admin') {
                 return redirect()->intended('/admin/dashboard');
             } else if (auth()->check() && auth()->user()->role == 'customer') {
-                return redirect()->intended('/customer/profile');
+                $id = auth()->user()->id;
+                return redirect()->route('customer.profile', $id);
             }
         }
 

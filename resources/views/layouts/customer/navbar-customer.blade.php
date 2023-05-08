@@ -32,7 +32,7 @@
                                 <p class="d-none d-md-block mb-0">{{ Auth::user()->name }}</p>
                             </a>
                         @elseif (Auth()->user() != null && auth()->user()->role == 'customer')
-                            <a href="{{ route('customer.profile') }}"
+                            <a href="{{ route('customer.profile', Auth::user()->id) }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
                                 <i class="fas fa-user-alt m-1 me-md-2"></i>
                                 <p class="d-none d-md-block mb-0">{{ Auth::user()->name }}</p>

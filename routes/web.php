@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthCustomerController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ServiceController;
@@ -95,5 +96,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // special route for role customer
 Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('/customer/profile', [AuthCustomerController::class, 'profile'])->name('customer.profile');
+    // update profile customer
+    Route::get('/customer/profile/{id}', [CustomerProfileController::class, 'show'])->name('customer.profile');
+    Route::put('/customer/profile/{id}', [CustomerProfileController::class, 'update'])->name('customer.profile.update');
 });

@@ -1,7 +1,7 @@
-@extends('layouts.admin.template-admin')
+@extends('layouts.user.template-user')
 
 @section('title')
-    <title>Profile Admin | Print-Shop</title>
+    <title>Profile Customer | Print-Shop</title>
 
     {{-- Datedroppper JS --}}
     <script src="{{ asset('admin/js-datedropper/datedropper-javascript.js') }}"></script>
@@ -14,25 +14,25 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
-    
+
     function toCamelCase($string)
     {
         $string = str_replace(' ', '', ucwords($string));
@@ -47,8 +47,9 @@
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
                     <div class="card-body card-hover rounded">
-                        <p class="card-title">Update Data Profil Admin</p>
-                        <span class="text-secondary">Pada Halaman ini Anda dapat mengubah informasi pribadi akun Anda.</span>
+                        <p class="card-title">Update Data Profil Customer</p>
+                        <span class="text-secondary">Pada Halaman ini Anda dapat mengubah informasi pribadi akun customer
+                            Anda.</span>
 
                         <div class="row d-flex justify-content-center">
                             <div class="col-md-4">
@@ -99,14 +100,14 @@
                                             <tr>
                                                 <td>Nama</td>
                                                 <td>:</td>
-                                                <td>{{ $admin->name }}</td>
+                                                <td>{{ $customer->name }}</td>
                                                 <td><a type="button" href="#!" data-toggle="modal"
-                                                        data-target="#exampleModal{{ toCamelCase($admin->name) }}"
+                                                        data-target="#exampleModal{{ toCamelCase($customer->name) }}"
                                                         class="text-success">Ubah</a>
                                                 </td>
 
                                                 {{-- Start Modal Nama --}}
-                                                <div class="modal fade" id="exampleModal{{ toCamelCase($admin->name) }}"
+                                                <div class="modal fade" id="exampleModal{{ toCamelCase($customer->name) }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -124,7 +125,7 @@
                                                                         <input type="text"
                                                                             class="form-control @error('name') is-invalid @enderror"
                                                                             id="name" placeholder="Nama User"
-                                                                            name="name" value="{{ $admin->name }}">
+                                                                            name="name" value="{{ $customer->name }}">
                                                                     </div>
                                                                     @if ($errors->has('name'))
                                                                         <div class="invalid feedback text-danger mb-3">
@@ -148,13 +149,13 @@
                                             <tr>
                                                 <td>Tanggal Lahir</td>
                                                 <td>:</td>
-                                                <td>{{ dateConversion($admin->birthdate) }}</td>
+                                                <td>{{ dateConversion($customer->birthdate) }}</td>
                                                 <td><a href="#!" data-toggle="modal"
-                                                        data-target="#exampleModal{{ $admin->birthdate }}"
+                                                        data-target="#exampleModal{{ $customer->birthdate }}"
                                                         class="text-success">Ubah Tanggal Lahir</a></td>
 
                                                 {{-- Start Modal Tanggal Lahir --}}
-                                                <div class="modal fade" id="exampleModal{{ $admin->birthdate }}"
+                                                <div class="modal fade" id="exampleModal{{ $customer->birthdate }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -174,7 +175,7 @@
                                                                             data-dd-opt-custom-class="dd-theme-bootstrap"
                                                                             id="birthdate" placeholder="Tanggal Lahir"
                                                                             name="birthdate"
-                                                                            value="{{ $admin->birthdate }}">
+                                                                            value="{{ $customer->birthdate }}">
                                                                     </div>
                                                                     @if ($errors->has('birthdate'))
                                                                         <div class="invalid feedback text-danger mb-3">
@@ -198,13 +199,13 @@
                                             <tr>
                                                 <td>Jenis Kelamin</td>
                                                 <td>:</td>
-                                                <td>{{ $admin->gender }}</td>
+                                                <td>{{ $customer->gender }}</td>
                                                 <td><a href="#!" data-toggle="modal"
-                                                        data-target="#exampleModal{{ $admin->gender }}"
+                                                        data-target="#exampleModal{{ $customer->gender }}"
                                                         class="text-success">Ubah</a></td>
 
                                                 {{-- Start Modal Gender --}}
-                                                <div class="modal fade" id="exampleModal{{ $admin->gender }}"
+                                                <div class="modal fade" id="exampleModal{{ $customer->gender }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -225,10 +226,10 @@
                                                                             <option value="">Pilih Jenis Kelamin
                                                                             </option>
                                                                             <option value="Laki-laki"
-                                                                                {{ $admin->gender == 'Laki-laki' ? 'selected' : '' }}>
+                                                                                {{ $customer->gender == 'Laki-laki' ? 'selected' : '' }}>
                                                                                 Laki-laki</option>
                                                                             <option value="Perempuan"
-                                                                                {{ $admin->gender == 'Perempuan' ? 'selected' : '' }}>
+                                                                                {{ $customer->gender == 'Perempuan' ? 'selected' : '' }}>
                                                                                 Perempuan</option>
                                                                         </select>
                                                                     </div>
@@ -264,13 +265,13 @@
                                             <tr>
                                                 <td>Email</td>
                                                 <td>:</td>
-                                                <td>{{ $admin->email }}</td>
+                                                <td>{{ $customer->email }}</td>
                                                 <td><a href="#!" data-toggle="modal"
-                                                        data-target="#exampleModal{{ $admin->role }}"
+                                                        data-target="#exampleModal{{ $customer->role }}"
                                                         class="text-success">Ubah Email</a></td>
 
                                                 {{-- Start Modal Email --}}
-                                                <div class="modal fade" id="exampleModal{{ $admin->role }}"
+                                                <div class="modal fade" id="exampleModal{{ $customer->role }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -288,7 +289,8 @@
                                                                         <input type="text"
                                                                             class="form-control @error('email') is-invalid @enderror"
                                                                             id="email" placeholder="Alamat Email"
-                                                                            name="email" value="{{ $admin->email }}">
+                                                                            name="email"
+                                                                            value="{{ $customer->email }}">
                                                                     </div>
                                                                     @if ($errors->has('email'))
                                                                         <div class="invalid feedback text-danger mb-3">
@@ -312,13 +314,13 @@
                                             <tr>
                                                 <td>Nomor HP</td>
                                                 <td>:</td>
-                                                <td>{{ $admin->phone }}</td>
+                                                <td>{{ $customer->phone }}</td>
                                                 <td><a href="#!" data-toggle="modal"
-                                                        data-target="#exampleModal{{ $admin->phone }}"
+                                                        data-target="#exampleModal{{ $customer->phone }}"
                                                         class="text-success">Ubah Nomor</a></td>
 
                                                 {{-- Start Modal Phone --}}
-                                                <div class="modal fade" id="exampleModal{{ $admin->phone }}"
+                                                <div class="modal fade" id="exampleModal{{ $customer->phone }}"
                                                     tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                                                     aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
@@ -336,7 +338,8 @@
                                                                         <input type="number"
                                                                             class="form-control @error('phone') is-invalid @enderror"
                                                                             id="phone" placeholder="08xxxxxxxxxx"
-                                                                            name="phone" value="{{ $admin->phone }}">
+                                                                            name="phone"
+                                                                            value="{{ $customer->phone }}">
                                                                     </div>
                                                                     @if ($errors->has('phone'))
                                                                         <div class="invalid feedback text-danger mb-3">
