@@ -61,8 +61,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/daftar-order-details', [PageController::class, 'orderDetails'])->name('admin.order.details');
 
     // update profile admin
-    Route::get('/admin/profile/{id}', [AdminProfileController::class, 'show'])->name('admin.profile');
-    Route::put('/admin/profile/{id}', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+    Route::get('/admin/{id}/profile', [AdminProfileController::class, 'show'])->name('admin.profile');
+    Route::put('/admin/{id}/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
 
     // Route Category
     Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');
@@ -97,6 +97,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 // special route for role customer
 Route::middleware(['auth', 'customer'])->group(function () {
     // update profile customer
-    Route::get('/customer/profile/{id}', [CustomerProfileController::class, 'show'])->name('customer.profile');
-    Route::put('/customer/profile/{id}', [CustomerProfileController::class, 'update'])->name('customer.profile.update');
+    Route::get('/customer/{id}/profile', [CustomerProfileController::class, 'show'])->name('customer.profile');
+    Route::put('/customer/{id}/profile', [CustomerProfileController::class, 'update'])->name('customer.profile.update');
+
+    Route::get('/cusomer/{id}/daftar-transaksi', [PageController::class, 'listTransaction'])->name('customer.transaction.list');
+    Route::get('/cusomer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');
+    Route::get('/cusomer/{id}/transaksi-produk', [PageController::class, 'transactionProduct'])->name('customer.transaction.product');
+    Route::get('/cusomer/{id}/order-jasa', [PageController::class, 'orderService'])->name('customer.order.service');
 });

@@ -18,9 +18,12 @@
             </a>
             <div class="collapse" id="category-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Transaksi</a>
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('customer.transaction.list', $customer->id) }}">Daftar
+                            Transaksi</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Order</a>
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('customer.order.list', $customer->id) }}">Daftar Order</a>
                     </li>
                 </ul>
             </div>
@@ -34,9 +37,12 @@
             </a>
             <div class="collapse" id="product-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Transaksi Produk</a>
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('customer.transaction.product', $customer->id) }}">Transaksi Produk</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="#!">Order Jasa</a>
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('customer.order.service', $customer->id) }}">Order
+                            Jasa</a>
                     </li>
                 </ul>
             </div>

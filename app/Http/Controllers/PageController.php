@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    // fungsi beranda
     public function berandaPage()
     {
         $data = [
@@ -27,6 +28,44 @@ class PageController extends Controller
         return view('pages.customer.beranda', $data);
     }
 
+    // fungsi menu customer
+    public function listTransaction($id)
+    {
+        $data = [
+            'customer' => User::findOrFail($id),
+        ];
+
+        return view('pages.user.riwayat-pesanan.daftar-transaksi', $data);
+    }
+
+    public function listOrder($id)
+    {
+        $data = [
+            'customer' => User::findOrFail($id),
+        ];
+
+        return view('pages.user.riwayat-pesanan.daftar-order', $data);
+    }
+
+    public function transactionProduct($id)
+    {
+        $data = [
+            'customer' => User::findOrFail($id),
+        ];
+
+        return view('pages.user.tracking-pesanan.transaksi-produk', $data);
+    }
+
+    public function orderService($id)
+    {
+        $data = [
+            'customer' => User::findOrFail($id),
+        ];
+
+        return view('pages.user.tracking-pesanan.order-jasa', $data);
+    }
+
+    // fungsi menu admin
     public function customer()
     {
         $data = [
@@ -51,6 +90,7 @@ class PageController extends Controller
         return view('pages.admin.layanan-customer.order-details');
     }
 
+    // fungsi auth logout
     public function logout(Request $request)
     {
         // fungsi logout
