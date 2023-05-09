@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\PromoBanner;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ class PageController extends Controller
     public function berandaPage()
     {
         $data = [
+            'promo_banners' => PromoBanner::where('status', 'Aktif')->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
             'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),

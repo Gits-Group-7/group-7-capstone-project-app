@@ -8,6 +8,23 @@
             </a>
         </li>
         <hr>
+        <li class="nav-item" id="promo-nav">
+            <a class="nav-link" data-toggle="collapse" href="#promo-banner-nav" aria-expanded="false"
+                aria-controls="promo-banner-nav">
+                <i class="ti-gift menu-icon"></i>
+                <span class="menu-title">Promo Banner</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="promo-banner-nav">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('promo.banner.index') }}">Daftar Banner</a>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('promo.banner.create') }}">Tambah
+                            Banner</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
         <li class="nav-item" id="kategori-nav">
             <a class="nav-link" data-toggle="collapse" href="#category-nav" aria-expanded="false"
                 aria-controls="category-nav">
@@ -97,7 +114,8 @@
                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.customer') }}">Daftar
                             Customer</a>
                     </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.transaction.order') }}">Transaksi
+                    <li class="nav-item"> <a class="nav-link"
+                            href="{{ route('admin.transaction.order') }}">Transaksi
                             Order</a>
                     </li>
                     <li class="nav-item"> <a class="nav-link"
@@ -112,12 +130,12 @@
 
         {{-- start template menu --}}
         <hr>
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a class="nav-link" href="pages/documentation/documentation.html">
                 <i class="icon-paper menu-icon"></i>
                 <span class="menu-title">Documentation</span>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
                 aria-controls="ui-basic">

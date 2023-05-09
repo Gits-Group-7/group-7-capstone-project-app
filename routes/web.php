@@ -8,6 +8,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PromoBannerController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -63,6 +64,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // update profile admin
     Route::get('/admin/{id}/profile', [AdminProfileController::class, 'show'])->name('admin.profile');
     Route::put('/admin/{id}/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
+
+    // Route Promo Banner
+    Route::get('/admin/daftar-promo-banner', [PromoBannerController::class, 'index'])->name('promo.banner.index');
+    Route::get('/admin/tambah-promo-banner', [PromoBannerController::class, 'create'])->name('promo.banner.create');
+    Route::get('/admin/edit-promo-banneer/{id}', [PromoBannerController::class, 'edit'])->name('promo.banner.edit');
+    Route::get('/admin/hapus-promo-banner/{id}', [PromoBannerController::class, 'destroy'])->name('promo.banner.destroy');
+    Route::post('/admin/simpan-promo-banner', [PromoBannerController::class, 'store'])->name('promo.banner.store');
+    Route::put('/admin/ubah-promo-banner/{id}', [PromoBannerController::class, 'update'])->name('promo.banner.update');
 
     // Route Category
     Route::get('/admin/daftar-kategori', [CategoryController::class, 'index'])->name('category.index');

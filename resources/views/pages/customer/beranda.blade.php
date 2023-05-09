@@ -18,22 +18,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
@@ -50,8 +50,7 @@
                                 <h4 class="text-white">
                                     Selamat datang di<br>Print-Shop! 🥰<br />
                                 </h4>
-                                <img src="{{ asset('admin/images/welcome-image.svg') }}" class="img-fluid mt-2"
-                                    alt="">
+                                {{-- <img src="{{ asset('admin/images/welcome-image.svg') }}" class="img-fluid" alt=""> --}}
                                 <p class="text-white text-justify mt-3">
                                     &ensp;&ensp;&ensp;&ensp;Selamat datang, Temukan berbagai pilihan baju dan
                                     outfit berkualitas terbaik dengan harga terjangkau hanya di Print Shop, toko online
@@ -67,21 +66,15 @@
                         <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
-                                    <img src="{{ asset('customer/images/banner/sample-banner-1.jpg') }}"
-                                        class="d-block w-100 rounded" alt="" />
+                                    <img src="{{ asset('customer/images/banner/promo-banner-default.png') }}"
+                                        class="d-block w-100 rounded" alt="" title="Welcome Banner" />
                                 </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('customer/images/banner/sample-banner-2.jpg') }}"
-                                        class="d-block w-100 rounded" alt="" />
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('customer/images/banner/sample-banner-3.jpg') }}"
-                                        class="d-block w-100 rounded" alt="" />
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="{{ asset('customer/images/banner/sample-banner-4.jpg') }}"
-                                        class="d-block w-100 rounded" alt="" />
-                                </div>
+                                @foreach ($promo_banners as $item)
+                                    <div class="carousel-item">
+                                        <img src="{{ Storage::url($item->photo) }}" class="d-block w-100 rounded"
+                                            alt="" title="{{ $item->title }}" />
+                                    </div>
+                                @endforeach
                             </div>
                             <button class="carousel-control-prev" type="button"
                                 data-mdb-target="#carouselExampleIndicators" data-mdb-slide="prev">

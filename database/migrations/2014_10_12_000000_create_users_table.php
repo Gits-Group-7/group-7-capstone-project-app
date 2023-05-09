@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('role', 20)->nullable(false)->default('customer');
             $table->date('birthdate')->nullable(false)->default('2000-01-01');
             $table->string('gender', 20)->nullable(false)->default('Laki-laki');
-            $table->string('phone', 12)->nullable(false)->default('empty');
+            $table->string('phone', 12)->nullable(false)->default('081234567890');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

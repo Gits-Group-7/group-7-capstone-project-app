@@ -42,4 +42,10 @@ class Service extends Model
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
+
+    // satu service memiliki banyak promo banner
+    public function promo_banners()
+    {
+        return $this->hasMany(PromoBanner::class);
+    }
 }

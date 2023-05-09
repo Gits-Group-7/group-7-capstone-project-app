@@ -45,6 +45,12 @@ class Product extends Model
         return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
+    // satu produk memiliki banyak promo banner
+    public function promo_banners()
+    {
+        return $this->hasMany(PromoBanner::class);
+    }
+
     public function carts()
     {
         return $this->hasMany(Cart::class);

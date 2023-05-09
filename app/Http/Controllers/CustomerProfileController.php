@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class CustomerProfileController extends Controller
@@ -47,6 +48,11 @@ class CustomerProfileController extends Controller
      */
     public function show($id)
     {
+        // hanya user dengan id yang sesuai dengan user yang sedang login yang dapat mengakses halaman profil
+        if (Auth::user()->id != $id) {
+            abort(404);
+        }
+
         $data = [
             'action' => route('customer.profile.update', $id),
             'customer' => User::findOrFail($id),
