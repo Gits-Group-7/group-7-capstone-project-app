@@ -153,7 +153,7 @@
     <script src="{{ asset('admin/js/file-upload.js') }}"></script>
 
     <script>
-        const promoBannerNav = document.getElementById('promo-banner-nav');
+        const promoBannerNav = document.getElementById('promo-nav');
         promoBannerNav.classList.add('active');
     </script>
 @endsection

@@ -60,8 +60,7 @@
                                                 <tr>
                                                     <td class="text-center">{{ $no }}</td>
                                                     <td class="text-center">{{ $data->name }}</td>
-                                                    <td class="text-center"><img
-                                                            src="{{ asset('admin/images/admin-profile.png') }}"
+                                                    <td class="text-center"><img src="{{ Storage::url($data->photo) }}"
                                                             class="img-fluid rounded" alt="Foto {{ $data->name }}"></td>
                                                     <td class="text-center">{{ $data->role }}</td>
                                                     <td class="text-center">{{ $data->email }}</td>

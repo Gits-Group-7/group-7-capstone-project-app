@@ -295,3 +295,92 @@ body {
         display: block; /* tampilkan logo dua */
     }
 }
+
+/* star product */
+.product-title {
+    color: #333c4a !important;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.product-rating i {
+    color: #ffd700;
+    font-size: 18px;
+}
+
+.rating-number {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.new-badge {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #4b49ac;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: blink 3s infinite;
+    border-radius: 5px !important;
+}
+
+.status-available-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    background-color: #10a19d;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: blink 3s infinite;
+    border-radius: 5px !important;
+}
+
+.status-pre-order-badge {
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+    padding: 5px 10px;
+    background-color: #2b4865;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: blink 3s infinite;
+    border-radius: 5px !important;
+}
+
+.status-run-out-badge {
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+    padding: 5px 10px;
+    background-color: #fc4f4f;
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: blink 3s infinite;
+    border-radius: 5px !important;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

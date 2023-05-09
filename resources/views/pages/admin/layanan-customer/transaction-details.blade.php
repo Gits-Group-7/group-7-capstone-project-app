@@ -1,7 +1,7 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Daftar Transaction Deail | Print-Shop</title>
+    <title>Daftar Transaction Detail | Print-Shop</title>
 @endsection
 
 @section('content')

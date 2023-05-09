@@ -30,7 +30,7 @@ class ServiceSeeder extends Seeder
             'price_per_dozen' => 540000,
             'estimation' => '4 Hari',
             'description' => 'Black Casual Short Sleeve Polyester Letter Embellished Slight Stretch Summer Men Tops',
-            'category_id' => '3',
+            'category_id' => '4',
         ]);
     }
 }

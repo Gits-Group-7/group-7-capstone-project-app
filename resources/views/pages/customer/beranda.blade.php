@@ -44,7 +44,7 @@
         <div class="container">
             <main class="card p-3 shadow-2-strong">
                 <div class="row">
-                    <div class="col-lg-4 d-flex mb-3">
+                    <div class="col-sm-12 col-lg-12 col-xl-4 d-flex mb-3">
                         <div class="card-banner h-auto p-5 bg-theme rounded-5" style="height: 350px;">
                             <div>
                                 <h4 class="text-white">
@@ -57,12 +57,12 @@
                                     terpercaya untuk layanan sablon dan custom.
                                 </p>
                                 <center>
-                                    <a href="#produk" class="btn btn-theme shadow-0">Temukan Produk & Jasa Menarik</a>
+                                    <a href="#produk" class="btn btn-theme shadow-0 mt-3">Temukan Produk & Jasa Menarik</a>
                                 </center>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-8">
+                    <div class="col-sm-12 col-lg-12 col-xl-8">
                         <div id="carouselExampleIndicators" class="carousel slide" data-mdb-ride="carousel">
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
@@ -115,7 +115,7 @@
                 <section id="{{ underscore($item->category->name) }}">
                     <div class="container my-5">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-sm-6 col-lg-4 col-xl-3">
                                 <div class="alert alert-primary" role="alert">
                                     <h3 class="text-center">{{ $item->category->name }}</h3>
                                 </div>
@@ -138,61 +138,90 @@
                                                             style="aspect-ratio: 1 / 1">
                                                     </a>
                                                     <div class="card-body p-0 pt-2">
-                                                        <h6 class="card-title mt-2 pt-2 limit-text"
+                                                        <h6 class="card-title product-title mt-2 pt-2 limit-text"
                                                             title="{{ $value->name }}">
                                                             <span class="text-black fw-bold">{{ $value->name }}</span>
                                                         </h6>
 
-                                                        <div class="row justify-content-between my-2">
-                                                            <div class="col-6 d-flex">
-                                                                <span class="card-text">
-                                                                    <span class="text-theme-two fw-bold">Rp.
-                                                                        {{ priceConversion($value->price) }}</span>
-                                                                    <br>
-                                                                    <span
-                                                                        class="fw-medium text-theme">{{ $value->condition }}</span>
-                                                                </span>
+                                                        <div class="product-details">
+                                                            <div class="row">
+                                                                <div class="col d-flex">
+                                                                    <span class="card-text mx-auto my-auto">
+                                                                        <span class="text-theme-two fw-bold">Rp.
+                                                                            {{ priceConversion($value->price) }}</span>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col d-flex">
+                                                                    <div class="product-rating mx-auto my-auto">
+                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star"></i>
+                                                                        <i class="fa fa-star-half"></i>
+                                                                        <span
+                                                                            class="rating-number fw-medium text-theme">(4.5)</span>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-
-                                                            <div class="col-6 d-flex">
-                                                                @if ($value->status == 'Tersedia')
-                                                                    <div class="btn ready-content my-auto mx-auto">
-                                                                        {{ $value->status }}
-                                                                    </div>
-                                                                @elseif ($value->status == 'Pre Order')
-                                                                    <div class="btn pre-order-content my-auto mx-auto">
-                                                                        {{ $value->status }}
-                                                                    </div>
-                                                                @elseif ($value->status == 'Habis')
-                                                                    <div class="btn run-out-content my-auto mx-auto">
-                                                                        {{ $value->status }}
-                                                                    </div>
-                                                                @endif
+                                                            <div class="row justify-content-between mt-1">
+                                                                <div class="col-6 d-flex">
+                                                                    @if ($value->status == 'Tersedia')
+                                                                        <span class="status-available-badge">
+                                                                            {{ $value->status }}
+                                                                        </span>
+                                                                    @elseif ($value->status == 'Pre Order')
+                                                                        <span class="status-pre-order-badge">
+                                                                            {{ $value->status }}
+                                                                        </span>
+                                                                    @elseif ($value->status == 'Habis')
+                                                                        <span class="status-run-out-badge">
+                                                                            {{ $value->status }}
+                                                                        </span>
+                                                                    @endif
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    @if ($carts->contains('product_id', $value->id))
-                                                        <a href="#!" type="button"
-                                                            class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                            title="Produk ada di keranjang"> On My Cart
-                                                        </a>
-                                                    @else
-                                                        @if ($value->status == 'Habis' || $value->status == 'Pre Order')
-                                                            <a href="#!" type="button"
-                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                                title="Produk ada di keranjang"> Product Unavailable
-                                                            </a>
+                                                        <div class="row">
+                                                            <div class="col bg-danger d-flex">
+                                                                <div class="mx-auto my-auto">
+                                                                    <span
+                                                                        class="fw-medium text-theme new-badge">{{ $value->condition }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        @if ($carts->contains('product_id', $value->id))
+                                                            <div class="row">
+                                                                <a href="#!" type="button"
+                                                                    class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                    title="Produk ada di keranjang"> On My Cart
+                                                                </a>
+                                                            </div>
                                                         @else
-                                                            <button type="submit"
-                                                                class="btn btn-checklist icon-cart-hover mt-2"
-                                                                title="Tambah ke keranjang?"> ADD TO CART
-                                                            </button>
+                                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                                <div class="row">
+                                                                    <a href="#!" type="button"
+                                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                        title="Produk ada di keranjang"> Product
+                                                                        Unavailable
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <div class="row">
+                                                                    <button type="submit"
+                                                                        class="btn btn-checklist icon-cart-hover mt-3"
+                                                                        title="Tambah ke keranjang?"><i
+                                                                            class="fa-solid fa-cart-plus"></i>
+                                                                        &ensp; ADD TO
+                                                                        CART
+                                                                    </button>
+                                                                </div>
+                                                            @endif
                                                         @endif
-                                                    @endif
+                                                    </div>
                                                 </div>
                                             </div>
-
                                         </form>
                                     @endif
                                 @endforeach
@@ -225,7 +254,7 @@
                 <section id="{{ underscore($item->category->name) }}">
                     <div class="container my-5">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-sm-6 col-lg-4 col-xl-3">
                                 <div class="alert alert-primary" role="alert">
                                     <h3 class="text-center">{{ $item->category->name }}</h3>
                                 </div>
@@ -253,46 +282,73 @@
                                                             <span class="text-black fw-bold">{{ $value->name }}</span>
                                                         </h6>
 
-                                                        <div class="row justify-content-between my-2">
-                                                            <div class="col-6 d-flex">
-                                                                <span class="card-text">
+                                                        <div class="row">
+                                                            <div class="col d-flex">
+                                                                <span class="card-text mx-auto my-auto">
                                                                     <span class="text-theme-two fw-bold">Rp.
                                                                         {{ priceConversion($value->price_per_pcs) }}</span>
-                                                                    <br>
-                                                                    <span
-                                                                        class="fw-medium text-theme">{{ $value->category->name }}</span>
                                                                 </span>
                                                             </div>
-
-                                                            <div class="col-6 d-flex">
-                                                                <div class="btn ready-content my-auto mx-auto">
-                                                                    {{ $value->estimation }}
+                                                            <div class="col d-flex">
+                                                                <div class="product-rating mx-auto my-auto">
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star"></i>
+                                                                    <i class="fa fa-star-half"></i>
+                                                                    <span
+                                                                        class="rating-number fw-medium text-theme">(4.5)</span>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    @if ($carts->contains('product_id', $value->id))
-                                                        <a href="#!" type="button"
-                                                            class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                            title="Produk ada di keranjang"> On My Cart
-                                                        </a>
-                                                    @else
-                                                        @if ($value->status == 'Habis' || $value->status == 'Pre Order')
-                                                            <a href="#!" type="button"
-                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                                title="Produk ada di keranjang"> Product Unavailable
-                                                            </a>
+                                                        <div class="row">
+                                                            <div class="col bg-danger d-flex">
+                                                                <div class="mx-auto my-auto">
+                                                                    <span
+                                                                        class="fw-medium text-theme new-badge">{{ $value->estimation }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row justify-content-between my-2">
+                                                            <div class="col-6 d-flex">
+                                                                <span class="status-available-badge">
+                                                                    {{ $value->category->name }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        @if ($carts->contains('product_id', $value->id))
+                                                            <div class="row">
+                                                                <a href="#!" type="button"
+                                                                    class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                    title="Produk ada di keranjang"> On My Cart
+                                                                </a>
+                                                            </div>
                                                         @else
-                                                            <button type="submit"
-                                                                class="btn btn-checklist icon-cart-hover mt-2"
-                                                                title="Order Jasa?"> ADD TO CART
-                                                            </button>
+                                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                                <div class="row">
+                                                                    <a href="#!" type="button"
+                                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                        title="Produk ada di keranjang"> Product
+                                                                        Unavailable
+                                                                    </a>
+                                                                </div>
+                                                            @else
+                                                                <div class="row">
+                                                                    <button type="submit"
+                                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                                        title="Order Jasa?"><i
+                                                                            class="fa-solid fa-cart-plus"></i>
+                                                                        &ensp; ADD TO CART
+                                                                    </button>
+                                                                </div>
+                                                            @endif
                                                         @endif
-                                                    @endif
+                                                    </div>
                                                 </div>
                                             </div>
-
                                         </form>
                                     @endif
                                 @endforeach
