@@ -16,7 +16,8 @@
                 <!-- Center elements -->
                 <div class="order-lg-last col-lg-5 col-sm-8 col-8">
                     <div class="d-flex float-end p-3">
-                        <a href="" class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
+                        <a href="{{ route('customer.store') }}"
+                            class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
                             <i class="fa-solid fa-store m-1 me-md-2"></i>
                             <p class="d-none d-md-block mb-0">Toko</p>
                         </a>

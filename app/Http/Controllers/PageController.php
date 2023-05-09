@@ -67,6 +67,15 @@ class PageController extends Controller
         return view('pages.user.tracking-pesanan.order-jasa', $data);
     }
 
+    public function storePage()
+    {
+        $data = [
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+        ];
+        return view('pages.customer.toko-print-shop', $data);
+    }
+
     // fungsi menu admin
     public function customer()
     {
