@@ -70,10 +70,6 @@ class PageController extends Controller
     public function storePage()
     {
         $data = [
-            'categories' => Category::orderBy('type', 'asc')->get(),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
-            'products' => Product::all(),
-            'services' => Service::all(),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
