@@ -4,7 +4,7 @@
         <li class="nav-item" id="dashboard-nav">
             <a href="{{ route('customer.profile', $customer->id) }}" class="nav-link" href="index.html">
                 <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Profile Beranda</span>
+                <span class="menu-title">Profile Customer</span>
             </a>
         </li>
         <hr>

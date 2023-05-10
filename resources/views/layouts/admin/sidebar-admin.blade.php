@@ -4,7 +4,7 @@
         <li class="nav-item" id="dashboard-nav">
             <a href="{{ route('admin.dashboard') }}" class="nav-link" href="index.html">
                 <i class="icon-grid menu-icon"></i>
-                <span class="menu-title">Dashboard</span>
+                <span class="menu-title">Dashboard Admin</span>
             </a>
         </li>
         <hr>

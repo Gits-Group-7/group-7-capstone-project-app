@@ -5,15 +5,26 @@
 @endsection
 
 @php
+    function convertToTitleCase($string)
+    {
+        return ucfirst($string);
+    }
+
+    function priceConversion($price)
+    {
+        $formattedPrice = number_format($price, 0, ',', '.');
+        return $formattedPrice;
+    }
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
@@ -85,19 +96,26 @@
 
     <section>
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-around">
+
                 {{-- konten navigasi katalog dan rating --}}
-                <div class="col-4 mb-3">
+                <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12 mb-3">
                     <div class="card border shadow-sm card-hover">
                         <div class="m-4">
                             <div class="form-group">
                                 <label class="mb-2 fw-medium" for="filter">Filter Produk & Jasa</label>
                                 <select class="form-control" id="filter" name="filter">
-                                    <option value="">Katalog Produk & Jasa</option>
-                                    <option value="Katalog Produk">Katalog Produk</option>
-                                    <option value="Katalog Jasa">Katalog Jasa</option>
+                                    <option value="">Pilih Kategori Produk atau Jasa</option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item->id }}"> [{{ convertToTitleCase($item->type) }}]
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
+
+                            {{-- recent rating --}}
+                            <label class="mt-4 fw-medium" for="filter">Latest Customer Rating</label>
 
                             <div id="rating-user" class="card border card-hover my-3">
                                 <div class="card-body m-3">
@@ -116,7 +134,6 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <span class="rating-number fw-medium text-theme">(5)</span>
                                             </div>
                                         </div>
                                     </div>
@@ -149,7 +166,6 @@
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
                                                 <i class="fa fa-star"></i>
-                                                <span class="rating-number fw-medium text-theme">(5)</span>
                                             </div>
                                         </div>
                                     </div>
@@ -166,65 +182,328 @@
                             </div>
 
                             <div class="row mt-3">
+                                <div class="col-12 mb-3">
+                                    <button type="button" class="btn btn-block btn-rating" data-bs-toggle="modal"
+                                        data-bs-target="#kt_modal_stacked_1">
+                                        Tulis Rating Toko
+                                    </button>
+                                </div>
+
+                                {{-- Modal Rating --}}
+                                <div class="modal fade" tabindex="-1" id="kt_modal_stacked_1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Rating Toko <span
+                                                        class="fw-medium">"Print-Shop"</span></h5>
+
+                                                <!--begin::Close-->
+                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
+                                                            class="path2"></span></i>
+                                                </div>
+                                                <!--end::Close-->
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="form-group mx-3 mb-4">
+                                                    <label for="rating" class="fw-medium mb-2">Berapa Rating Anda untuk
+                                                        Toko Ini</label>
+
+                                                    <div class="rating d-flex justify-content-around my-2">
+                                                        <div class="">
+                                                            <!--begin::Star 1-->
+                                                            <label class="rating-label" for="kt_rating_input_1">
+                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                            </label>
+                                                            <input class="rating-input" name="rating" value="1"
+                                                                type="radio" id="kt_rating_input_1" />
+                                                            <!--end::Star 1-->
+                                                        </div>
+
+                                                        <div class="">
+                                                            <!--begin::Star 2-->
+                                                            <label class="rating-label" for="kt_rating_input_2">
+                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                            </label>
+                                                            <input class="rating-input" name="rating" value="2"
+                                                                type="radio" id="kt_rating_input_2" name="rating" />
+                                                            <!--end::Star 2-->
+                                                        </div>
+
+                                                        <div class="">
+                                                            <!--begin::Star 3-->
+                                                            <label class="rating-label" for="kt_rating_input_3">
+                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                            </label>
+                                                            <input class="rating-input" name="rating" value="3"
+                                                                type="radio" id="kt_rating_input_3" name="rating" />
+                                                            <!--end::Star 3-->
+                                                        </div>
+
+                                                        <div class="">
+                                                            <!--begin::Star 4-->
+                                                            <label class="rating-label" for="kt_rating_input_4">
+                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                            </label>
+                                                            <input class="rating-input" name="rating" value="4"
+                                                                type="radio" id="kt_rating_input_4" name="rating" />
+                                                            <!--end::Star 4-->
+                                                        </div>
+
+                                                        <div class="">
+                                                            <!--begin::Star 5-->
+                                                            <label class="rating-label" for="kt_rating_input_5">
+                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                            </label>
+                                                            <input class="rating-input" name="rating" value="5"
+                                                                type="radio" id="kt_rating_input_5" name="rating" />
+                                                            <!--end::Star 5-->
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="form-group m-3">
+                                                    <label for="comment" class="fw-medium mb-2">Komentar Rating</label>
+                                                    <textarea class="form-control" id="comment" rows="4" name="comment"
+                                                        placeholder="Berikan Komentar Positif pada Toko kami"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-unconfirm"
+                                                    data-bs-dismiss="modal">Batal</button>
+                                                <a href="{{ route('customer.store.rating') }}" type="button" class="btn btn-confirm">Tambah
+                                                    Ulasan</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="col-12">
-                                    <a href="#!" class="btn btn-block btn-rating">Tulis Rating Toko</a>
+                                    <a href="{{ route('customer.store.rating') }}" class="btn btn-block btn-chat">Lihat
+                                        Ulasan Toko</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-8 mb-3" id="product-service">
-                    <div class="card border shadow-sm card-hover">
-                        <div class="m-4">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis doloribus harum optio qui
-                                eos autem facilis commodi atque velit. Saepe cumque nulla nostrum sed perspiciatis ducimus
-                                et autem voluptates minus! Perspiciatis autem necessitatibus saepe ipsam minima? Officiis
-                                perspiciatis fugit nam reprehenderit veritatis quidem. Molestiae ut, ipsam quasi modi hic
-                                doloremque corporis est delectus neque quo nemo non, velit dolorum beatae, voluptatibus
-                                nesciunt saepe eligendi rem earum error dicta? Delectus debitis perspiciatis cum veniam
-                                exercitationem natus sunt aspernatur eius facere quod praesentium blanditiis nisi
-                                repudiandae ullam voluptate atque, quos iusto fuga provident distinctio sequi deserunt quam,
-                                ducimus ipsa! Voluptatem necessitatibus sint, perferendis, reprehenderit excepturi pariatur
-                                nulla illum rem ipsa unde praesentium, est velit! Quis quibusdam illo rem esse aperiam quos,
-                                labore molestiae, qui ab similique incidunt! Animi mollitia architecto laborum unde nihil
-                                tempora impedit et, fuga quo minus perspiciatis amet, nulla cum quam ipsa illum facilis
-                                corporis! Quia, repellat rerum eius magni ullam libero, animi quibusdam aliquid iusto, illum
-                                laudantium dignissimos quo. Error animi, eaque maxime unde facilis sint fugit quas
-                                praesentium dolor impedit odio sapiente nesciunt temporibus recusandae id minima! Ad enim,
-                                ut quam sit placeat nesciunt illo sapiente impedit quidem dignissimos cupiditate deserunt
-                                tempore? Facilis accusamus est eligendi vel amet, beatae tempore. Velit asperiores eveniet
-                                temporibus ipsa autem saepe fugiat numquam laudantium quis fuga nisi quia ea vitae
-                                consequuntur ut perferendis sint voluptates incidunt ex tenetur at, itaque quam suscipit. Ex
-                                enim ut similique ipsum a vitae impedit. Ut repudiandae perferendis sit, animi, ad a dolores
-                                eligendi voluptas ipsam laborum ipsa error autem aut quo iste, corporis atque rerum vel
-                                fugiat dolorum ab! Quia repudiandae ullam dignissimos eligendi veniam maiores doloribus
-                                deleniti impedit corporis sequi ducimus sapiente officia eaque cupiditate cum quasi soluta
-                                illo perspiciatis necessitatibus, temporibus inventore. Harum dicta illo corrupti dolorum
-                                illum voluptatem dolore et non excepturi atque ex, praesentium facilis? Reiciendis labore
-                                praesentium optio odio explicabo sequi aspernatur, impedit nam inventore placeat pariatur
-                                dolor repellendus accusantium, facilis ea quis iusto, aperiam delectus autem! Voluptas nam
-                                dignissimos, commodi quia sed, animi, fugiat soluta mollitia aliquam rerum ab ipsa velit vel
-                                earum sapiente accusamus dolor minus dolores culpa. Totam suscipit fugiat non, corporis
-                                neque molestiae in natus nulla ipsa libero labore, quae expedita soluta molestias fugit
-                                vitae placeat corrupti architecto quaerat! Voluptatem reprehenderit, soluta saepe officia
-                                explicabo laborum minima placeat, rerum numquam deserunt fugit vero in, eos nisi at
-                                sapiente. Nihil ratione nisi, nesciunt quo exercitationem quod culpa sint enim consequatur
-                                itaque beatae sunt ea accusantium, explicabo voluptates ducimus deserunt possimus
-                                perferendis magni assumenda illum ab quidem placeat. Ex, error saepe! Ad suscipit beatae
-                                necessitatibus itaque. Sint sit optio, eaque excepturi unde laboriosam accusamus laborum
-                                exercitationem perferendis autem, ipsam adipisci necessitatibus alias fugit delectus
-                                accusantium architecto. Totam velit neque voluptatum illo nostrum fugiat laboriosam impedit
-                                corporis voluptas non modi blanditiis, obcaecati esse rerum. Laborum doloribus odit rem, ex
-                                repellendus nemo dolor quisquam eum autem doloremque libero, quae fuga illum consequuntur
-                                quod! Ipsam sunt nulla a, inventore, amet aperiam voluptatem dicta laboriosam, officia vitae
-                                debitis odit architecto ad optio!
-                            </p>
-                        </div>
+                {{-- list katalog produk --}}
+                <div class="col-xl-7 col-lg-7 col-md-7 col-sm-12 mb-3" id="product-service">
+                    <div class="row justify-content-around">
+
+                        {{-- katalog produk --}}
+                        @foreach ($products as $value)
+                            <div class="item col-6 d-flex justify-content-center p-1">
+                                <div class="card my-2 shadow-sm p-4 card-hover">
+                                    <a href="#!" class="img-wrap">
+                                        <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
+                                            title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
+                                    </a>
+                                    <div class="card-body p-0 pt-2">
+                                        <h6 class="card-title product-title mt-2 pt-2 limit-text"
+                                            title="{{ $value->name }}">
+                                            <span class="text-black fw-bold">{{ $value->name }}</span>
+                                        </h6>
+
+                                        <div class="product-details">
+                                            <div class="row">
+                                                <div class="col d-flex">
+                                                    <span class="card-text mx-auto my-auto">
+                                                        <span class="text-theme-two fw-bold">Rp.
+                                                            {{ priceConversion($value->price) }}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col d-flex">
+                                                    <div class="product-rating mx-auto my-auto">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-half"></i>
+                                                        <span class="rating-number fw-medium text-theme">(4.5)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-between mt-1">
+                                                <div class="col-6 d-flex">
+                                                    @if ($value->status == 'Tersedia')
+                                                        <span class="status-available-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @elseif ($value->status == 'Pre Order')
+                                                        <span class="status-pre-order-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @elseif ($value->status == 'Habis')
+                                                        <span class="status-run-out-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col bg-danger d-flex">
+                                                <div class="mx-auto my-auto">
+                                                    <span
+                                                        class="fw-medium text-theme new-badge">{{ $value->condition }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if ($carts->contains('product_id', $value->id))
+                                            <div class="row">
+                                                <a href="#!" type="button"
+                                                    class="btn btn-checklist-on icon-cart-hover mt-3"
+                                                    title="Produk ada di keranjang"> On My Cart
+                                                </a>
+                                            </div>
+                                        @else
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-3"
+                                                        title="Produk ada di keranjang"> Product
+                                                        Unavailable
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <form action="{{ route('cart.store', $value->id) }}" method="POST">
+                                                    @csrf
+
+                                                    <div class="row">
+                                                        <button type="submit"
+                                                            class="btn btn-checklist icon-cart-hover mt-3"
+                                                            title="Tambah ke keranjang?"><i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp; ADD TO
+                                                            CART
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
+                        {{-- katalog jasa --}}
+                        @foreach ($services as $value)
+                            <div class="item col-6 d-flex justify-content-center p-1">
+                                <div class="card my-2 shadow-sm p-4 card-hover">
+                                    <a href="#!" class="img-wrap">
+                                        <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
+                                            title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
+                                    </a>
+                                    <div class="card-body p-0 pt-2">
+                                        <h6 class="card-title mt-2 pt-2 limit-text" title="{{ $value->name }}">
+                                            <span class="text-black fw-bold">{{ $value->name }}</span>
+                                        </h6>
+
+                                        <div class="row">
+                                            <div class="col d-flex">
+                                                <span class="card-text mx-auto my-auto">
+                                                    <span class="text-theme-two fw-bold">Rp.
+                                                        {{ priceConversion($value->price_per_pcs) }}</span>
+                                                </span>
+                                            </div>
+                                            <div class="col d-flex">
+                                                <div class="product-rating mx-auto my-auto">
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star-half"></i>
+                                                    <span class="rating-number fw-medium text-theme">(4.5)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col bg-danger d-flex">
+                                                <div class="mx-auto my-auto">
+                                                    <span
+                                                        class="fw-medium text-theme new-badge">{{ $value->estimation }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row justify-content-between my-2">
+                                            <div class="col-6 d-flex">
+                                                <span class="status-available-badge">
+                                                    {{ $value->category->name }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        @if ($carts->contains('product_id', $value->id))
+                                            <div class="row">
+                                                <a href="#!" type="button"
+                                                    class="btn btn-checklist-on icon-cart-hover mt-3"
+                                                    title="Produk ada di keranjang"> On My Cart
+                                                </a>
+                                            </div>
+                                        @else
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-3"
+                                                        title="Produk ada di keranjang"> Product
+                                                        Unavailable
+                                                    </a>
+                                                </div>
+                                            @else
+                                                <form action="{{ route('cart.store', $value->id) }}" method="POST">
+                                                    @csrf
+
+                                                    <div class="row">
+                                                        <button type="submit"
+                                                            class="btn btn-checklist icon-cart-hover mt-2"
+                                                            title="Order Jasa?"><i class="fa-solid fa-cart-plus"></i>
+                                                            &ensp; ADD TO CART
+                                                        </button>
+                                                    </div>
+
+                                                </form>
+                                            @endif
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script>
+        const ratingInputs = document.querySelectorAll('.rating-input');
+
+        ratingInputs.forEach(ratingInput => {
+            ratingInput.addEventListener('change', () => {
+                const currentRating = ratingInput.value;
+                const starLabels = ratingInput.parentNode.parentNode.querySelectorAll('.rating-label i');
+
+                starLabels.forEach((starLabel, index) => {
+                    if (index < currentRating) {
+                        starLabel.classList.add('checked');
+                    } else {
+                        starLabel.classList.remove('checked');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

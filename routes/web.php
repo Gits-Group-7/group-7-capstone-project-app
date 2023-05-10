@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 // Route Beranda Cuustomer
 Route::get('/', [PageController::class, 'berandaPage'])->name('customer.beranda');
 Route::get('/toko-print-shop', [PageController::class, 'storePage'])->name('customer.store');
+Route::get('/ulasan-print-shop', [PageController::class, 'ratingStore'])->name('customer.store.rating');
 
 // Route Transaction
 Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');

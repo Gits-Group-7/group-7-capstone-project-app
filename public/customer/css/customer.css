@@ -429,3 +429,17 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.star-rating {
+    color: #ccc;
+    font-size: 35px;
+}
+
+.star-rating.checked {
+    color: #ffd700;
+    font-size: 35px;
+}
+
+.rating-input {
+    display: none;
+}
