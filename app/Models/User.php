@@ -46,4 +46,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // satu user dapat melakuka banyak rating shop
+    public function shopRatings()
+    {
+        return $this->hasMany(ShopRating::class);
+    }
 }

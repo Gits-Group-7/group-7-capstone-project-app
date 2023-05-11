@@ -6,6 +6,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\ShopRating;
 use Livewire\Component;
 
 class FilterProductService extends Component
@@ -20,7 +21,8 @@ class FilterProductService extends Component
     public function render()
     {
         // controller variables
-        $categories = Category::orderBy('type', 'asc')->where('status', 'Aktif')->get();
+        $latest_rating = ShopRating::latest()->take(2)->with('user')->get();
+        $categories = Category::orderBy('type', 'asc')->where('status', 'Aktif')->whereHas('product')->orWhereHas('service')->get();
         $carts = Cart::orderBy('created_at', 'desc')->get();
 
         $query_products = Product::query();
@@ -37,7 +39,7 @@ class FilterProductService extends Component
         $services = $query_services->get();
 
         // dd($this->byCategories);
-        return view('livewire.filter-product-service', compact('products', 'services', 'categories', 'carts'));
+        return view('livewire.filter-product-service', compact('products', 'services', 'categories', 'carts', 'latest_rating'));
     }
 
     public function filterByCategories($categoryId)

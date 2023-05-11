@@ -5,6 +5,11 @@
 @endsection
 
 @php
+    // function round_down_half($number)
+    // {
+    //     return floor($number * 2) / 2;
+    // }
+    
     // fungsi auto repair one word
     function underscore($string)
     {
@@ -37,13 +42,28 @@
                                     <div class="my-auto mx-auto text-store">
                                         <h2 class="fw-bold text-theme">Print-Shop</h2>
                                         <div class="product-rating mx-auto my-auto">
-                                            Rating :
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <span class="rating-number fw-medium text-theme">(5)</span>
+                                            <div class="d-flex justify-content-around">
+                                                <div>
+                                                    Rating :
+                                                </div>
+
+                                                @php
+                                                    $rating = $averageRating;
+                                                    $whole = floor($rating);
+                                                    $fraction = $rating - $whole;
+                                                @endphp
+
+                                                <div class="product-rating mt-1">
+                                                    @for ($i = 0; $i < $whole; $i++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+                                                    @if ($fraction > 0)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @endif
+                                                </div>
+                                            </div>
+
+                                            <span class="rating-number fw-medium text-theme">({{ $averageRating }})</span>
                                         </div>
                                         <br>
                                         <i class="fa-solid fa-clock text-theme"></i> 09.00 WIB - 18.00 WIB

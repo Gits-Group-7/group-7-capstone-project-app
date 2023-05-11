@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\PromoBanner;
 use App\Models\Service;
+use App\Models\ShopRating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,20 +70,15 @@ class PageController extends Controller
 
     public function storePage()
     {
-        $data = [
-            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
-            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
-        ];
-        return view('pages.customer.toko-print-shop', $data);
-    }
+        $averageRating = ShopRating::avg('rating');
 
-    public function ratingStore()
-    {
         $data = [
+            'averageRating' => round($averageRating * 2) / 2,
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
-        return view('pages.customer.rating-toko.daftar-ulasan-toko', $data);
+
+        return view('pages.customer.toko-print-shop', $data);
     }
 
     // fungsi menu admin
