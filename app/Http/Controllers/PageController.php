@@ -81,6 +81,34 @@ class PageController extends Controller
         return view('pages.customer.toko-print-shop', $data);
     }
 
+    public function detailProduct($id)
+    {
+        $data = [
+            'latest_products' => Product::latest()->take(4)->get(),
+            'ratings' => ShopRating::latest()->take(2)->get(),
+            'carts' => Cart::orderBy('created_at', 'desc')->get(),
+            'product' => Product::findOrFail($id),
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+        ];
+
+        return view('pages.customer.katalog.detail-produk', $data);
+    }
+
+    public function detailService($id)
+    {
+        $data = [
+            'latest_services' => Service::latest()->take(4)->get(),
+            'ratings' => ShopRating::latest()->take(2)->get(),
+            'carts' => Cart::orderBy('created_at', 'desc')->get(),
+            'service' => Service::findOrFail($id),
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+        ];
+
+        return view('pages.customer.katalog.detail-jasa', $data);
+    }
+
     // fungsi menu admin
     public function customer()
     {

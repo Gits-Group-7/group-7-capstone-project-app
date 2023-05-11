@@ -375,8 +375,8 @@ body {
 
 .status-pre-order-badge {
     position: absolute;
-    bottom: 70px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     padding: 5px 10px;
     background-color: #2b4865;
     color: #fff !important;
@@ -389,8 +389,8 @@ body {
 
 .status-run-out-badge {
     position: absolute;
-    bottom: 70px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     padding: 5px 10px;
     background-color: #fc4f4f;
     color: #fff !important;

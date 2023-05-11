@@ -22,6 +22,9 @@ Route::get('/toko-print-shop', [PageController::class, 'storePage'])->name('cust
 Route::get('/ulasan-print-shop', [ShopRatingsController::class, 'index'])->name('customer.store.rating');
 Route::post('/tambah-ulasan/{id}', [ShopRatingsController::class, 'store'])->name('customer.rating.store');
 
+Route::get('/detail-produk/{id}', [PageController::class, 'detailProduct'])->name('customer.product.detail');
+Route::get('/detail-layanan-jasa/{id}', [PageController::class, 'detailService'])->name('customer.service.detail');
+
 // Route Transaction
 Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');
 Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');

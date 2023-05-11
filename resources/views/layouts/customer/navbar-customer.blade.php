@@ -6,7 +6,7 @@
             <div class="row gy-3">
                 <!-- Left elements -->
                 <div class="col-lg-2 col-sm-4 col-4 d-flex">
-                    <a href="{{ route('customer.beranda') }}" class="float-start my-auto">
+                    <a href="{{ route('customer.beranda') }}" target="_blank" class="float-start my-auto">
                         <img class="logo-1 img-fluid" src="{{ asset('admin/images/print-shop-logo-title.png') }}" />
                         <img class="logo-2 img-fluid" src="{{ asset('admin/images/print-shop-logo.png') }}" />
                     </a>
@@ -131,7 +131,7 @@
                         <!-- Dropdown menu -->
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">About</a>
+                                <a class="dropdown-item" href="{{ route('customer.store') }}">About</a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#">Promo</a>

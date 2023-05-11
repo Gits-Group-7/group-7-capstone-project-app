@@ -18,22 +18,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
@@ -129,7 +129,8 @@
                                     @if ($item->category_id == $value->category_id)
                                         <div class="item col-md-12 d-flex justify-content-center p-1">
                                             <div class="card my-2 shadow-sm p-4 card-hover">
-                                                <a href="#!" class="img-wrap">
+                                                <a href="{{ route('customer.product.detail', $value->id) }}"
+                                                    class="img-wrap">
                                                     <img src="{{ Storage::url($value->photo) }}"
                                                         class="card-img-top rounded" title="{{ $value->name }}"
                                                         style="aspect-ratio: 1 / 1">
@@ -269,7 +270,8 @@
                                     @if ($item->category_id == $value->category_id)
                                         <div class="item col-md-12 d-flex justify-content-center p-1">
                                             <div class="card my-2 shadow-sm p-4 card-hover">
-                                                <a href="#!" class="img-wrap">
+                                                <a href="{{ route('customer.service.detail', $value->id) }}"
+                                                    class="img-wrap">
                                                     <img src="{{ Storage::url($value->photo) }}"
                                                         class="card-img-top rounded" title="{{ $value->name }}"
                                                         style="aspect-ratio: 1 / 1">
@@ -321,7 +323,7 @@
                                                         <div class="row">
                                                             <a href="#!" type="button"
                                                                 class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                                title="Produk ada di keranjang"> On My Cart
+                                                                title="Produk ada di keranjang"> On My Order
                                                             </a>
                                                         </div>
                                                     @else

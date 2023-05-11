@@ -7,13 +7,13 @@
             $slug = explode('-', $date);
             return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
         }
-        
+
         function priceConversion($price)
         {
             $formattedPrice = number_format($price, 0, ',', '.');
             return $formattedPrice;
         }
-        
+
         function convertToTitleCase($string)
         {
             return ucfirst($string);
@@ -133,6 +133,116 @@
                                             data-bs-target="#kt_modal_stacked_1">
                                             Tulis Rating Toko
                                         </button>
+
+                                        {{-- Modal Rating --}}
+                                        <div class="modal fade" tabindex="-1" id="kt_modal_stacked_1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Rating Toko <span
+                                                                class="fw-medium">"Print-Shop"</span></h5>
+
+                                                        <!--begin::Close-->
+                                                        <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                            <i class="ki-duotone ki-cross fs-1"><span
+                                                                    class="path1"></span><span class="path2"></span></i>
+                                                        </div>
+                                                        <!--end::Close-->
+                                                    </div>
+
+                                                    <div class="modal-body">
+                                                        <form
+                                                            action="{{ route('customer.rating.store', Auth::user()->id) }}"
+                                                            method="POST">
+                                                            @csrf
+
+                                                            <div class="form-group mx-3 mb-4">
+                                                                <label for="rating" class="fw-medium mb-2">Berapa Rating
+                                                                    Anda
+                                                                    untuk
+                                                                    Toko Ini</label>
+
+                                                                <div class="rating d-flex justify-content-around my-2">
+                                                                    <div class="">
+                                                                        <!--begin::Star 1-->
+                                                                        <label class="rating-label" for="kt_rating_input_1">
+                                                                            <i class="fa-solid fa-star star-rating"></i>
+                                                                        </label>
+                                                                        <input class="rating-input" name="rating"
+                                                                            value="1" type="radio"
+                                                                            id="kt_rating_input_1" />
+                                                                        <!--end::Star 1-->
+                                                                    </div>
+
+                                                                    <div class="">
+                                                                        <!--begin::Star 2-->
+                                                                        <label class="rating-label" for="kt_rating_input_2">
+                                                                            <i class="fa-solid fa-star star-rating"></i>
+                                                                        </label>
+                                                                        <input class="rating-input" name="rating"
+                                                                            value="2" type="radio"
+                                                                            id="kt_rating_input_2" name="rating" />
+                                                                        <!--end::Star 2-->
+                                                                    </div>
+
+                                                                    <div class="">
+                                                                        <!--begin::Star 3-->
+                                                                        <label class="rating-label" for="kt_rating_input_3">
+                                                                            <i class="fa-solid fa-star star-rating"></i>
+                                                                        </label>
+                                                                        <input class="rating-input" name="rating"
+                                                                            value="3" type="radio"
+                                                                            id="kt_rating_input_3" name="rating" />
+                                                                        <!--end::Star 3-->
+                                                                    </div>
+
+                                                                    <div class="">
+                                                                        <!--begin::Star 4-->
+                                                                        <label class="rating-label"
+                                                                            for="kt_rating_input_4">
+                                                                            <i class="fa-solid fa-star star-rating"></i>
+                                                                        </label>
+                                                                        <input class="rating-input" name="rating"
+                                                                            value="4" type="radio"
+                                                                            id="kt_rating_input_4" name="rating" />
+                                                                        <!--end::Star 4-->
+                                                                    </div>
+
+                                                                    <div class="">
+                                                                        <!--begin::Star 5-->
+                                                                        <label class="rating-label"
+                                                                            for="kt_rating_input_5">
+                                                                            <i class="fa-solid fa-star star-rating"></i>
+                                                                        </label>
+                                                                        <input class="rating-input" name="rating"
+                                                                            value="5" type="radio"
+                                                                            id="kt_rating_input_5" name="rating" />
+                                                                        <!--end::Star 5-->
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="form-group m-3">
+                                                                <label for="comment" class="fw-medium mb-2">Komentar
+                                                                    Rating</label>
+                                                                <textarea class="form-control" id="comment" rows="4" name="comment"
+                                                                    placeholder="Berikan Komentar Positif pada Toko kami"></textarea>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-unconfirm"
+                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                <button type="submit" class="btn btn-confirm">Tambah
+                                                                    Ulasan</button>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endif
                                 @endauth
 
@@ -141,109 +251,6 @@
                                         memberikan
                                         rating</a>
                                 @endguest
-                            </div>
-
-                            {{-- Modal Rating --}}
-                            <div class="modal fade" tabindex="-1" id="kt_modal_stacked_1">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title">Rating Toko <span
-                                                    class="fw-medium">"Print-Shop"</span></h5>
-
-                                            <!--begin::Close-->
-                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span
-                                                        class="path2"></span></i>
-                                            </div>
-                                            <!--end::Close-->
-                                        </div>
-
-                                        <div class="modal-body">
-                                            <form action="{{ route('customer.rating.store', Auth::user()->id) }}"
-                                                method="POST">
-                                                @csrf
-
-                                                <div class="form-group mx-3 mb-4">
-                                                    <label for="rating" class="fw-medium mb-2">Berapa Rating Anda
-                                                        untuk
-                                                        Toko Ini</label>
-
-                                                    <div class="rating d-flex justify-content-around my-2">
-                                                        <div class="">
-                                                            <!--begin::Star 1-->
-                                                            <label class="rating-label" for="kt_rating_input_1">
-                                                                <i class="fa-solid fa-star star-rating"></i>
-                                                            </label>
-                                                            <input class="rating-input" name="rating" value="1"
-                                                                type="radio" id="kt_rating_input_1" />
-                                                            <!--end::Star 1-->
-                                                        </div>
-
-                                                        <div class="">
-                                                            <!--begin::Star 2-->
-                                                            <label class="rating-label" for="kt_rating_input_2">
-                                                                <i class="fa-solid fa-star star-rating"></i>
-                                                            </label>
-                                                            <input class="rating-input" name="rating" value="2"
-                                                                type="radio" id="kt_rating_input_2" name="rating" />
-                                                            <!--end::Star 2-->
-                                                        </div>
-
-                                                        <div class="">
-                                                            <!--begin::Star 3-->
-                                                            <label class="rating-label" for="kt_rating_input_3">
-                                                                <i class="fa-solid fa-star star-rating"></i>
-                                                            </label>
-                                                            <input class="rating-input" name="rating" value="3"
-                                                                type="radio" id="kt_rating_input_3" name="rating" />
-                                                            <!--end::Star 3-->
-                                                        </div>
-
-                                                        <div class="">
-                                                            <!--begin::Star 4-->
-                                                            <label class="rating-label" for="kt_rating_input_4">
-                                                                <i class="fa-solid fa-star star-rating"></i>
-                                                            </label>
-                                                            <input class="rating-input" name="rating" value="4"
-                                                                type="radio" id="kt_rating_input_4"
-                                                                name="rating" />
-                                                            <!--end::Star 4-->
-                                                        </div>
-
-                                                        <div class="">
-                                                            <!--begin::Star 5-->
-                                                            <label class="rating-label" for="kt_rating_input_5">
-                                                                <i class="fa-solid fa-star star-rating"></i>
-                                                            </label>
-                                                            <input class="rating-input" name="rating" value="5"
-                                                                type="radio" id="kt_rating_input_5"
-                                                                name="rating" />
-                                                            <!--end::Star 5-->
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
-                                                <div class="form-group m-3">
-                                                    <label for="comment" class="fw-medium mb-2">Komentar
-                                                        Rating</label>
-                                                    <textarea class="form-control" id="comment" rows="4" name="comment"
-                                                        placeholder="Berikan Komentar Positif pada Toko kami"></textarea>
-                                                </div>
-
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-unconfirm"
-                                                        data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-confirm">Tambah
-                                                        Ulasan</button>
-                                                </div>
-                                            </form>
-
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="col-12">
@@ -266,7 +273,8 @@
                                 @if ($product->category_id == $byCategories)
                                     <div class="item col-6 d-flex justify-content-center p-1">
                                         <div class="card my-2 shadow-sm p-4 card-hover">
-                                            <a href="#!" class="img-wrap">
+                                            <a href="{{ route('customer.product.detail', $product->id) }}"
+                                                class="img-wrap">
                                                 <img src="{{ Storage::url($product->photo) }}"
                                                     class="card-img-top rounded" title="{{ $product->name }}"
                                                     style="aspect-ratio: 1 / 1">
@@ -372,7 +380,8 @@
                                 @if ($service->category_id == $byCategories)
                                     <div class="item col-6 d-flex justify-content-center p-1">
                                         <div class="card my-2 shadow-sm p-4 card-hover">
-                                            <a href="#!" class="img-wrap">
+                                            <a href="{{ route('customer.service.detail', $service->id) }}"
+                                                class="img-wrap">
                                                 <img src="{{ Storage::url($service->photo) }}"
                                                     class="card-img-top rounded" title="{{ $service->name }}"
                                                     style="aspect-ratio: 1 / 1">
@@ -464,7 +473,7 @@
                         @foreach ($products as $value)
                             <div class="item col-6 d-flex justify-content-center p-1">
                                 <div class="card my-2 shadow-sm p-4 card-hover">
-                                    <a href="#!" class="img-wrap">
+                                    <a href="{{ route('customer.product.detail', $value->id) }}" class="img-wrap">
                                         <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
                                             title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
                                     </a>
@@ -563,7 +572,7 @@
                         @foreach ($services as $value)
                             <div class="item col-6 d-flex justify-content-center p-1">
                                 <div class="card my-2 shadow-sm p-4 card-hover">
-                                    <a href="#!" class="img-wrap">
+                                    <a href="{{ route('customer.service.detail', $value->id) }}" class="img-wrap">
                                         <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
                                             title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
                                     </a>
