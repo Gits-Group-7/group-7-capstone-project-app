@@ -5,6 +5,14 @@
 @endsection
 
 @php
+    // fungsi konversi data tipe date ke tanggal
+    function dateConversion($date)
+    {
+        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $slug = explode('-', $date);
+        return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
+    }
+    
     function convertToTitleCase($string)
     {
         return ucfirst($string);
@@ -56,7 +64,7 @@
                                     </div>
                                     <div class="col-md-8 col-12">
                                         <h5 class="mb-0">{{ $item->user->name }}</h5>
-                                        <p class="small text-secondary mb-2">8 Mei 2023</p>
+                                        <p class="small text-secondary mb-2">{{ dateConversion($item->rating_date) }}</p>
 
                                         <div class="product-rating mt-1">
                                             @if ($item->rating >= 1)

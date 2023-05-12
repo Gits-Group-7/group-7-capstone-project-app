@@ -5,21 +5,29 @@
 @endsection
 
 @php
+    // fungsi konversi data tipe date ke tanggal
+    function dateConversion($date)
+    {
+        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $slug = explode('-', $date);
+        return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
+    }
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
@@ -189,7 +197,7 @@
                             <button class="btn btn-chat text-dark d-flex align-items-center justify-content-center w-100"
                                 type="button" data-mdb-toggle="collapse" data-mdb-target="#seller-profile-collapse"
                                 aria-expanded="true" aria-controls="seller-profile-collapse">
-                                Lihat Ulasan Produk &ensp; <i class="fa-solid fa-caret-down"></i>
+                                Lihat Ulasan Layanan Jasa &ensp; <i class="fa-solid fa-caret-down"></i>
                             </button>
                         </div>
 
@@ -197,60 +205,190 @@
                             data-parent="#ex1">
 
                             <div class="row justify-content-center pb-4">
-                                @foreach ($ratings as $item)
-                                    <div class="col-lg-10 mt-4">
-                                        <div id="rating-user" class="card border">
-                                            <div class="card-body m-3">
-                                                <div class="row align-items-center">
-                                                    <div class="col-md-4 col-12 mb-3 mb-md-0">
-                                                        <img src="{{ Storage::url($item->user->photo) }}" alt=""
-                                                            class="img-thumbnail rounded-circle">
-                                                    </div>
-                                                    <div class="col-md-8 col-12">
-                                                        <h5 class="mb-0">{{ $item->user->name }}</h5>
-                                                        <p class="small text-secondary mb-2">8 Mei 2023</p>
+                                @auth
+                                    @if (Auth::user()->role == 'customer')
+                                        <div class="col-10 mt-4">
+                                            <button type="button" class="btn btn-block btn-rating" data-bs-toggle="modal"
+                                                data-bs-target="#kt_modal_stacked_1">
+                                                Tulis Rating Jasa ({{ $service->name }})
+                                            </button>
 
-                                                        <div class="product-rating mt-1">
-                                                            @if ($item->rating >= 1)
-                                                                <i class="fa fa-star"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
-                                                            @if ($item->rating >= 2)
-                                                                <i class="fa fa-star"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
-                                                            @if ($item->rating >= 3)
-                                                                <i class="fa fa-star"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
-                                                            @if ($item->rating >= 4)
-                                                                <i class="fa fa-star"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
-                                                            @if ($item->rating >= 5)
-                                                                <i class="fa fa-star"></i>
-                                                            @else
-                                                                <i class="fa fa-star-o"></i>
-                                                            @endif
+                                            {{-- Modal Rating --}}
+                                            <div class="modal fade" tabindex="-1" id="kt_modal_stacked_1">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Tambah Ulasan Jasa</h5>
+
+                                                            <!--begin::Close-->
+                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                <i class="ki-duotone ki-cross fs-1"><span
+                                                                        class="path1"></span><span class="path2"></span></i>
+                                                            </div>
+                                                            <!--end::Close-->
                                                         </div>
 
-                                                        <p id="comment-rating" class="mt-3 mb-0 text-secondary small">
-                                                            @if (!$item->comment == '')
-                                                                {{ $item->comment }}
-                                                            @else
-                                                                <i>"Customer ini tidak mendeskripsikan ulasan"</i>
-                                                            @endif
-                                                        </p>
+                                                        <div class="modal-body">
+                                                            <form
+                                                                action="{{ route('customer.rating.service', ['service_id' => $service->id, 'user_id' => Auth::user()->id]) }}"
+                                                                method="POST">
+                                                                @csrf
+
+                                                                <div class="form-group mx-3 mb-4">
+                                                                    <label for="rating" class="fw-medium mb-2">Berapa Rating
+                                                                        Anda
+                                                                        untuk
+                                                                        Jasa Ini</label>
+
+                                                                    <div class="rating d-flex justify-content-around my-2">
+                                                                        <div class="">
+                                                                            <!--begin::Star 1-->
+                                                                            <label class="rating-label"
+                                                                                for="kt_rating_input_1">
+                                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                                            </label>
+                                                                            <input class="rating-input" name="rating"
+                                                                                value="1" type="radio"
+                                                                                id="kt_rating_input_1" />
+                                                                            <!--end::Star 1-->
+                                                                        </div>
+
+                                                                        <div class="">
+                                                                            <!--begin::Star 2-->
+                                                                            <label class="rating-label"
+                                                                                for="kt_rating_input_2">
+                                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                                            </label>
+                                                                            <input class="rating-input" name="rating"
+                                                                                value="2" type="radio"
+                                                                                id="kt_rating_input_2" name="rating" />
+                                                                            <!--end::Star 2-->
+                                                                        </div>
+
+                                                                        <div class="">
+                                                                            <!--begin::Star 3-->
+                                                                            <label class="rating-label"
+                                                                                for="kt_rating_input_3">
+                                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                                            </label>
+                                                                            <input class="rating-input" name="rating"
+                                                                                value="3" type="radio"
+                                                                                id="kt_rating_input_3" name="rating" />
+                                                                            <!--end::Star 3-->
+                                                                        </div>
+
+                                                                        <div class="">
+                                                                            <!--begin::Star 4-->
+                                                                            <label class="rating-label"
+                                                                                for="kt_rating_input_4">
+                                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                                            </label>
+                                                                            <input class="rating-input" name="rating"
+                                                                                value="4" type="radio"
+                                                                                id="kt_rating_input_4" name="rating" />
+                                                                            <!--end::Star 4-->
+                                                                        </div>
+
+                                                                        <div class="">
+                                                                            <!--begin::Star 5-->
+                                                                            <label class="rating-label"
+                                                                                for="kt_rating_input_5">
+                                                                                <i class="fa-solid fa-star star-rating"></i>
+                                                                            </label>
+                                                                            <input class="rating-input" name="rating"
+                                                                                value="5" type="radio"
+                                                                                id="kt_rating_input_5" name="rating" />
+                                                                            <!--end::Star 5-->
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="form-group m-3">
+                                                                    <label for="comment" class="fw-medium mb-2">Komentar
+                                                                        Ulasan</label>
+                                                                    <textarea class="form-control" id="comment" rows="4" name="comment"
+                                                                        placeholder="Berikan ulasan positif pada jasa kami"></textarea>
+                                                                </div>
+
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-unconfirm"
+                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                    <button type="submit" class="btn btn-confirm">Tambah
+                                                                        Ulasan</button>
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    @endif
+                                @endauth
+
+                                @if ($ratings->isEmpty())
+                                    <div class="col-10 mt-4">
+                                        <span class="text-secondary">*Ulasan layanan jasa ini belum ditambahkan</span>
                                     </div>
-                                @endforeach
+                                @else
+                                    @foreach ($ratings as $item)
+                                        <div class="col-10 mt-4">
+                                            <div id="rating-user" class="card border">
+                                                <div class="card-body m-3">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-md-4 col-12 mb-3 mb-md-0">
+                                                            <img src="{{ Storage::url($item->user->photo) }}"
+                                                                alt="" class="img-thumbnail rounded-circle">
+                                                        </div>
+                                                        <div class="col-md-8 col-12">
+                                                            <h5 class="mb-0">{{ $item->user->name }}</h5>
+                                                            <p class="small text-secondary mb-2">
+                                                                {{ dateConversion($item->rating_date) }}</p>
+
+                                                            <div class="product-rating mt-1">
+                                                                @if ($item->rating >= 1)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                                @if ($item->rating >= 2)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                                @if ($item->rating >= 3)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                                @if ($item->rating >= 4)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                                @if ($item->rating >= 5)
+                                                                    <i class="fa fa-star"></i>
+                                                                @else
+                                                                    <i class="fa fa-star-o"></i>
+                                                                @endif
+                                                            </div>
+
+                                                            <p id="comment-rating" class="mt-3 mb-0 text-secondary small">
+                                                                @if (!$item->comment == '')
+                                                                    {{ $item->comment }}
+                                                                @else
+                                                                    <i>"Customer ini tidak mendeskripsikan ulasan"</i>
+                                                                @endif
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
 
                         </div>
@@ -282,7 +420,7 @@
                     <div class="px-0 rounded-2 shadow-0">
                         <div class="card">
                             <div class="card-body">
-                                <h6 class="card-title">Kategori Produk Serupa</h6>
+                                <h6 class="card-title">Kategori Jasa Serupa</h6>
                                 <br>
 
                                 @foreach ($latest_services as $item)
@@ -309,4 +447,25 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script>
+        const ratingInputs = document.querySelectorAll('.rating-input');
+
+        ratingInputs.forEach(ratingInput => {
+            ratingInput.addEventListener('change', () => {
+                const currentRating = ratingInput.value;
+                const starLabels = ratingInput.parentNode.parentNode.querySelectorAll('.rating-label i');
+
+                starLabels.forEach((starLabel, index) => {
+                    if (index < currentRating) {
+                        starLabel.classList.add('checked');
+                    } else {
+                        starLabel.classList.remove('checked');
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

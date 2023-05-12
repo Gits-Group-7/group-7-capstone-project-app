@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\ShopRating;
+use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Pagination\Paginator;
 
-class ShopRatingsController extends Controller
+class ProductRatingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +17,7 @@ class ShopRatingsController extends Controller
      */
     public function index()
     {
-        $data = [
-            'ratings' => ShopRating::paginate(6),
-            'rating_count' => ShopRating::count(),
-            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
-            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
-        ];
-        return view('pages.customer.rating-toko.daftar-ulasan-toko', $data);
+        //
     }
 
     /**
@@ -43,7 +36,7 @@ class ShopRatingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request, $product_id, $user_id)
     {
         // Get authenticated user
         $user = Auth::user();
@@ -54,7 +47,10 @@ class ShopRatingsController extends Controller
         }
 
         // Get the user data
-        $userData = User::findOrFail($id);
+        $userData = User::findOrFail($user_id);
+
+        // Get the product data
+        $productData = Product::findOrFail($product_id);
 
         // Validate the request data
         $validated = $request->validate([
@@ -62,13 +58,14 @@ class ShopRatingsController extends Controller
         ]);
 
         // Create a new shop rating record
-        ShopRating::create([
+        ProductRating::create([
             'rating' => $validated['rating'],
             'comment' => $request->comment,
+            'product_id' => $productData->id,
             'user_id' => $userData->id,
         ]);
 
-        return redirect()->route('customer.store.rating');
+        return redirect()->route('customer.product.detail', $productData->id);
     }
 
     /**

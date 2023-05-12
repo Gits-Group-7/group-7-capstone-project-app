@@ -51,6 +51,12 @@ class Product extends Model
         return $this->hasMany(PromoBanner::class);
     }
 
+    // satu produk memiliki banyak rating (produk)
+    public function product_rating()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
     public function carts()
     {
         return $this->hasMany(Cart::class);

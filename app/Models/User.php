@@ -47,9 +47,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // satu user dapat melakuka banyak rating shop
-    public function shopRatings()
+    // satu user dapat melakukan banyak rating shop
+    public function user_shop_rating()
     {
         return $this->hasMany(ShopRating::class);
+    }
+
+    // satu user dapat melakukan banyak rating product
+    public function user_product_rating()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
+    // satu user dapat melakukan banyak rating service
+    public function user_service_rating()
+    {
+        return $this->hasMany(ServiceRating::class);
     }
 }

@@ -8,8 +8,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductRatingsController;
+use App\Http\Controllers\ProductServiceRatingsController;
 use App\Http\Controllers\PromoBannerController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\ServiceRatingsController;
 use App\Http\Controllers\ShopRatingsController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
@@ -20,10 +23,12 @@ Route::get('/toko-print-shop', [PageController::class, 'storePage'])->name('cust
 
 // rating shop
 Route::get('/ulasan-print-shop', [ShopRatingsController::class, 'index'])->name('customer.store.rating');
-Route::post('/tambah-ulasan/{id}', [ShopRatingsController::class, 'store'])->name('customer.rating.store');
+Route::post('/tambah-ulasan-toko/{id}', [ShopRatingsController::class, 'store'])->name('customer.rating.store');
 
 Route::get('/detail-produk/{id}', [PageController::class, 'detailProduct'])->name('customer.product.detail');
 Route::get('/detail-layanan-jasa/{id}', [PageController::class, 'detailService'])->name('customer.service.detail');
+Route::post('/tambah-ulasan-produk/{product_id}/{user_id}', [ProductRatingsController::class, 'store'])->name('customer.rating.product');
+Route::post('/tambah-ulasan-jasa/{service_id}/{user_id}', [ServiceRatingsController::class, 'store'])->name('customer.rating.service');
 
 // Route Transaction
 Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');

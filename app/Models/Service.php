@@ -48,4 +48,10 @@ class Service extends Model
     {
         return $this->hasMany(PromoBanner::class);
     }
+
+    // satu jasa memiliki banyak rating (jasa)
+    public function service_rating()
+    {
+        return $this->hasMany(ServiceRating::class);
+    }
 }

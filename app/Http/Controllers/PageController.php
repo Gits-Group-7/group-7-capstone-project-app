@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\PromoBanner;
 use App\Models\Service;
+use App\Models\ServiceRating;
 use App\Models\ShopRating;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -85,7 +87,7 @@ class PageController extends Controller
     {
         $data = [
             'latest_products' => Product::latest()->take(4)->get(),
-            'ratings' => ShopRating::latest()->take(2)->get(),
+            'ratings' => ProductRating::where('product_id', $id)->latest()->take(2)->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'product' => Product::findOrFail($id),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
@@ -99,7 +101,7 @@ class PageController extends Controller
     {
         $data = [
             'latest_services' => Service::latest()->take(4)->get(),
-            'ratings' => ShopRating::latest()->take(2)->get(),
+            'ratings' => ServiceRating::where('service_id', $id)->latest()->take(2)->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'service' => Service::findOrFail($id),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
