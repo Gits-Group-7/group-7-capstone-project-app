@@ -12,29 +12,29 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
 
 @section('content')
     <!-- content -->
-    <section class="mt-5">
+    <section class="mt-5 beranda-responsive">
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-6">
@@ -72,14 +72,6 @@
                             </p>
 
                             <div class="row mb-2">
-                                {{-- <div class="col-md-4 col-4 bg-danger">
-                                    <label class="mb-2">Size</label>
-                                    <select class="form-select border border-secondary" style="height: 35px;">
-                                        <option>Small</option>
-                                        <option>Medium</option>
-                                        <option>Large</option>
-                                    </select>
-                                </div> --}}
 
                                 <div class="col-md-4 col-6 mb-2">
                                     <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>

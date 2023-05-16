@@ -49,3 +49,7 @@ td,
 th {
     padding: 10px; /* memberikan jarak 10px pada setiap sisi cell */
 }
+
+.hidden {
+    visibility: hidden !important;
+}

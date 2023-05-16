@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ class CartController extends Controller
     public function index()
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'transaction' => Transaction::all(),
             'last_transaction' => Transaction::latest()->first(),
             'total_price_cart' => DB::table('carts')->sum('total_price'),

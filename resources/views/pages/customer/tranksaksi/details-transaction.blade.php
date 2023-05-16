@@ -45,7 +45,7 @@
 
 @section('content')
     <!-- cart + summary -->
-    <section class="my-5">
+    <section class="mt-5 beranda-responsive">
         <div class="container">
             <h4 class="card-title mb-4 alert alert-primary mt-3">Detail Tranksaksi</h4>
 

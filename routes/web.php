@@ -11,6 +11,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductRatingsController;
 use App\Http\Controllers\ProductServiceRatingsController;
 use App\Http\Controllers\PromoBannerController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceRatingsController;
 use App\Http\Controllers\ShopRatingsController;
@@ -20,6 +21,9 @@ use Illuminate\Support\Facades\Route;
 // Route Beranda Cuustomer
 Route::get('/', [PageController::class, 'berandaPage'])->name('customer.beranda');
 Route::get('/toko-print-shop', [PageController::class, 'storePage'])->name('customer.store');
+
+// search route
+Route::get('/search-product-and-service', [SearchController::class, 'search'])->name('customer.search');
 
 // rating shop
 Route::get('/ulasan-print-shop', [ShopRatingsController::class, 'index'])->name('customer.store.rating');

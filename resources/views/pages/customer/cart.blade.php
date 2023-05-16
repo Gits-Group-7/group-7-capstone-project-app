@@ -40,7 +40,7 @@
 
 @section('content')
     <!-- cart + summary -->
-    <section class="my-5">
+    <section class="my-5 beranda-responsive">
         <div class="container">
             <div class="row">
                 <!-- cart -->

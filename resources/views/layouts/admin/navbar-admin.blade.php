@@ -11,7 +11,7 @@
             <span class="icon-menu"></span>
         </button>
         <ul class="navbar-nav mr-lg-2">
-            <li class="nav-item nav-search d-none d-lg-block">
+            <li class="nav-item nav-search d-none d-lg-block hidden">
                 <div class="input-group">
                     <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
                         <span class="input-group-text" id="search">

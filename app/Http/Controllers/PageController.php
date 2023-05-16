@@ -20,6 +20,7 @@ class PageController extends Controller
     public function berandaPage()
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'promo_banners' => PromoBanner::where('status', 'Aktif')->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
@@ -75,6 +76,7 @@ class PageController extends Controller
         $averageRating = ShopRating::avg('rating');
 
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'averageRating' => round($averageRating * 2) / 2,
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
@@ -86,6 +88,7 @@ class PageController extends Controller
     public function detailProduct($id)
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_products' => Product::latest()->take(4)->get(),
             'ratings' => ProductRating::where('product_id', $id)->latest()->take(2)->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
@@ -100,6 +103,7 @@ class PageController extends Controller
     public function detailService($id)
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_services' => Service::latest()->take(4)->get(),
             'ratings' => ServiceRating::where('service_id', $id)->latest()->take(2)->get(),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),

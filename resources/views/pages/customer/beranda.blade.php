@@ -18,29 +18,29 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
 
 @section('content')
     <!--  intro  -->
-    <section class="mt-5">
+    <section class="mt-5 beranda-responsive">
         <div class="container">
             <main class="card p-3 shadow-2-strong">
                 <div class="row">
@@ -57,7 +57,8 @@
                                     terpercaya untuk layanan sablon dan custom.
                                 </p>
                                 <center>
-                                    <a href="#produk" class="btn btn-theme shadow-0 mt-3">Temukan Produk & Jasa Menarik</a>
+                                    <a href="#search-input" class="btn btn-theme shadow-0 mt-3">Temukan Produk & Jasa
+                                        Menarik</a>
                                 </center>
                             </div>
                         </div>

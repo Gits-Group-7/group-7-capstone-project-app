@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,7 @@ class TransactionController extends Controller
     public function index()
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'transactions' => Transaction::orderBy('status', 'desc')->orderBy('order_date', 'desc')->get(),
             'total_price_cart' => DB::table('carts')->sum('total_price'),
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
@@ -70,6 +72,9 @@ class TransactionController extends Controller
         $transaction_id = Transaction::find($id);
 
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
             'transaction_list' => DB::table('transaction_details')->join('products', 'transaction_details.product_id', '=', 'products.id')->select('transaction_details.*', 'product.name')->select('*')->where('transaction_id', '=', $transaction_id->id)->get(),
             'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),
             'cart_products' => DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.*')->orderBy('.carts.product_id', 'desc')->get(),
@@ -92,6 +97,9 @@ class TransactionController extends Controller
         $transaction_id = Transaction::find($id);
 
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
             'total_price_cart' => DB::table('carts')->sum('total_price'),
             'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),
             'cart_products' => DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.*')->orderBy('.carts.product_id', 'desc')->get(),

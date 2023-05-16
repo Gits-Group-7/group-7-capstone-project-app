@@ -34,7 +34,7 @@
 
 @section('content')
     <!-- content -->
-    <section class="mt-5">
+    <section class="mt-5 beranda-responsive">
         <div class="container">
             <div class="row gx-5">
                 <aside class="col-lg-6">

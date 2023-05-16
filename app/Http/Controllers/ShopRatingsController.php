@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Product;
+use App\Models\Service;
 use App\Models\ShopRating;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,6 +21,7 @@ class ShopRatingsController extends Controller
     public function index()
     {
         $data = [
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'ratings' => ShopRating::paginate(6),
             'rating_count' => ShopRating::count(),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),

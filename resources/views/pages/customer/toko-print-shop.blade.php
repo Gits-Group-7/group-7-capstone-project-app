@@ -19,7 +19,7 @@
 @endphp
 
 @section('content')
-    <section class="mt-5">
+    <section class="mt-5 beranda-responsive">
         <div class="container">
             <div class="row">
                 <!-- dashboard toko -->
