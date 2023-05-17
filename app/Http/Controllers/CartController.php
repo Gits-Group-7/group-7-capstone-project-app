@@ -33,7 +33,7 @@ class CartController extends Controller
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
 
-        return view('pages.customer.cart', $data);
+        return view('pages.customer.cart-and-order', $data);
     }
 
     /**

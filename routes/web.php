@@ -45,7 +45,7 @@ Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->na
 Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
 
 // Route Cart
-Route::get('/keranjang', [CartController::class, 'index'])->name('cart.index');
+Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
 Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');
 Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');

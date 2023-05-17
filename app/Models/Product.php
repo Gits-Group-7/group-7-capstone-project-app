@@ -57,6 +57,12 @@ class Product extends Model
         return $this->hasMany(ProductRating::class);
     }
 
+    // satu produk memiliki banyak cart (produk)
+    public function cart_products()
+    {
+        return $this->hasMany(CartProduct::class);
+    }
+
     public function carts()
     {
         return $this->hasMany(Cart::class);

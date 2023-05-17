@@ -64,4 +64,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(ServiceRating::class);
     }
+
+    // satu user dapat melakukan banyak cart product
+    public function user_cart_product()
+    {
+        return $this->hasMany(CartProduct::class);
+    }
+
+    // satu user dapat melakukan banyak order service
+    public function user_order_service()
+    {
+        return $this->hasMany(OrderService::class);
+    }
 }

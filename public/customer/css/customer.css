@@ -499,6 +499,39 @@ input[type="submit"] {
     height: 1100px;
 }
 
+.nav-side-theme-product.active {
+    background-color: #4b49ac !important;
+    color: white !important;
+}
+
+.nav-side-theme-product:hover {
+    background-color: #10a19d !important;
+    color: white !important;
+}
+
+.nav-side-theme-service.active {
+    background-color: #4b49ac !important;
+    color: white !important;
+}
+
+.nav-side-theme-service:hover {
+    background-color: #10a19d !important;
+    color: white !important;
+}
+
+.custom-checkbox {
+    width: 20px; /* Ubah nilai sesuai dengan lebar yang diinginkan */
+    height: 20px; /* Ubah nilai sesuai dengan tinggi yang diinginkan */
+}
+
+.alert-border-radius {
+    border-radius: 6px !important;
+}
+
+.text-black-theme {
+    color: #344d67 !important;
+}
+
 /* CSS untuk layar dengan lebar kurang dari 992px */
 @media (max-width: 991px) {
     .margin-responsive {
@@ -506,6 +539,13 @@ input[type="submit"] {
     }
 
     .beranda-responsive {
+        margin-top: 80px !important; /* Ganti dengan nilai margin yang diinginkan */
+    }
+}
+
+/* CSS untuk layar dengan lebar kurang dari 992px */
+@media (max-width: 1200px) {
+    .cart-order-responsive {
         margin-top: 80px !important; /* Ganti dengan nilai margin yang diinginkan */
     }
 }
