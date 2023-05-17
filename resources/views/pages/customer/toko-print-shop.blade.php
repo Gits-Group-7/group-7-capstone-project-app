@@ -58,7 +58,8 @@
                                                 </div>
                                             </div>
 
-                                            <span class="rating-number fw-medium text-theme">({{ $averageRating }})</span>
+                                            <span
+                                                class="rating-number fw-medium text-theme">({{ $rating_store_count }})</span>
                                         </div>
                                         <br>
                                         <i class="fa-solid fa-clock text-theme"></i> 09.00 WIB - 18.00 WIB

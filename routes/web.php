@@ -9,7 +9,6 @@ use App\Http\Controllers\CustomerProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductRatingsController;
-use App\Http\Controllers\ProductServiceRatingsController;
 use App\Http\Controllers\PromoBannerController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServiceController;

@@ -25,8 +25,8 @@ class PageController extends Controller
             'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
             'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),
-            'products' => Product::all(),
-            'services' => Service::all(),
+            'products' => Product::with('product_rating')->get(),
+            'services' => Service::with('service_rating')->get(),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
@@ -76,6 +76,7 @@ class PageController extends Controller
         $averageRating = ShopRating::avg('rating');
 
         $data = [
+            'rating_store_count' => ShopRating::count(),
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'averageRating' => round($averageRating * 2) / 2,
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
@@ -87,7 +88,11 @@ class PageController extends Controller
 
     public function detailProduct($id)
     {
+        $averageRating = ProductRating::where('product_id', $id)->avg('rating');
+
         $data = [
+            'rating_product_count' => ProductRating::where('product_id', $id)->count(),
+            'averageRating' => round($averageRating * 2) / 2,
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_products' => Product::latest()->take(4)->get(),
             'ratings' => ProductRating::where('product_id', $id)->latest()->take(2)->get(),
@@ -97,12 +102,17 @@ class PageController extends Controller
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
         ];
 
+        // dd($averageRating);
         return view('pages.customer.katalog.detail-produk', $data);
     }
 
     public function detailService($id)
     {
+        $averageRating = ServiceRating::where('service_id', $id)->avg('rating');
+
         $data = [
+            'rating_service_count' => ServiceRating::where('service_id', $id)->count(),
+            'averageRating' => round($averageRating * 2) / 2,
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_services' => Service::latest()->take(4)->get(),
             'ratings' => ServiceRating::where('service_id', $id)->latest()->take(2)->get(),

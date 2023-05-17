@@ -34,14 +34,14 @@ class SearchController extends Controller
                 ->orWhereHas('category', function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', '%' . $searchTerm . '%');
                 });
-        })->get();
+        })->with('product_rating')->get();
 
         $services = Service::where(function ($query) use ($searchTerm) {
             $query->where('name', 'LIKE', '%' . $searchTerm . '%')
                 ->orWhereHas('category', function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', '%' . $searchTerm . '%');
                 });
-        })->get();
+        })->with('_rating')->get();
 
         return view('pages.customer.search', compact('products', 'services', 'searchTerm', 'autocomplete_product_and_service', 'category_products', 'category_services', 'carts'));
     }

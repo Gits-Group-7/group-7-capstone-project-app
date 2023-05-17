@@ -7,16 +7,22 @@
             $slug = explode('-', $date);
             return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
         }
-
+        
         function priceConversion($price)
         {
             $formattedPrice = number_format($price, 0, ',', '.');
             return $formattedPrice;
         }
-
+        
         function convertToTitleCase($string)
         {
             return ucfirst($string);
+        }
+        
+        function roundToOneDecimal($number)
+        {
+            $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
+            return number_format($rounded, 1); // Format angka dengan satu angka di belakang koma
         }
     @endphp
 
@@ -295,13 +301,35 @@
                                                         </div>
                                                         <div class="col d-flex">
                                                             <div class="product-rating mx-auto my-auto">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half"></i>
-                                                                <span
-                                                                    class="rating-number fw-medium text-theme">(4.5)</span>
+                                                                @php
+                                                                    $product_id = $product->id;
+                                                                    $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
+                                                                    
+                                                                    $rating = $averageRating;
+                                                                    $whole = floor($rating);
+                                                                    $fraction = $rating - $whole;
+                                                                @endphp
+
+                                                                @for ($i = 0; $i < $whole; $i++)
+                                                                    <i class="fa fa-star"></i>
+                                                                @endfor
+
+                                                                @if ($fraction > 0)
+                                                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                                                @endif
+
+                                                                <span class="rating-number fw-medium text-theme">
+                                                                    @php
+                                                                        $product_id = $product->id;
+                                                                        $product_rating = $product->product_rating->where('product_id', $product_id)->first();
+                                                                    @endphp
+
+                                                                    @if ($product_rating)
+                                                                        ({{ roundToOneDecimal($averageRating) }})
+                                                                    @else
+                                                                        Null
+                                                                    @endif
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -337,7 +365,8 @@
                                                     <div class="row">
                                                         <a href="#!" type="button"
                                                             class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                            title="Produk ada di keranjang"> On My Cart
+                                                            title="Produk ada di daftar keranjang"> Produk Sudah
+                                                            Ditambahkan
                                                         </a>
                                                     </div>
                                                 @else
@@ -345,8 +374,7 @@
                                                         <div class="row">
                                                             <a href="#!" type="button"
                                                                 class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                                title="Produk ada di keranjang"> Product
-                                                                Unavailable
+                                                                title="Produk tidak tersedia"> Produk Tidak Tersedia
                                                             </a>
                                                         </div>
                                                     @else
@@ -359,8 +387,7 @@
                                                                     class="btn btn-checklist icon-cart-hover mt-3"
                                                                     title="Tambah ke keranjang?"><i
                                                                         class="fa-solid fa-cart-plus"></i>
-                                                                    &ensp; ADD TO
-                                                                    CART
+                                                                    &ensp; Add to Cart
                                                                 </button>
                                                             </div>
 
@@ -401,13 +428,35 @@
                                                     </div>
                                                     <div class="col d-flex">
                                                         <div class="product-rating mx-auto my-auto">
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star"></i>
-                                                            <i class="fa fa-star-half"></i>
-                                                            <span
-                                                                class="rating-number fw-medium text-theme">(4.5)</span>
+                                                            @php
+                                                                $service_id = $service->id;
+                                                                $averageRating = $service->service_rating->where('service_id', $service_id)->avg('rating');
+                                                                
+                                                                $rating = $averageRating;
+                                                                $whole = floor($rating);
+                                                                $fraction = $rating - $whole;
+                                                            @endphp
+
+                                                            @for ($i = 0; $i < $whole; $i++)
+                                                                <i class="fa fa-star"></i>
+                                                            @endfor
+
+                                                            @if ($fraction > 0)
+                                                                <i class="fa-solid fa-star-half-stroke"></i>
+                                                            @endif
+
+                                                            <span class="rating-number fw-medium text-theme">
+                                                                @php
+                                                                    $service_id = $service->id;
+                                                                    $service_rating = $service->service_rating->where('service_id', $service_id)->first();
+                                                                @endphp
+
+                                                                @if ($service_rating)
+                                                                    ({{ roundToOneDecimal($averageRating) }})
+                                                                @else
+                                                                    Null
+                                                                @endif
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -433,7 +482,8 @@
                                                     <div class="row">
                                                         <a href="#!" type="button"
                                                             class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                            title="Produk ada di keranjang"> On My Cart
+                                                            title="Jasa ada di daftar order"> Jasa Sudah
+                                                            Ditambahkan
                                                         </a>
                                                     </div>
                                                 @else
@@ -441,8 +491,7 @@
                                                         <div class="row">
                                                             <a href="#!" type="button"
                                                                 class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                                title="Produk ada di keranjang"> Product
-                                                                Unavailable
+                                                                title="Jasa tidak tersedia"> Jasa Tidak Tersedia
                                                             </a>
                                                         </div>
                                                     @else
@@ -455,7 +504,7 @@
                                                                     class="btn btn-checklist icon-cart-hover mt-2"
                                                                     title="Order Jasa?"><i
                                                                         class="fa-solid fa-cart-plus"></i>
-                                                                    &ensp; ADD TO CART
+                                                                    &ensp; Add to Order
                                                                 </button>
                                                             </div>
 
@@ -493,12 +542,35 @@
                                                 </div>
                                                 <div class="col d-flex">
                                                     <div class="product-rating mx-auto my-auto">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-half"></i>
-                                                        <span class="rating-number fw-medium text-theme">(4.5)</span>
+                                                        @php
+                                                            $product_id = $value->id;
+                                                            $averageRating = $value->product_rating->where('product_id', $product_id)->avg('rating');
+                                                            
+                                                            $rating = $averageRating;
+                                                            $whole = floor($rating);
+                                                            $fraction = $rating - $whole;
+                                                        @endphp
+
+                                                        @for ($i = 0; $i < $whole; $i++)
+                                                            <i class="fa fa-star"></i>
+                                                        @endfor
+
+                                                        @if ($fraction > 0)
+                                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                                        @endif
+
+                                                        <span class="rating-number fw-medium text-theme">
+                                                            @php
+                                                                $product_id = $value->id;
+                                                                $product_rating = $value->product_rating->where('product_id', $product_id)->first();
+                                                            @endphp
+
+                                                            @if ($product_rating)
+                                                                ({{ roundToOneDecimal($averageRating) }})
+                                                            @else
+                                                                Null
+                                                            @endif
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -534,7 +606,8 @@
                                             <div class="row">
                                                 <a href="#!" type="button"
                                                     class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                    title="Produk ada di keranjang"> On My Cart
+                                                    title="Produk ada di daftar keranjang"> Produk Sudah
+                                                    Ditambahkan
                                                 </a>
                                             </div>
                                         @else
@@ -542,8 +615,7 @@
                                                 <div class="row">
                                                     <a href="#!" type="button"
                                                         class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                        title="Produk ada di keranjang"> Product
-                                                        Unavailable
+                                                        title="Produk tidak tersedia"> Produk Tidak Tersedia
                                                     </a>
                                                 </div>
                                             @else
@@ -555,8 +627,7 @@
                                                             class="btn btn-checklist icon-cart-hover mt-3"
                                                             title="Tambah ke keranjang?"><i
                                                                 class="fa-solid fa-cart-plus"></i>
-                                                            &ensp; ADD TO
-                                                            CART
+                                                            &ensp; Add to Cart
                                                         </button>
                                                     </div>
 
@@ -590,12 +661,35 @@
                                             </div>
                                             <div class="col d-flex">
                                                 <div class="product-rating mx-auto my-auto">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-half"></i>
-                                                    <span class="rating-number fw-medium text-theme">(4.5)</span>
+                                                    @php
+                                                        $service_id = $value->id;
+                                                        $averageRating = $value->service_rating->where('service_id', $service_id)->avg('rating');
+                                                        
+                                                        $rating = $averageRating;
+                                                        $whole = floor($rating);
+                                                        $fraction = $rating - $whole;
+                                                    @endphp
+
+                                                    @for ($i = 0; $i < $whole; $i++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+
+                                                    @if ($fraction > 0)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @endif
+
+                                                    <span class="rating-number fw-medium text-theme">
+                                                        @php
+                                                            $service_id = $value->id;
+                                                            $service_rating = $value->service_rating->where('service_id', $service_id)->first();
+                                                        @endphp
+
+                                                        @if ($service_rating)
+                                                            ({{ roundToOneDecimal($averageRating) }})
+                                                        @else
+                                                            Null
+                                                        @endif
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -621,7 +715,8 @@
                                             <div class="row">
                                                 <a href="#!" type="button"
                                                     class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                    title="Produk ada di keranjang"> On My Cart
+                                                    title="Jasa ada di daftar order"> Jasa Sudah
+                                                    Ditambahkan
                                                 </a>
                                             </div>
                                         @else
@@ -629,8 +724,7 @@
                                                 <div class="row">
                                                     <a href="#!" type="button"
                                                         class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                        title="Produk ada di keranjang"> Product
-                                                        Unavailable
+                                                        title="Jasa tidak tersedia"> Jasa Tidak Tersedia
                                                     </a>
                                                 </div>
                                             @else
@@ -641,7 +735,7 @@
                                                         <button type="submit"
                                                             class="btn btn-checklist icon-cart-hover mt-2"
                                                             title="Order Jasa?"><i class="fa-solid fa-cart-plus"></i>
-                                                            &ensp; ADD TO CART
+                                                            &ensp; Add to Order
                                                         </button>
                                                     </div>
 

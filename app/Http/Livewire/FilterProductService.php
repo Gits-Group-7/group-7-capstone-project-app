@@ -35,8 +35,8 @@ class FilterProductService extends Component
             return $query->where('category_id', $categoryId);
         });
 
-        $products = $query_products->get();
-        $services = $query_services->get();
+        $products = $query_products->with('product_rating')->get();
+        $services = $query_services->with('service_rating')->get();
 
         // dd($this->byCategories);
         return view('livewire.filter-product-service', compact('products', 'services', 'categories', 'carts', 'latest_rating'));

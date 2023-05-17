@@ -12,22 +12,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
@@ -51,12 +51,26 @@
                             </h4>
                             <div class="d-flex flex-row my-3 justify-content-start">
                                 <div class="mb-1 me-2">
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fas fa-star-half-alt star-rating checked"></i>
-                                    <span class="ms-1 fs-20 fw-bold">( 20 Review )</span>
+                                    @php
+                                        $product_id = $product->id;
+                                        $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
+                                        
+                                        $rating = $averageRating;
+                                        $whole = floor($rating);
+                                        $fraction = $rating - $whole;
+                                    @endphp
+
+                                    <div class="product-rating mt-1">
+                                        @for ($i = 0; $i < $whole; $i++)
+                                            <i class="fa fa-star star-rating checked"></i>
+                                        @endfor
+                                        @if ($fraction > 0)
+                                            <i class="fas fa-star-half-stroke star-rating checked"></i>
+                                        @endif
+
+                                        <span class="ms-1 fs-20 fw-bold">( {{ $rating_product_count }} Reviews )</span>
+                                    </div>
+
                                 </div>
                             </div>
 

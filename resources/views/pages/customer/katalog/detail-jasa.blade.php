@@ -51,12 +51,23 @@
                             </h4>
                             <div class="d-flex flex-row my-3 justify-content-start">
                                 <div class="mb-1 me-2">
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fa fa-star star-rating checked"></i>
-                                    <i class="fas fa-star-half-alt star-rating checked"></i>
-                                    <span class="ms-1 fs-20 fw-bold">( 20 Review )</span>
+                                    @php
+                                        $rating = $averageRating;
+                                        $whole = floor($rating);
+                                        $fraction = $rating - $whole;
+                                    @endphp
+
+                                    <div class="product-rating mt-1">
+                                        @for ($i = 0; $i < $whole; $i++)
+                                            <i class="fa fa-star star-rating checked"></i>
+                                        @endfor
+                                        @if ($fraction > 0)
+                                            <i class="fas fa-star-half-stroke star-rating checked"></i>
+                                        @endif
+
+                                        <span class="ms-1 fs-20 fw-bold">( {{ $rating_service_count }} Reviews )</span>
+                                    </div>
+
                                 </div>
                             </div>
 
