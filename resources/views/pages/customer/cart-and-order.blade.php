@@ -504,8 +504,6 @@
                                                                                     </select>
                                                                                 </div>
 
-
-
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="custom_design"
                                                                                         class="form-label">Foto Custom
