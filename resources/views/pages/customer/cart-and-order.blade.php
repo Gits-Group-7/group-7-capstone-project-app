@@ -69,28 +69,28 @@
                             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
                                 <li class="nav-item d-flex" role="presentation">
                                     <a class="nav-link d-flex align-items-center justify-content-center w-100 bg-secondary text-white nav-side-theme-product active"
-                                        id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab"
-                                        aria-controls="ex1-pills-1" aria-selected="true">Pesanan Produk</a>
+                                        id="ex1-tab-1" data-mdb-toggle="pill" href="#product-cart" role="tab"
+                                        aria-controls="product-cart" aria-selected="true">Pesanan Produk</a>
                                 </li>
                                 <li class="nav-item d-flex" role="presentation">
                                     <a class="nav-link d-flex align-items-center justify-content-center w-100 bg-secondary text-white nav-side-theme-service"
-                                        id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab"
-                                        aria-controls="ex1-pills-2" aria-selected="false">Order Jasa</a>
+                                        id="ex1-tab-2" data-mdb-toggle="pill" href="#service-order" role="tab"
+                                        aria-controls="service-order" aria-selected="false">Order Jasa</a>
                                 </li>
                             </ul>
                             <!-- Pills navs -->
 
                             <!-- Pills content -->
                             <div class="tab-content" id="ex1-content">
-                                <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel"
+                                {{-- product cart list --}}
+                                <div class="tab-pane fade show active" id="product-cart" role="tabpanel"
                                     aria-labelledby="ex1-tab-1">
-
                                     <div class="row">
                                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
                                             @if (DB::table('carts')->count())
                                                 @foreach ($cart_products as $item)
                                                     <div class="row gy-3 mb-4">
-                                                        <div class="col-lg-7">
+                                                        <div class="col-lg-6 col-md-12">
                                                             <div class="me-lg-5">
                                                                 <div class="d-flex justify-content-around pt-3">
                                                                     <div class="">
@@ -101,12 +101,11 @@
 
                                                                     <div class="">
                                                                         <span
-                                                                            class="nav-link pt-2 fw-bold">{{ $item->name }}</span>
+                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
 
                                                                         <div class="d-flex justify-content-start mt-2">
                                                                             <span
                                                                                 class="text-black-theme text-center alert-primary px-3 alert-border-radius">
-                                                                                Kategori :
                                                                                 @foreach ($category_name as $value)
                                                                                     @if ($item->product_id == $value->id)
                                                                                         {{ $value->category->name }}
@@ -117,80 +116,116 @@
                                                                             <span>&ensp;</span>
 
                                                                             <span
-                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">Kondisi
-                                                                                :
-                                                                                {{ $item->condition }}</span>
+                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">
+                                                                                {{ $item->condition }}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <div class="col-lg-5">
-                                                            <div class="row mx-auto">
-                                                                <div class="col-6">
-                                                                    <div class="pt-2">
-                                                                        <small class="text-muted text-nowrap"> Rp.
-                                                                            {{ priceConversion($item->price) }} /
-                                                                            per item
-                                                                        </small> <br>
-                                                                        <span class="h6 fw-bold">
-                                                                            Total :<br>
-                                                                            Rp. {{ priceConversion($item->total_price) }}
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="pt-2 mx-auto my-auto">
+                                                                <small class="text-muted text-nowrap"> Rp.
+                                                                    {{ priceConversion($item->price) }} /
+                                                                    per item
+                                                                </small> <br>
+                                                                <span class="h6 fw-bold">
+                                                                    Total :
+                                                                    Rp. {{ priceConversion($item->total_price) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
 
-                                                                <div class="col-4 d-flex">
-                                                                    {{-- manage cart --}}
-                                                                    <form action="{{ route('cart.update', $item->id) }}"
-                                                                        method="POST">
-                                                                        @method('put')
-                                                                        @csrf
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                {{-- Modal Button --}}
+                                                                <button type="button" class="btn btn-checklist"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal_product{{ $item->id }}">
+                                                                    Manage
+                                                                </button>
+                                                                &ensp;
+                                                                <a href="{{ route('cart.delete', $item->id) }}"
+                                                                    class="btn btn-delete px-2">
+                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                </a>
+                                                            </div>
 
-                                                                        <div class="row mx-auto mt-4">
-                                                                            <div
-                                                                                class="form-group d-flex justify-content-around">
-                                                                                <label
-                                                                                    for="is_checkout{{ $item->id }}">Add</label>
-                                                                                <input
-                                                                                    class="custom-checkbox mx-auto my-auto"
-                                                                                    type="checkbox"
-                                                                                    id="is_checkout{{ $item->id }}"
-                                                                                    name="is_checkout" checked="yes">
+                                                            {{-- Modal --}}
+                                                            <div class="modal fade" tabindex="-1"
+                                                                id="modal_product{{ $item->id }}">
+                                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Ubah Pesanan Produk</h5>
+
+                                                                            <!--begin::Close-->
+                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
                                                                             </div>
-
-                                                                            <input type="number" class="form-control mt-3"
-                                                                                id="quantity" name="quantity"
-                                                                                value="{{ $item->quantity }}"
-                                                                                min="1" max="99">
+                                                                            <!--end::Close-->
                                                                         </div>
-                                                                    </form>
-                                                                </div>
 
-                                                                <div class="col-2 d-flex">
-                                                                    <div class="float-md-start mx-auto mt-3">
-                                                                        <button type="submit"
-                                                                            class="btn btn-checklist px-2">
-                                                                            <i class="fa-solid fa-check fa-lg px-1"></i>
-                                                                        </button>
+                                                                        <div class="modal-body">
+                                                                            <form class="m-3"
+                                                                                action="{{ route('cart.update', $item->id) }}"
+                                                                                method="POST">
+                                                                                @method('put')
+                                                                                @csrf
 
-                                                                        <br><br>
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="is_checkout_product"
+                                                                                        class="form-label">
+                                                                                        Tambahin Produk ke Cart
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="is_checkout_product"
+                                                                                        name="is_checkout"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi
+                                                                                        </option>
+                                                                                        <option value="1">Tambah
+                                                                                        </option>
+                                                                                        <option value="0">Jangan
+                                                                                            Tambahkan
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
 
-                                                                        <a href="{{ route('cart.delete', $item->id) }}"
-                                                                            class="btn btn-delete px-2">
-                                                                            <i class="fa-solid fa-trash fa-lg px-1"></i>
-                                                                        </a>
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="quantity_product"
+                                                                                        class="form-label">Jumlah
+                                                                                        Produk</label>
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="quantity_product"
+                                                                                        name="quantity" min="1"
+                                                                                        max="99"
+                                                                                        value="{{ $item->quantity }}">
+                                                                                </div>
+
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-unconfirm"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-confirm">Simpan</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                             @else
                                                 <span>
-                                                    Silahkan tambahkan data produk terlebih dahulu.
+                                                    Silahkan tambahkan pesanan produk terlebih dahulu.
                                                     <a href="{{ route('customer.beranda') }}">Beranda</a>
                                                 </span>
                                             @endif
@@ -228,7 +263,7 @@
 
                                                     <hr>
                                                     <div class="d-flex justify-content-between">
-                                                        <p class="mb-2 fw-bold">Total :</p>
+                                                        <p class="mb-2 fw-bold">Total Cart :</p>
                                                         <p class="mb-2 fw-bold">Rp.
                                                             {{ priceConversion($total_price_cart) }}
                                                         </p>
@@ -241,7 +276,7 @@
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
                                                                         data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal">Beli
+                                                                        data-bs-target="#transactionProduct">Beli
                                                                         Sekarang</button>
                                                                 </div>
                                                             @else
@@ -258,28 +293,28 @@
                                                                 <button type="submit"
                                                                     class="btn btn-checklist w-100 shadow-0 mb-2"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal">Beli
+                                                                    data-bs-target="#transactionProduct">Beli
                                                                     Sekarang</button>
                                                             </div>
                                                         @endif
                                                     @else
                                                         <div class="mt-3">
                                                             <a href="{{ route('customer.beranda') }}" type="submit"
-                                                                class="btn btn-checklist w-100 shadow-0 mb-2">Mohon
-                                                                Tambahkan
-                                                                Produk</a>
+                                                                class="btn btn-checklist w-100 shadow-0 mb-2">
+                                                                Mohon Tambahkan Produk
+                                                            </a>
                                                         </div>
                                                     @endif
 
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                    <div class="modal fade" id="transactionProduct" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title" id="exampleModalLabel">
                                                                         Tambah
-                                                                        Transaksi?</h5>
+                                                                        Transaksi Produk?</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
@@ -301,9 +336,323 @@
                                     </div>
                                 </div>
 
-                                <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" <p>
-                                    *Konten Manajemen Pesanan Jasa
-                                    </p>
+                                <div class="tab-pane fade mb-2" id="service-order" role="tabpanel">
+                                    {{-- service order list --}}
+                                    <div class="row">
+                                        <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
+                                            @if (DB::table('carts')->count())
+                                                @foreach ($cart_products as $item)
+                                                    <div class="row gy-3 mb-4">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <div class="me-lg-5">
+                                                                <div class="d-flex justify-content-around pt-3">
+                                                                    <div class="">
+                                                                        <img src="{{ Storage::url($item->photo) }}"
+                                                                            class="border rounded me-3 p-2"
+                                                                            style="width: 96px; height: 96px;" />
+                                                                    </div>
+
+                                                                    <div class="">
+                                                                        <span
+                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
+
+                                                                        <div class="d-flex justify-content-start mt-2">
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-primary px-3 alert-border-radius">
+                                                                                @foreach ($category_name as $value)
+                                                                                    @if ($item->product_id == $value->id)
+                                                                                        {{ $value->category->name }}
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </span>
+
+                                                                            <span>&ensp;</span>
+
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">
+                                                                                Polo
+                                                                            </span>
+
+                                                                            <span>&ensp;</span>
+
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-danger px-3 alert-border-radius">
+                                                                                18 Mei 2023
+                                                                            </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="pt-2 mx-auto my-auto">
+                                                                <small class="text-muted text-nowrap"> Rp.
+                                                                    {{ priceConversion($item->price) }} /
+                                                                    per item
+                                                                </small> <br>
+                                                                <span class="h6 fw-bold">
+                                                                    Total :
+                                                                    Rp. {{ priceConversion($item->total_price) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                {{-- Modal Button --}}
+                                                                <button type="button" class="btn btn-checklist"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal_service{{ $item->id }}">
+                                                                    Manage
+                                                                </button>
+                                                                &ensp;
+                                                                <a href="{{ route('cart.delete', $item->id) }}"
+                                                                    class="btn btn-delete px-2">
+                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                </a>
+                                                            </div>
+
+                                                            {{-- Modal --}}
+                                                            <div class="modal fade" tabindex="-1"
+                                                                id="modal_service{{ $item->id }}">
+                                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Ubah Pesanan Jasa</h5>
+
+                                                                            <!--begin::Close-->
+                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
+                                                                            </div>
+                                                                            <!--end::Close-->
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                            <form class="m-3"
+                                                                                action="{{ route('cart.update', $item->id) }}"
+                                                                                method="POST">
+                                                                                @method('put')
+                                                                                @csrf
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="is_checkout_service"
+                                                                                        class="form-label">
+                                                                                        Tambahin Produk ke Cart
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="is_checkout_service"
+                                                                                        name="is_checkout"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi
+                                                                                        </option>
+                                                                                        <option value="1">Tambah
+                                                                                        </option>
+                                                                                        <option value="0">Jangan
+                                                                                            Tambahkan
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="quantity_service"
+                                                                                        class="form-label">Jumlah
+                                                                                        Produk</label>
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="quantity_service"
+                                                                                        name="quantity" min="1"
+                                                                                        max="99"
+                                                                                        value="{{ $item->quantity }}">
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="material"
+                                                                                        class="form-label">
+                                                                                        Material
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="material" name="material"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi Bahan
+                                                                                        </option>
+                                                                                        <option value="Polo">
+                                                                                            Polo
+                                                                                        </option>
+                                                                                        <option value="Katun">
+                                                                                            Katun
+                                                                                        </option>
+                                                                                        <option value="Polyester">
+                                                                                            Polyester
+                                                                                        </option>
+                                                                                        <option value="Rayon">
+                                                                                            Rayon
+                                                                                        </option>
+                                                                                        <option value="Linen">
+                                                                                            Linen
+                                                                                        </option>
+                                                                                        <option value="Wool">
+                                                                                            Wool
+                                                                                        </option>
+                                                                                        <option value="Spandex">
+                                                                                            Spandex
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+
+
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="custom_design"
+                                                                                        class="form-label">Foto Custom
+                                                                                        Desain *(optional)
+                                                                                    </label>
+                                                                                    <input id="custom_design"
+                                                                                        name="custom_design"
+                                                                                        class="form-control"
+                                                                                        type="file" id="formFile">
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="deadline"
+                                                                                        class="form-label">Deadline Order
+                                                                                    </label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        id="deadline" name="deadline"
+                                                                                        min="1" max="99">
+                                                                                </div>
+
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-unconfirm"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-confirm">Simpan</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <span>
+                                                    Silahkan tambahkan pesanan produk terlebih dahulu.
+                                                    <a href="{{ route('customer.beranda') }}">Beranda</a>
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        <div class="col-lg-3 col-md-12 col-sm-12 col-12 mb-4">
+                                            <div class="card shadow-sm border card-hover">
+                                                <div class="card-body">
+                                                    <div class="card-title">
+                                                        <span class="fw-bold">Daftar Pesanan Jasa :</span>
+                                                    </div>
+
+                                                    @if (DB::table('carts')->count())
+                                                        <ul>
+                                                            @foreach ($cart_products as $item)
+                                                                <li>
+                                                                    <p class="mb-2">
+                                                                        <span class="limit-text-title fw-medium"
+                                                                            title="{{ $item->name }}">
+                                                                            {{ $item->name }}
+                                                                        </span>
+                                                                        <span class="limit-text-title">
+                                                                            Jumlah({{ $item->quantity }}) :
+                                                                            <i>Rp.
+                                                                                {{ priceConversion($item->total_price) }}
+                                                                            </i>
+                                                                        </span>
+                                                                    </p>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @else
+                                                        <span>Tidak ada jasa yang ditambahkan ke order</span>
+                                                    @endif
+
+                                                    <hr>
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="mb-2 fw-bold">Total Order :</p>
+                                                        <p class="mb-2 fw-bold">Rp.
+                                                            {{ priceConversion($total_price_cart) }}
+                                                        </p>
+                                                    </div>
+
+                                                    @if (DB::table('carts')->count())
+                                                        @if (DB::table('transactions')->count())
+                                                            @if ($last_transaction->status == 'Success Order')
+                                                                <div class="mt-3">
+                                                                    <button type="submit"
+                                                                        class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#orderService">Order
+                                                                        Sekarang</button>
+                                                                </div>
+                                                            @else
+                                                                <div class="mt-3">
+                                                                    <a href="{{ route('transaction.index') }}"
+                                                                        type="button"
+                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                        Proses
+                                                                        Order</a>
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            <div class="mt-3">
+                                                                <button type="submit"
+                                                                    class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#orderService">Order
+                                                                    Sekarang</button>
+                                                            </div>
+                                                        @endif
+                                                    @else
+                                                        <div class="mt-3">
+                                                            <a href="{{ route('customer.beranda') }}" type="submit"
+                                                                class="btn btn-checklist w-100 shadow-0 mb-2">
+                                                                Mohon Tambahkan Jasa
+                                                            </a>
+                                                        </div>
+                                                    @endif
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" id="orderService" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                        Tambah
+                                                                        Order Jasa?</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                {{-- <div class="modal-body"></div> --}}
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-unconfirm"
+                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                    <a href="{{ route('transaction.store') }}"
+                                                                        type="button" class="btn btn-confirm">Oke</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!-- Pills content -->

@@ -532,6 +532,10 @@ input[type="submit"] {
     color: #344d67 !important;
 }
 
+.fs-title {
+    font-size: 14px !important;
+}
+
 /* CSS untuk layar dengan lebar kurang dari 992px */
 @media (max-width: 991px) {
     .margin-responsive {
