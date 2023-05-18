@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\ProductRating;
 use App\Models\PromoBanner;
@@ -20,15 +22,26 @@ class PageController extends Controller
     public function berandaPage()
     {
         $data = [
-            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
-            'promo_banners' => PromoBanner::where('status', 'Aktif')->get(),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
-            'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
-            'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),
+            // contain product & service
+            'list_product_carts' => CartProduct::orderBy('created_at', 'desc')->get(),
+            'list_service_orders' => OrderService::orderBy('created_at', 'desc')->get(),
+
+            // product & service rating
             'products' => Product::with('product_rating')->get(),
             'services' => Service::with('service_rating')->get(),
+
+            // navbar requirement (search)
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
+
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+
+            // variables ext
+            'promo_banners' => PromoBanner::where('status', 'Aktif')->get(),
+            'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
+            'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),
+
+            'carts' => Cart::orderBy('created_at', 'desc')->get(),
         ];
 
         return view('pages.customer.beranda', $data);

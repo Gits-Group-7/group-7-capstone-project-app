@@ -9,6 +9,8 @@ class OrderService extends Model
 {
     use HasFactory;
 
+    protected $table = 'order_services';
+
     protected $fillable = [
         'quantity',
         'total_price',

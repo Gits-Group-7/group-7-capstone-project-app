@@ -164,14 +164,30 @@
                                                 Service Unavailable
                                             </a>
                                         @else
-                                            <form action="{{ route('cart.store', $service->id) }}" method="POST">
-                                                @csrf
+                                            @guest
+                                                <a href="{{ route('customer.login') }}" type="buttton"
+                                                    class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
+                                                    &ensp;
+                                                    Add to Order
+                                                </a>
+                                            @endguest
 
-                                                <button type="submit" class="btn btn-theme shadow-0"> <i
+                                            @if (auth()->user() != null && auth()->user()->role == 'customer')
+                                                <form action="{{ route('cart.store', $service->id) }}" method="POST">
+                                                    @csrf
+
+                                                    <button type="submit" class="btn btn-theme shadow-0"> <i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp;
+                                                        Add to Order </button>
+                                                </form>
+                                            @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                                <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
                                                         class="fa-solid fa-cart-plus"></i>
                                                     &ensp;
-                                                    Add to Order</button>
-                                            </form>
+                                                    Add to Order
+                                                </a>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>

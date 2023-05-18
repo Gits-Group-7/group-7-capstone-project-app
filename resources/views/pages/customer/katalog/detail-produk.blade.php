@@ -148,14 +148,30 @@
                                                 Product Unavailable
                                             </a>
                                         @else
-                                            <form action="{{ route('cart.store', $product->id) }}" method="POST">
-                                                @csrf
+                                            @guest
+                                                <a href="{{ route('customer.login') }}" type="buttton"
+                                                    class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
+                                                    &ensp;
+                                                    Add to cart
+                                                </a>
+                                            @endguest
 
-                                                <button type="submit" class="btn btn-theme shadow-0"> <i
+                                            @if (auth()->user() != null && auth()->user()->role == 'customer')
+                                                <form action="{{ route('cart.store', $product->id) }}" method="POST">
+                                                    @csrf
+
+                                                    <button type="submit" class="btn btn-theme shadow-0"> <i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp;
+                                                        Add to cart </button>
+                                                </form>
+                                            @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                                <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
                                                         class="fa-solid fa-cart-plus"></i>
                                                     &ensp;
-                                                    Add to cart </button>
-                                            </form>
+                                                    Add to cart
+                                                </a>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>

@@ -21,11 +21,15 @@
                             <i class="fa-solid fa-store m-1 me-md-2"></i>
                             <p class="d-none d-md-block mb-0">Toko</p>
                         </a>
-                        <a href="{{ route('cart.index') }}"
-                            class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
-                            <i class="fas fa-shopping-cart m-1 me-md-2"></i>
-                            <p class="d-none d-md-block mb-0">Keranjang</p>
-                        </a>
+
+                        @guest
+                            <a href="{{ route('customer.login') }}"
+                                class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
+                                <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                                <p class="d-none d-md-block mb-0">Keranjang</p>
+                            </a>
+                        @endguest
+
                         @if (auth()->user() != null && auth()->user()->role == 'admin')
                             <a href="{{ route('admin.dashboard') }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
@@ -33,6 +37,12 @@
                                 <p class="d-none d-md-block mb-0">{{ Auth::user()->name }}</p>
                             </a>
                         @elseif (Auth()->user() != null && auth()->user()->role == 'customer')
+                            <a href="{{ route('cart.index') }}"
+                                class="btn-theme me-1 py-1 px-3 nav-link d-flex align-items-center">
+                                <i class="fas fa-shopping-cart m-1 me-md-2"></i>
+                                <p class="d-none d-md-block mb-0">Keranjang</p>
+                            </a>
+
                             <a href="{{ route('customer.profile', Auth::user()->id) }}"
                                 class="btn-theme py-1 px-3 nav-link d-flex align-items-center">
                                 <i class="fas fa-user-alt m-1 me-md-2"></i>

@@ -87,145 +87,149 @@
                                     aria-labelledby="ex1-tab-1">
                                     <div class="row">
                                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
-                                            @if (DB::table('carts')->count())
+                                            @if (DB::table('cart_products')->count())
                                                 @foreach ($cart_products as $item)
-                                                    <div class="row gy-3 mb-4">
-                                                        <div class="col-lg-6 col-md-12">
-                                                            <div class="me-lg-5">
-                                                                <div class="d-flex justify-content-around pt-3">
-                                                                    <div class="">
-                                                                        <img src="{{ Storage::url($item->photo) }}"
-                                                                            class="border rounded me-3 p-2"
-                                                                            style="width: 96px; height: 96px;" />
-                                                                    </div>
-
-                                                                    <div class="">
-                                                                        <span
-                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
-
-                                                                        <div class="d-flex justify-content-start mt-2">
-                                                                            <span
-                                                                                class="text-black-theme text-center alert-primary px-3 alert-border-radius">
-                                                                                @foreach ($category_name as $value)
-                                                                                    @if ($item->product_id == $value->id)
-                                                                                        {{ $value->category->name }}
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            </span>
-
-                                                                            <span>&ensp;</span>
-
-                                                                            <span
-                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">
-                                                                                {{ $item->condition }}
-                                                                            </span>
+                                                    {{-- mengambil data cart product customer --}}
+                                                    @if ($item->user_id == auth()->user()->id)
+                                                        <div class="row gy-3 mb-4">
+                                                            <div class="col-lg-6 col-md-12">
+                                                                <div class="me-lg-5">
+                                                                    <div class="d-flex justify-content-around pt-3">
+                                                                        <div class="">
+                                                                            <img src="{{ Storage::url($item->photo) }}"
+                                                                                class="border rounded me-3 p-2"
+                                                                                style="width: 96px; height: 96px;" />
                                                                         </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="col-lg-3 col-md-6 d-flex">
-                                                            <div class="pt-2 mx-auto my-auto">
-                                                                <small class="text-muted text-nowrap"> Rp.
-                                                                    {{ priceConversion($item->price) }} /
-                                                                    per item
-                                                                </small> <br>
-                                                                <span class="h6 fw-bold">
-                                                                    Total :
-                                                                    Rp. {{ priceConversion($item->total_price) }}
-                                                                </span>
-                                                            </div>
-                                                        </div>
+                                                                        <div class="">
+                                                                            <span
+                                                                                class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
 
-                                                        <div class="col-lg-3 col-md-6 d-flex">
-                                                            <div class="mx-auto my-auto d-flex justify-content-around">
-                                                                {{-- Modal Button --}}
-                                                                <button type="button" class="btn btn-checklist"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modal_product{{ $item->id }}">
-                                                                    Manage
-                                                                </button>
-                                                                &ensp;
-                                                                <a href="{{ route('cart.delete', $item->id) }}"
-                                                                    class="btn btn-delete px-2">
-                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
-                                                                </a>
-                                                            </div>
+                                                                            <div class="d-flex justify-content-start mt-2">
+                                                                                <span
+                                                                                    class="text-black-theme text-center alert-primary px-3 alert-border-radius">
+                                                                                    @foreach ($category_product_name as $value)
+                                                                                        @if ($item->product_id == $value->id)
+                                                                                            {{ $value->category->name }}
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </span>
 
-                                                            {{-- Modal --}}
-                                                            <div class="modal fade" tabindex="-1"
-                                                                id="modal_product{{ $item->id }}">
-                                                                <div class="modal-dialog modal-dialog-scrollable">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">Ubah Pesanan Produk</h5>
+                                                                                <span>&ensp;</span>
 
-                                                                            <!--begin::Close-->
-                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                data-bs-dismiss="modal" aria-label="Close">
-                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
+                                                                                <span
+                                                                                    class="text-black-theme text-center alert-success px-3 alert-border-radius">
+                                                                                    {{ $item->condition }}
+                                                                                </span>
                                                                             </div>
-                                                                            <!--end::Close-->
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                                        <div class="modal-body">
-                                                                            <form class="m-3"
-                                                                                action="{{ route('cart.update', $item->id) }}"
-                                                                                method="POST">
-                                                                                @method('put')
-                                                                                @csrf
+                                                            <div class="col-lg-3 col-md-6 d-flex">
+                                                                <div class="pt-2 mx-auto my-auto">
+                                                                    <small class="text-muted text-nowrap"> Rp.
+                                                                        {{ priceConversion($item->price) }} /
+                                                                        per item
+                                                                    </small> <br>
+                                                                    <span class="h6 fw-bold">
+                                                                        Total :
+                                                                        Rp. {{ priceConversion($item->total_price) }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="is_checkout_product"
-                                                                                        class="form-label">
-                                                                                        Tambahin Produk ke Cart
-                                                                                    </label>
-                                                                                    <select class="form-select"
-                                                                                        id="is_checkout_product"
-                                                                                        name="is_checkout"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="">
-                                                                                            Pilih Opsi
-                                                                                        </option>
-                                                                                        <option value="1">Tambah
-                                                                                        </option>
-                                                                                        <option value="0">Jangan
-                                                                                            Tambahkan
-                                                                                        </option>
-                                                                                    </select>
+                                                            <div class="col-lg-3 col-md-6 d-flex">
+                                                                <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                    {{-- Modal Button --}}
+                                                                    <button type="button" class="btn btn-checklist"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_product{{ $item->id }}">
+                                                                        Manage
+                                                                    </button>
+                                                                    &ensp;
+                                                                    <a href="" class="btn btn-delete px-2">
+                                                                        <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                    </a>
+                                                                </div>
+
+                                                                {{-- Modal --}}
+                                                                <div class="modal fade" tabindex="-1"
+                                                                    id="modal_product{{ $item->id }}">
+                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">Ubah Pesanan Produk
+                                                                                </h5>
+
+                                                                                <!--begin::Close-->
+                                                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <i
+                                                                                        class="ki-duotone ki-cross fs-2x"></i>
                                                                                 </div>
+                                                                                <!--end::Close-->
+                                                                            </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="quantity_product"
-                                                                                        class="form-label">Jumlah
-                                                                                        Produk</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="quantity_product"
-                                                                                        name="quantity" min="1"
-                                                                                        max="99"
-                                                                                        value="{{ $item->quantity }}">
-                                                                                </div>
+                                                                            <div class="modal-body">
+                                                                                <form class="m-3" action=""
+                                                                                    method="POST">
+                                                                                    @method('put')
+                                                                                    @csrf
 
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-unconfirm"
-                                                                                        data-bs-dismiss="modal">Batal</button>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-confirm">Simpan</button>
-                                                                                </div>
-                                                                            </form>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="is_checkout_product"
+                                                                                            class="form-label">
+                                                                                            Tambahin Produk ke Cart
+                                                                                        </label>
+                                                                                        <select class="form-select"
+                                                                                            id="is_checkout_product"
+                                                                                            name="is_checkout"
+                                                                                            aria-label="Default select example">
+                                                                                            <option value="">
+                                                                                                Pilih Opsi
+                                                                                            </option>
+                                                                                            <option value="1">Tambah
+                                                                                            </option>
+                                                                                            <option value="0">Jangan
+                                                                                                Tambahkan
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
+
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="quantity_product"
+                                                                                            class="form-label">Jumlah
+                                                                                            Produk</label>
+                                                                                        <input type="number"
+                                                                                            class="form-control"
+                                                                                            id="quantity_product"
+                                                                                            name="quantity" min="1"
+                                                                                            max="99"
+                                                                                            value="{{ $item->quantity }}">
+                                                                                    </div>
+
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-unconfirm"
+                                                                                            data-bs-dismiss="modal">Batal</button>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-confirm">Simpan</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 <span>
-                                                    Silahkan tambahkan pesanan produk terlebih dahulu.
+                                                    Silahkan tambahkan Pesanan Produk terlebih dahulu.
                                                     <a href="{{ route('customer.beranda') }}">Beranda</a>
                                                 </span>
                                             @endif
@@ -340,209 +344,217 @@
                                     {{-- service order list --}}
                                     <div class="row">
                                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
-                                            @if (DB::table('carts')->count())
-                                                @foreach ($cart_products as $item)
-                                                    <div class="row gy-3 mb-4">
-                                                        <div class="col-lg-6 col-md-12">
-                                                            <div class="me-lg-5">
-                                                                <div class="d-flex justify-content-around pt-3">
-                                                                    <div class="">
-                                                                        <img src="{{ Storage::url($item->photo) }}"
-                                                                            class="border rounded me-3 p-2"
-                                                                            style="width: 96px; height: 96px;" />
-                                                                    </div>
+                                            @if (DB::table('order_services')->count())
+                                                @foreach ($order_services as $item)
+                                                    {{-- mengambil data order service customer --}}
+                                                    @if ($item->user_id == auth()->user()->id)
+                                                        <div class="row gy-3 mb-4">
+                                                            <div class="col-lg-6 col-md-12">
+                                                                <div class="me-lg-5">
+                                                                    <div class="d-flex justify-content-around pt-3">
+                                                                        <div class="">
+                                                                            <img src="{{ Storage::url($item->photo) }}"
+                                                                                class="border rounded me-3 p-2"
+                                                                                style="width: 96px; height: 96px;" />
+                                                                        </div>
 
-                                                                    <div class="">
-                                                                        <span
-                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
-
-                                                                        <div class="d-flex justify-content-start mt-2">
+                                                                        <div class="">
                                                                             <span
-                                                                                class="text-black-theme text-center alert-primary px-3 alert-border-radius">
-                                                                                @foreach ($category_name as $value)
-                                                                                    @if ($item->product_id == $value->id)
-                                                                                        {{ $value->category->name }}
+                                                                                class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
+
+                                                                            <div class="d-flex justify-content-start mt-2">
+                                                                                <span
+                                                                                    class="text-black-theme text-center alert-primary px-3 alert-border-radius">
+                                                                                    @foreach ($category_service_name as $value)
+                                                                                        @if ($item->service_id == $value->id)
+                                                                                            {{ $value->category->name }}
+                                                                                        @endif
+                                                                                    @endforeach
+                                                                                </span>
+
+                                                                                <span>&ensp;</span>
+
+                                                                                <span
+                                                                                    class="text-black-theme text-center alert-success px-3 alert-border-radius">
+                                                                                    @if ($item->material == null)
+                                                                                        Kosong
+                                                                                    @else
+                                                                                        {{ $item->material }}
                                                                                     @endif
-                                                                                @endforeach
-                                                                            </span>
+                                                                                </span>
 
-                                                                            <span>&ensp;</span>
+                                                                                <span>&ensp;</span>
 
-                                                                            <span
-                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">
-                                                                                Polo
-                                                                            </span>
-
-                                                                            <span>&ensp;</span>
-
-                                                                            <span
-                                                                                class="text-black-theme text-center alert-danger px-3 alert-border-radius">
-                                                                                18 Mei 2023
-                                                                            </span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-3 col-md-6 d-flex">
-                                                            <div class="pt-2 mx-auto my-auto">
-                                                                <small class="text-muted text-nowrap"> Rp.
-                                                                    {{ priceConversion($item->price) }} /
-                                                                    per item
-                                                                </small> <br>
-                                                                <span class="h6 fw-bold">
-                                                                    Total :
-                                                                    Rp. {{ priceConversion($item->total_price) }}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-3 col-md-6 d-flex">
-                                                            <div class="mx-auto my-auto d-flex justify-content-around">
-                                                                {{-- Modal Button --}}
-                                                                <button type="button" class="btn btn-checklist"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modal_service{{ $item->id }}">
-                                                                    Manage
-                                                                </button>
-                                                                &ensp;
-                                                                <a href="{{ route('cart.delete', $item->id) }}"
-                                                                    class="btn btn-delete px-2">
-                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
-                                                                </a>
-                                                            </div>
-
-                                                            {{-- Modal --}}
-                                                            <div class="modal fade" tabindex="-1"
-                                                                id="modal_service{{ $item->id }}">
-                                                                <div class="modal-dialog modal-dialog-scrollable">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title">Ubah Pesanan Jasa</h5>
-
-                                                                            <!--begin::Close-->
-                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close">
-                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
+                                                                                <span
+                                                                                    class="text-black-theme text-center alert-danger px-3 alert-border-radius">
+                                                                                    {{ dateConversion($item->deadline) }}
+                                                                                </span>
                                                                             </div>
-                                                                            <!--end::Close-->
                                                                         </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                                        <div class="modal-body">
-                                                                            <form class="m-3"
-                                                                                action="{{ route('cart.update', $item->id) }}"
-                                                                                method="POST">
-                                                                                @method('put')
-                                                                                @csrf
+                                                            <div class="col-lg-3 col-md-6 d-flex">
+                                                                <div class="pt-2 mx-auto my-auto">
+                                                                    <small class="text-muted text-nowrap"> Rp.
+                                                                        {{ priceConversion($item->price_per_pcs) }} /
+                                                                        per item
+                                                                    </small> <br>
+                                                                    <span class="h6 fw-bold">
+                                                                        Total :
+                                                                        Rp. {{ priceConversion($item->total_price) }}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="is_checkout_service"
-                                                                                        class="form-label">
-                                                                                        Tambahin Produk ke Cart
-                                                                                    </label>
-                                                                                    <select class="form-select"
-                                                                                        id="is_checkout_service"
-                                                                                        name="is_checkout"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="">
-                                                                                            Pilih Opsi
-                                                                                        </option>
-                                                                                        <option value="1">Tambah
-                                                                                        </option>
-                                                                                        <option value="0">Jangan
-                                                                                            Tambahkan
-                                                                                        </option>
-                                                                                    </select>
+                                                            <div class="col-lg-3 col-md-6 d-flex">
+                                                                <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                    {{-- Modal Button --}}
+                                                                    <button type="button" class="btn btn-checklist"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_service{{ $item->id }}">
+                                                                        Manage
+                                                                    </button>
+                                                                    &ensp;
+                                                                    <a href="" class="btn btn-delete px-2">
+                                                                        <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                    </a>
+                                                                </div>
+
+                                                                {{-- Modal --}}
+                                                                <div class="modal fade" tabindex="-1"
+                                                                    id="modal_service{{ $item->id }}">
+                                                                    <div class="modal-dialog modal-dialog-scrollable">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title">Ubah Pesanan Jasa
+                                                                                </h5>
+
+                                                                                <!--begin::Close-->
+                                                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                    data-bs-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                    <i
+                                                                                        class="ki-duotone ki-cross fs-2x"></i>
                                                                                 </div>
+                                                                                <!--end::Close-->
+                                                                            </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="quantity_service"
-                                                                                        class="form-label">Jumlah
-                                                                                        Produk</label>
-                                                                                    <input type="number"
-                                                                                        class="form-control"
-                                                                                        id="quantity_service"
-                                                                                        name="quantity" min="1"
-                                                                                        max="99"
-                                                                                        value="{{ $item->quantity }}">
-                                                                                </div>
+                                                                            <div class="modal-body">
+                                                                                <form class="m-3" action=""
+                                                                                    method="POST">
+                                                                                    @method('put')
+                                                                                    @csrf
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="material"
-                                                                                        class="form-label">
-                                                                                        Material
-                                                                                    </label>
-                                                                                    <select class="form-select"
-                                                                                        id="material" name="material"
-                                                                                        aria-label="Default select example">
-                                                                                        <option value="">
-                                                                                            Pilih Opsi Bahan
-                                                                                        </option>
-                                                                                        <option value="Polo">
-                                                                                            Polo
-                                                                                        </option>
-                                                                                        <option value="Katun">
-                                                                                            Katun
-                                                                                        </option>
-                                                                                        <option value="Polyester">
-                                                                                            Polyester
-                                                                                        </option>
-                                                                                        <option value="Rayon">
-                                                                                            Rayon
-                                                                                        </option>
-                                                                                        <option value="Linen">
-                                                                                            Linen
-                                                                                        </option>
-                                                                                        <option value="Wool">
-                                                                                            Wool
-                                                                                        </option>
-                                                                                        <option value="Spandex">
-                                                                                            Spandex
-                                                                                        </option>
-                                                                                    </select>
-                                                                                </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="is_checkout_service"
+                                                                                            class="form-label">
+                                                                                            Tambahin Produk ke Cart
+                                                                                        </label>
+                                                                                        <select class="form-select"
+                                                                                            id="is_checkout_service"
+                                                                                            name="is_checkout"
+                                                                                            aria-label="Default select example">
+                                                                                            <option value="">
+                                                                                                Pilih Opsi
+                                                                                            </option>
+                                                                                            <option value="1">Tambah
+                                                                                            </option>
+                                                                                            <option value="0">Jangan
+                                                                                                Tambahkan
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="custom_design"
-                                                                                        class="form-label">Foto Custom
-                                                                                        Desain *(optional)
-                                                                                    </label>
-                                                                                    <input id="custom_design"
-                                                                                        name="custom_design"
-                                                                                        class="form-control"
-                                                                                        type="file" id="formFile">
-                                                                                </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="quantity_service"
+                                                                                            class="form-label">Jumlah
+                                                                                            Produk</label>
+                                                                                        <input type="number"
+                                                                                            class="form-control"
+                                                                                            id="quantity_service"
+                                                                                            name="quantity" min="1"
+                                                                                            max="99"
+                                                                                            value="{{ $item->quantity }}">
+                                                                                    </div>
 
-                                                                                <div class="form-group mb-3">
-                                                                                    <label for="deadline"
-                                                                                        class="form-label">Deadline Order
-                                                                                    </label>
-                                                                                    <input type="date"
-                                                                                        class="form-control"
-                                                                                        id="deadline" name="deadline"
-                                                                                        min="1" max="99">
-                                                                                </div>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="material"
+                                                                                            class="form-label">
+                                                                                            Material
+                                                                                        </label>
+                                                                                        <select class="form-select"
+                                                                                            id="material" name="material"
+                                                                                            aria-label="Default select example">
+                                                                                            <option value="">
+                                                                                                Pilih Opsi Bahan
+                                                                                            </option>
+                                                                                            <option value="Polo">
+                                                                                                Polo
+                                                                                            </option>
+                                                                                            <option value="Katun">
+                                                                                                Katun
+                                                                                            </option>
+                                                                                            <option value="Polyester">
+                                                                                                Polyester
+                                                                                            </option>
+                                                                                            <option value="Rayon">
+                                                                                                Rayon
+                                                                                            </option>
+                                                                                            <option value="Linen">
+                                                                                                Linen
+                                                                                            </option>
+                                                                                            <option value="Wool">
+                                                                                                Wool
+                                                                                            </option>
+                                                                                            <option value="Spandex">
+                                                                                                Spandex
+                                                                                            </option>
+                                                                                        </select>
+                                                                                    </div>
 
-                                                                                <div class="modal-footer">
-                                                                                    <button type="button"
-                                                                                        class="btn btn-unconfirm"
-                                                                                        data-bs-dismiss="modal">Batal</button>
-                                                                                    <button type="submit"
-                                                                                        class="btn btn-confirm">Simpan</button>
-                                                                                </div>
-                                                                            </form>
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="custom_design"
+                                                                                            class="form-label">Foto Custom
+                                                                                            Desain *(optional)
+                                                                                        </label>
+                                                                                        <input id="custom_design"
+                                                                                            name="custom_design"
+                                                                                            class="form-control"
+                                                                                            type="file" id="formFile">
+                                                                                    </div>
+
+                                                                                    <div class="form-group mb-3">
+                                                                                        <label for="deadline"
+                                                                                            class="form-label">Deadline
+                                                                                            Order
+                                                                                        </label>
+                                                                                        <input type="date"
+                                                                                            class="form-control"
+                                                                                            id="deadline" name="deadline"
+                                                                                            min="1" max="99">
+                                                                                    </div>
+
+                                                                                    <div class="modal-footer">
+                                                                                        <button type="button"
+                                                                                            class="btn btn-unconfirm"
+                                                                                            data-bs-dismiss="modal">Batal</button>
+                                                                                        <button type="submit"
+                                                                                            class="btn btn-confirm">Simpan</button>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endforeach
                                             @else
                                                 <span>
-                                                    Silahkan tambahkan pesanan produk terlebih dahulu.
+                                                    Silahkan tambahkan Order Jasa terlebih dahulu.
                                                     <a href="{{ route('customer.beranda') }}">Beranda</a>
                                                 </span>
                                             @endif
@@ -667,7 +679,7 @@
             <div class="row">
                 <div class="slider owl-carousel owl-theme">
                     @foreach ($products as $value)
-                        <form action="{{ route('cart.store', $value->id) }}" method="POST">
+                        <form action="" method="POST">
                             @csrf
 
                             <div class="item col-md-12 d-flex justify-content-center p-1">
@@ -709,7 +721,7 @@
                                         </div>
                                     </div>
 
-                                    @if ($carts->contains('product_id', $value->id))
+                                    @if ($carts->contains('services_id', $value->id))
                                         <a href="#!" type="button"
                                             class="btn btn-checklist-on icon-cart-hover mt-2"
                                             title="Produk ada di keranjang"> On My Cart

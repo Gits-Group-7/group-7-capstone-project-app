@@ -4,8 +4,11 @@ use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthCustomerController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CartOrderController;
+use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerProfileController;
+use App\Http\Controllers\OrderServiceController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductRatingsController;
@@ -45,10 +48,24 @@ Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->na
 Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
 
 // Route Cart
-Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
-Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');
-Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
-Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
+// Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
+// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');
+// Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
+// Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
+
+// Halaman Cart
+Route::get('/keranjang-produk-dan-pesanan-jasa', [CartOrderController::class, 'index'])->name('cart.index');
+
+// Route Cart Product
+Route::post('/add-to-cart-product-home/{user_id}/{product_id}', [CartProductController::class, 'store_home'])->name('cart.store.product.home');
+Route::post('/add-to-cart-product-detail/{user_id}/{product_id}', [CartProductController::class, 'store_detail'])->name('cart.store.product.detail');
+
+// Route Order Service
+Route::post('/add-to-order-service-home/{user_id}/{service_id}', [OrderServiceController::class, 'store_home'])->name('order.store.service.home');
+Route::post('/add-to-order-service-detail/{user_id}/{service_id}', [OrderServiceController::class, 'store_detail'])->name('order.store.service.detail');
+
+// Route::put('/keranjang/product-update/{id}', [CartProductController::class, 'update'])->name('cart.update');
+// Route::get('/keranjang/product-delete/{id}', [CartProductController::class, 'destroy'])->name('cart.delete');
 
 // route for guest user
 Route::middleware(['guest'])->group(function () {
