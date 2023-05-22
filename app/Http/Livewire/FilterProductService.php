@@ -3,7 +3,9 @@
 namespace App\Http\Livewire;
 
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\ShopRating;

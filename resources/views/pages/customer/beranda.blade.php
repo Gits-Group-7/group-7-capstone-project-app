@@ -275,9 +275,7 @@
                                                             </div>
                                                         @else
                                                             {{-- mengecek apakah barang ada di keranjang milik customer ada atau tidak --}}
-                                                            @if (
-                                                                $list_product_carts->contains('product_id', $value->id) &&
-                                                                    $list_product_carts->contains('user_id', auth()->user()->id))
+                                                            @if (DB::table('cart_products')->where('product_id', $value->id)->where('user_id', auth()->user()->id)->exists())
                                                                 {{-- jikalau barang ada di keranjang customer --}}
                                                                 <div class="row">
                                                                     <a href="#!" type="button"
@@ -451,9 +449,7 @@
                                                         {{-- kondisi jika user customer --}}
                                                     @elseif (auth()->user() != null && auth()->user()->role == 'customer')
                                                         {{-- mengecek apakah barang ada di pesanan milik customer ada atau tidak --}}
-                                                        @if (
-                                                            $list_service_orders->contains('service_id', $value->id) &&
-                                                                $list_service_orders->contains('user_id', auth()->user()->id))
+                                                        @if (DB::table('order_services')->where('service_id', $value->id)->where('user_id', auth()->user()->id)->exists())
                                                             <div class="row">
                                                                 <a href="#!" type="button"
                                                                     class="btn btn-checklist-on icon-cart-hover mt-2"

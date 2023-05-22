@@ -22,7 +22,7 @@ class PageController extends Controller
     public function berandaPage()
     {
         $data = [
-            // contain product & service
+            // customer contain product & service on cart and order
             'list_product_carts' => CartProduct::orderBy('created_at', 'desc')->get(),
             'list_service_orders' => OrderService::orderBy('created_at', 'desc')->get(),
 
@@ -104,6 +104,9 @@ class PageController extends Controller
         $averageRating = ProductRating::where('product_id', $id)->avg('rating');
 
         $data = [
+            // contain product
+            'list_product_carts' => CartProduct::orderBy('created_at', 'desc')->get(),
+
             'rating_product_count' => ProductRating::where('product_id', $id)->count(),
             'averageRating' => round($averageRating * 2) / 2,
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
@@ -124,6 +127,9 @@ class PageController extends Controller
         $averageRating = ServiceRating::where('service_id', $id)->avg('rating');
 
         $data = [
+            // contain and service
+            'list_service_orders' => OrderService::orderBy('created_at', 'desc')->get(),
+
             'rating_service_count' => ServiceRating::where('service_id', $id)->count(),
             'averageRating' => round($averageRating * 2) / 2,
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),

@@ -110,7 +110,9 @@
                                                 <i class="fa-solid fa-minus"></i>
                                             </button>
 
-                                            <form action="{{ route('cart.store', $service->id) }}" method="POST">
+                                            <form
+                                                action="{{ route('order.store.service.detail', ['user_id' => auth()->user()->id, 'service_id' => $service->id]) }}"
+                                                method="POST">
                                                 @csrf
 
                                                 <input type="text" name="quantity" id="quantity"
@@ -154,7 +156,7 @@
 
                                 <div class="col-sm-6 col-md-6 col-6 d-flex">
                                     <div class="my-auto mx-start">
-                                        @if ($carts->contains('service_id', $service->id))
+                                        @if (DB::table('order_services')->where('service_id', $service->id)->where('user_id', auth()->user()->id)->exists())
                                             <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0"> <i
                                                     class="fa-solid fa-cart-shopping"></i> &ensp;
                                                 On My Order </a>
@@ -173,7 +175,9 @@
                                             @endguest
 
                                             @if (auth()->user() != null && auth()->user()->role == 'customer')
-                                                <form action="{{ route('cart.store', $service->id) }}" method="POST">
+                                                <form
+                                                    action="{{ route('order.store.service.detail', ['user_id' => auth()->user()->id, 'service_id' => $service->id]) }}"
+                                                    method="POST">
                                                     @csrf
 
                                                     <button type="submit" class="btn btn-theme shadow-0"> <i

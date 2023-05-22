@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -22,7 +24,6 @@ class SearchController extends Controller
         $autocomplete_product_and_service = Product::select('name')->union(Service::select('name'))->get();
         $category_products = Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get();
         $category_services = Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get();
-        $carts = Cart::orderBy('created_at', 'desc')->get();
 
         $searchTerm = $request->query('query');
 
@@ -41,9 +42,9 @@ class SearchController extends Controller
                 ->orWhereHas('category', function ($query) use ($searchTerm) {
                     $query->where('name', 'LIKE', '%' . $searchTerm . '%');
                 });
-        })->with('_rating')->get();
+        })->with('service_rating')->get();
 
-        return view('pages.customer.search', compact('products', 'services', 'searchTerm', 'autocomplete_product_and_service', 'category_products', 'category_services', 'carts'));
+        return view('pages.customer.search', compact('products', 'services', 'searchTerm', 'autocomplete_product_and_service', 'category_products', 'category_services'));
     }
 
     public function index()

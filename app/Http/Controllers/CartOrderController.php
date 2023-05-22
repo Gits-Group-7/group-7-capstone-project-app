@@ -20,6 +20,18 @@ class CartOrderController extends Controller
      */
     public function index()
     {
+        // cart and order total price
+        $customerId = auth()->user()->id;
+        $total_price_cart = CartProduct::where('user_id', $customerId)->sum('total_price');
+        $total_price_order = OrderService::where('user_id', $customerId)->sum('total_price');
+        $cart_products = DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->where('cart_products.user_id', $customerId)->orderBy('cart_products.product_id', 'desc')->get();
+        $order_services = DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->where('order_services.user_id', $customerId)->orderBy('order_services.service_id', 'desc')->get();
+
+        // rekommended product and service
+        $randomProducts = Product::inRandomOrder()->with('category')->limit(5)->get();
+        $randomServices = Service::inRandomOrder()->with('category')->limit(5)->get();
+        $recommend_items = $randomProducts->concat($randomServices);
+
         $data = [
             // navbar
             'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),
@@ -27,24 +39,26 @@ class CartOrderController extends Controller
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
 
-            // product & services, contain
-            'cart_products' => DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->orderBy('cart_products.product_id', 'desc')->get(),
-            'carts' => CartProduct::orderBy('created_at', 'desc')->get(),
-            'order_services' => DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->orderBy('order_services.service_id', 'desc')->get(),
-            'orders' => OrderService::orderBy('created_at', 'desc')->get(),
+            // contain product & service
+            'list_product_carts' => CartProduct::orderBy('created_at', 'desc')->get(),
+            'list_service_orders' => OrderService::orderBy('created_at', 'desc')->get(),
+
+            // transaksi
+            'transaction' => Transaction::all(),
+            'last_transaction' => Transaction::latest()->first(),
 
             'category_product_name' => Product::all(),
             'category_service_name' => Service::all(),
 
-            'products' => Product::where('status', '!=', 'Habis')->get(),
-            'total_price_cart' => DB::table('carts')->sum('total_price'),
-            'transaction' => Transaction::all(),
-            'last_transaction' => Transaction::latest()->first(),
+            // product & services, contain
+            // 'carts' => CartProduct::orderBy('created_at', 'desc')->get(),
+            // 'orders' => OrderService::orderBy('created_at', 'desc')->get(),
+            // 'products' => Product::where('status', '!=', 'Habis')->get(),
         ];
 
         // dd($data['cart_products']);
 
-        return view('pages.customer.cart-and-order', $data);
+        return view('pages.customer.cart-and-order', $data, compact('total_price_cart', 'total_price_order', 'cart_products', 'order_services', 'recommend_items'));
     }
 
     /**

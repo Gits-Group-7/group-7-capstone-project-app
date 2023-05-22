@@ -12,22 +12,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
@@ -54,7 +54,7 @@
                                     @php
                                         $product_id = $product->id;
                                         $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
-                                        
+
                                         $rating = $averageRating;
                                         $whole = floor($rating);
                                         $fraction = $rating - $whole;
@@ -95,7 +95,9 @@
                                             <i class="fa-solid fa-minus"></i>
                                         </button>
 
-                                        <form action="{{ route('cart.store', $product->id) }}" method="POST">
+                                        <form
+                                            action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
+                                            method="POST">
                                             @csrf
 
                                             <input type="text" name="quantity" id="quantity"
@@ -138,7 +140,7 @@
 
                                 <div class="col-md-6 col-6 d-flex">
                                     <div class="my-auto mx-auto">
-                                        @if ($carts->contains('product_id', $product->id))
+                                        @if (DB::table('cart_products')->where('product_id', $product->id)->where('user_id', auth()->user()->id)->exists())
                                             <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0"> <i
                                                     class="fa-solid fa-cart-shopping"></i> &ensp;
                                                 On My Cart </a>
@@ -157,7 +159,9 @@
                                             @endguest
 
                                             @if (auth()->user() != null && auth()->user()->role == 'customer')
-                                                <form action="{{ route('cart.store', $product->id) }}" method="POST">
+                                                <form
+                                                    action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
+                                                    method="POST">
                                                     @csrf
 
                                                     <button type="submit" class="btn btn-theme shadow-0"> <i

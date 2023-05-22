@@ -3,7 +3,6 @@
 use App\Http\Controllers\AdminProfileController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthCustomerController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\CartOrderController;
 use App\Http\Controllers\CartProductController;
 use App\Http\Controllers\CategoryController;
@@ -49,7 +48,7 @@ Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
 
 // Route Cart
 // Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
-// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');
+// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');c
 // Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
 // Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 

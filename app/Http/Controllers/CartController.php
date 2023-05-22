@@ -24,7 +24,7 @@ class CartController extends Controller
             'transaction' => Transaction::all(),
             'last_transaction' => Transaction::latest()->first(),
             'total_price_cart' => DB::table('carts')->sum('total_price'),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
+            // 'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'category_name' => Product::all(),
             'products' => Product::where('status', '!=', 'Habis')->get(),
             'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),

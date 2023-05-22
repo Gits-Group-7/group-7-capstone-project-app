@@ -11,6 +11,12 @@
 @endsection
 
 @php
+    function roundToOneDecimal($number)
+    {
+        $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
+        return number_format($rounded, 1); // Format angka dengan satu angka di belakang koma
+    }
+    
     // fungsi konversi data tipe date ke tanggal
     function dateConversion($date)
     {
@@ -87,145 +93,141 @@
                                     aria-labelledby="ex1-tab-1">
                                     <div class="row">
                                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
-                                            @if (DB::table('cart_products')->count())
+                                            @if ($cart_products->count())
                                                 @foreach ($cart_products as $item)
                                                     {{-- mengambil data cart product customer --}}
-                                                    @if ($item->user_id == auth()->user()->id)
-                                                        <div class="row gy-3 mb-4">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <div class="me-lg-5">
-                                                                    <div class="d-flex justify-content-around pt-3">
-                                                                        <div class="">
-                                                                            <img src="{{ Storage::url($item->photo) }}"
-                                                                                class="border rounded me-3 p-2"
-                                                                                style="width: 96px; height: 96px;" />
-                                                                        </div>
-
-                                                                        <div class="">
-                                                                            <span
-                                                                                class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
-
-                                                                            <div class="d-flex justify-content-start mt-2">
-                                                                                <span
-                                                                                    class="text-black-theme text-center alert-primary px-3 alert-border-radius">
-                                                                                    @foreach ($category_product_name as $value)
-                                                                                        @if ($item->product_id == $value->id)
-                                                                                            {{ $value->category->name }}
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </span>
-
-                                                                                <span>&ensp;</span>
-
-                                                                                <span
-                                                                                    class="text-black-theme text-center alert-success px-3 alert-border-radius">
-                                                                                    {{ $item->condition }}
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
+                                                    <div class="row gy-3 mb-4">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <div class="me-lg-5">
+                                                                <div class="d-flex justify-content-around pt-3">
+                                                                    <div class="">
+                                                                        <img src="{{ Storage::url($item->photo) }}"
+                                                                            class="border rounded me-3 p-2"
+                                                                            style="width: 96px; height: 96px;" />
                                                                     </div>
-                                                                </div>
-                                                            </div>
 
-                                                            <div class="col-lg-3 col-md-6 d-flex">
-                                                                <div class="pt-2 mx-auto my-auto">
-                                                                    <small class="text-muted text-nowrap"> Rp.
-                                                                        {{ priceConversion($item->price) }} /
-                                                                        per item
-                                                                    </small> <br>
-                                                                    <span class="h6 fw-bold">
-                                                                        Total :
-                                                                        Rp. {{ priceConversion($item->total_price) }}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
+                                                                    <div class="">
+                                                                        <span
+                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
 
-                                                            <div class="col-lg-3 col-md-6 d-flex">
-                                                                <div class="mx-auto my-auto d-flex justify-content-around">
-                                                                    {{-- Modal Button --}}
-                                                                    <button type="button" class="btn btn-checklist"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modal_product{{ $item->id }}">
-                                                                        Manage
-                                                                    </button>
-                                                                    &ensp;
-                                                                    <a href="" class="btn btn-delete px-2">
-                                                                        <i class="fa-solid fa-trash fa-lg px-1"></i>
-                                                                    </a>
-                                                                </div>
+                                                                        <div class="d-flex justify-content-start mt-2">
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-primary px-3 alert-border-radius">
+                                                                                @foreach ($category_product_name as $value)
+                                                                                    @if ($item->product_id == $value->id)
+                                                                                        {{ $value->category->name }}
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            </span>
 
-                                                                {{-- Modal --}}
-                                                                <div class="modal fade" tabindex="-1"
-                                                                    id="modal_product{{ $item->id }}">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title">Ubah Pesanan Produk
-                                                                                </h5>
+                                                                            <span>&ensp;</span>
 
-                                                                                <!--begin::Close-->
-                                                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <i
-                                                                                        class="ki-duotone ki-cross fs-2x"></i>
-                                                                                </div>
-                                                                                <!--end::Close-->
-                                                                            </div>
-
-                                                                            <div class="modal-body">
-                                                                                <form class="m-3" action=""
-                                                                                    method="POST">
-                                                                                    @method('put')
-                                                                                    @csrf
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="is_checkout_product"
-                                                                                            class="form-label">
-                                                                                            Tambahin Produk ke Cart
-                                                                                        </label>
-                                                                                        <select class="form-select"
-                                                                                            id="is_checkout_product"
-                                                                                            name="is_checkout"
-                                                                                            aria-label="Default select example">
-                                                                                            <option value="">
-                                                                                                Pilih Opsi
-                                                                                            </option>
-                                                                                            <option value="1">Tambah
-                                                                                            </option>
-                                                                                            <option value="0">Jangan
-                                                                                                Tambahkan
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="quantity_product"
-                                                                                            class="form-label">Jumlah
-                                                                                            Produk</label>
-                                                                                        <input type="number"
-                                                                                            class="form-control"
-                                                                                            id="quantity_product"
-                                                                                            name="quantity" min="1"
-                                                                                            max="99"
-                                                                                            value="{{ $item->quantity }}">
-                                                                                    </div>
-
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                            class="btn btn-unconfirm"
-                                                                                            data-bs-dismiss="modal">Batal</button>
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-confirm">Simpan</button>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-success px-3 alert-border-radius">
+                                                                                {{ $item->condition }}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="pt-2 mx-auto my-auto">
+                                                                <small class="text-muted text-nowrap"> Rp.
+                                                                    {{ priceConversion($item->price) }} /
+                                                                    per item
+                                                                </small> <br>
+                                                                <span class="h6 fw-bold">
+                                                                    Total :
+                                                                    Rp. {{ priceConversion($item->total_price) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                {{-- Modal Button --}}
+                                                                <button type="button" class="btn btn-checklist"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal_product{{ $item->id }}">
+                                                                    Manage
+                                                                </button>
+                                                                &ensp;
+                                                                <a href="" class="btn btn-delete px-2">
+                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                </a>
+                                                            </div>
+
+                                                            {{-- Modal --}}
+                                                            <div class="modal fade" tabindex="-1"
+                                                                id="modal_product{{ $item->id }}">
+                                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Ubah Pesanan Produk
+                                                                            </h5>
+
+                                                                            <!--begin::Close-->
+                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
+                                                                            </div>
+                                                                            <!--end::Close-->
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                            <form class="m-3" action=""
+                                                                                method="POST">
+                                                                                @method('put')
+                                                                                @csrf
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="is_checkout_product"
+                                                                                        class="form-label">
+                                                                                        Tambahin Produk ke Cart
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="is_checkout_product"
+                                                                                        name="is_checkout"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi
+                                                                                        </option>
+                                                                                        <option value="1">Tambah
+                                                                                        </option>
+                                                                                        <option value="0">Jangan
+                                                                                            Tambahkan
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="quantity_product"
+                                                                                        class="form-label">Jumlah
+                                                                                        Produk</label>
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="quantity_product"
+                                                                                        name="quantity" min="1"
+                                                                                        max="99"
+                                                                                        value="{{ $item->quantity }}">
+                                                                                </div>
+
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-unconfirm"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-confirm">Simpan</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endforeach
                                             @else
                                                 <span>
@@ -242,7 +244,7 @@
                                                         <span class="fw-bold">Daftar Pesanan Produk :</span>
                                                     </div>
 
-                                                    @if (DB::table('carts')->count())
+                                                    @if ($cart_products->count())
                                                         <ul>
                                                             @foreach ($cart_products as $item)
                                                                 <li>
@@ -273,9 +275,27 @@
                                                         </p>
                                                     </div>
 
-                                                    @if (DB::table('carts')->count())
-                                                        @if (DB::table('transactions')->count())
-                                                            @if ($last_transaction->status == 'Success Order')
+                                                    @if ($cart_products->count())
+                                                        @foreach ($cart_products as $item)
+                                                            @if (DB::table('transactions')->count())
+                                                                @if ($last_transaction->status == 'Success Order')
+                                                                    <div class="mt-3">
+                                                                        <button type="submit"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#transactionProduct">Beli
+                                                                            Sekarang</button>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="mt-3">
+                                                                        <a href="{{ route('transaction.index') }}"
+                                                                            type="button"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            Proses
+                                                                            Transaksi</a>
+                                                                    </div>
+                                                                @endif
+                                                            @else
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
@@ -283,24 +303,8 @@
                                                                         data-bs-target="#transactionProduct">Beli
                                                                         Sekarang</button>
                                                                 </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <a href="{{ route('transaction.index') }}"
-                                                                        type="button"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                        Proses
-                                                                        Transaksi</a>
-                                                                </div>
                                                             @endif
-                                                        @else
-                                                            <div class="mt-3">
-                                                                <button type="submit"
-                                                                    class="btn btn-checklist w-100 shadow-0 mb-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#transactionProduct">Beli
-                                                                    Sekarang</button>
-                                                            </div>
-                                                        @endif
+                                                        @endforeach
                                                     @else
                                                         <div class="mt-3">
                                                             <a href="{{ route('customer.beranda') }}" type="submit"
@@ -344,213 +348,201 @@
                                     {{-- service order list --}}
                                     <div class="row">
                                         <div class="col-lg-9 col-md-12 col-sm-12 col-12 mb-4">
-                                            @if (DB::table('order_services')->count())
+                                            @if ($order_services->count())
                                                 @foreach ($order_services as $item)
                                                     {{-- mengambil data order service customer --}}
-                                                    @if ($item->user_id == auth()->user()->id)
-                                                        <div class="row gy-3 mb-4">
-                                                            <div class="col-lg-6 col-md-12">
-                                                                <div class="me-lg-5">
-                                                                    <div class="d-flex justify-content-around pt-3">
-                                                                        <div class="">
-                                                                            <img src="{{ Storage::url($item->photo) }}"
-                                                                                class="border rounded me-3 p-2"
-                                                                                style="width: 96px; height: 96px;" />
-                                                                        </div>
+                                                    <div class="row gy-3 mb-4">
+                                                        <div class="col-lg-6 col-md-12">
+                                                            <div class="me-lg-5">
+                                                                <div class="d-flex justify-content-around pt-3">
+                                                                    <div class="">
+                                                                        <img src="{{ Storage::url($item->photo) }}"
+                                                                            class="border rounded me-3 p-2"
+                                                                            style="width: 96px; height: 96px;" />
+                                                                    </div>
 
-                                                                        <div class="">
+                                                                    <div class="">
+                                                                        <span
+                                                                            class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
+
+                                                                        <div class="d-flex justify-content-start mt-2">
                                                                             <span
-                                                                                class="nav-link pt-2 fw-bold fs-title text-justify">{{ $item->name }}</span>
-
-                                                                            <div class="d-flex justify-content-start mt-2">
-                                                                                <span
-                                                                                    class="text-black-theme text-center alert-primary px-3 alert-border-radius">
-                                                                                    @foreach ($category_service_name as $value)
+                                                                                class="text-black-theme text-center alert-primary px-3 alert-border-radius d-flex">
+                                                                                @foreach ($category_service_name as $value)
+                                                                                    <span class="mx-auto my-auto">
                                                                                         @if ($item->service_id == $value->id)
                                                                                             {{ $value->category->name }}
                                                                                         @endif
-                                                                                    @endforeach
-                                                                                </span>
+                                                                                    </span>
+                                                                                @endforeach
+                                                                            </span>
 
-                                                                                <span>&ensp;</span>
+                                                                            <span>&ensp;</span>
 
-                                                                                <span
-                                                                                    class="text-black-theme text-center alert-success px-3 alert-border-radius">
-                                                                                    @if ($item->material == null)
-                                                                                        Kosong
-                                                                                    @else
-                                                                                        {{ $item->material }}
-                                                                                    @endif
-                                                                                </span>
-
-                                                                                <span>&ensp;</span>
-
-                                                                                <span
-                                                                                    class="text-black-theme text-center alert-danger px-3 alert-border-radius">
-                                                                                    {{ dateConversion($item->deadline) }}
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-3 col-md-6 d-flex">
-                                                                <div class="pt-2 mx-auto my-auto">
-                                                                    <small class="text-muted text-nowrap"> Rp.
-                                                                        {{ priceConversion($item->price_per_pcs) }} /
-                                                                        per item
-                                                                    </small> <br>
-                                                                    <span class="h6 fw-bold">
-                                                                        Total :
-                                                                        Rp. {{ priceConversion($item->total_price) }}
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-3 col-md-6 d-flex">
-                                                                <div class="mx-auto my-auto d-flex justify-content-around">
-                                                                    {{-- Modal Button --}}
-                                                                    <button type="button" class="btn btn-checklist"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#modal_service{{ $item->id }}">
-                                                                        Manage
-                                                                    </button>
-                                                                    &ensp;
-                                                                    <a href="" class="btn btn-delete px-2">
-                                                                        <i class="fa-solid fa-trash fa-lg px-1"></i>
-                                                                    </a>
-                                                                </div>
-
-                                                                {{-- Modal --}}
-                                                                <div class="modal fade" tabindex="-1"
-                                                                    id="modal_service{{ $item->id }}">
-                                                                    <div class="modal-dialog modal-dialog-scrollable">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title">Ubah Pesanan Jasa
-                                                                                </h5>
-
-                                                                                <!--begin::Close-->
-                                                                                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close">
-                                                                                    <i
-                                                                                        class="ki-duotone ki-cross fs-2x"></i>
-                                                                                </div>
-                                                                                <!--end::Close-->
-                                                                            </div>
-
-                                                                            <div class="modal-body">
-                                                                                <form class="m-3" action=""
-                                                                                    method="POST">
-                                                                                    @method('put')
-                                                                                    @csrf
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="is_checkout_service"
-                                                                                            class="form-label">
-                                                                                            Tambahin Produk ke Cart
-                                                                                        </label>
-                                                                                        <select class="form-select"
-                                                                                            id="is_checkout_service"
-                                                                                            name="is_checkout"
-                                                                                            aria-label="Default select example">
-                                                                                            <option value="">
-                                                                                                Pilih Opsi
-                                                                                            </option>
-                                                                                            <option value="1">Tambah
-                                                                                            </option>
-                                                                                            <option value="0">Jangan
-                                                                                                Tambahkan
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="quantity_service"
-                                                                                            class="form-label">Jumlah
-                                                                                            Produk</label>
-                                                                                        <input type="number"
-                                                                                            class="form-control"
-                                                                                            id="quantity_service"
-                                                                                            name="quantity" min="1"
-                                                                                            max="99"
-                                                                                            value="{{ $item->quantity }}">
-                                                                                    </div>
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="material"
-                                                                                            class="form-label">
-                                                                                            Material
-                                                                                        </label>
-                                                                                        <select class="form-select"
-                                                                                            id="material" name="material"
-                                                                                            aria-label="Default select example">
-                                                                                            <option value="">
-                                                                                                Pilih Opsi Bahan
-                                                                                            </option>
-                                                                                            <option value="Polo">
-                                                                                                Polo
-                                                                                            </option>
-                                                                                            <option value="Katun">
-                                                                                                Katun
-                                                                                            </option>
-                                                                                            <option value="Polyester">
-                                                                                                Polyester
-                                                                                            </option>
-                                                                                            <option value="Rayon">
-                                                                                                Rayon
-                                                                                            </option>
-                                                                                            <option value="Linen">
-                                                                                                Linen
-                                                                                            </option>
-                                                                                            <option value="Wool">
-                                                                                                Wool
-                                                                                            </option>
-                                                                                            <option value="Spandex">
-                                                                                                Spandex
-                                                                                            </option>
-                                                                                        </select>
-                                                                                    </div>
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="custom_design"
-                                                                                            class="form-label">Foto Custom
-                                                                                            Desain *(optional)
-                                                                                        </label>
-                                                                                        <input id="custom_design"
-                                                                                            name="custom_design"
-                                                                                            class="form-control"
-                                                                                            type="file" id="formFile">
-                                                                                    </div>
-
-                                                                                    <div class="form-group mb-3">
-                                                                                        <label for="deadline"
-                                                                                            class="form-label">Deadline
-                                                                                            Order
-                                                                                        </label>
-                                                                                        <input type="date"
-                                                                                            class="form-control"
-                                                                                            id="deadline" name="deadline"
-                                                                                            min="1" max="99">
-                                                                                    </div>
-
-                                                                                    <div class="modal-footer">
-                                                                                        <button type="button"
-                                                                                            class="btn btn-unconfirm"
-                                                                                            data-bs-dismiss="modal">Batal</button>
-                                                                                        <button type="submit"
-                                                                                            class="btn btn-confirm">Simpan</button>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
+                                                                            <span
+                                                                                class="text-black-theme text-center alert-danger px-3 alert-border-radius">
+                                                                                {{ dateConversion($item->deadline) }}
+                                                                            </span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="pt-2 mx-auto my-auto">
+                                                                <small class="text-muted text-nowrap"> Rp.
+                                                                    {{ priceConversion($item->price_per_pcs) }} /
+                                                                    per item
+                                                                </small> <br>
+                                                                <span class="h6 fw-bold">
+                                                                    Total :
+                                                                    Rp. {{ priceConversion($item->total_price) }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-3 col-md-6 d-flex">
+                                                            <div class="mx-auto my-auto d-flex justify-content-around">
+                                                                {{-- Modal Button --}}
+                                                                <button type="button" class="btn btn-checklist"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#modal_service{{ $item->id }}">
+                                                                    Manage
+                                                                </button>
+                                                                &ensp;
+                                                                <a href="" class="btn btn-delete px-2">
+                                                                    <i class="fa-solid fa-trash fa-lg px-1"></i>
+                                                                </a>
+                                                            </div>
+
+                                                            {{-- Modal --}}
+                                                            <div class="modal fade" tabindex="-1"
+                                                                id="modal_service{{ $item->id }}">
+                                                                <div class="modal-dialog modal-dialog-scrollable">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">Ubah Pesanan Jasa
+                                                                            </h5>
+
+                                                                            <!--begin::Close-->
+                                                                            <div class="btn btn-icon btn-sm btn-active-light-primary ms-2"
+                                                                                data-bs-dismiss="modal"
+                                                                                aria-label="Close">
+                                                                                <i class="ki-duotone ki-cross fs-2x"></i>
+                                                                            </div>
+                                                                            <!--end::Close-->
+                                                                        </div>
+
+                                                                        <div class="modal-body">
+                                                                            <form class="m-3" action=""
+                                                                                method="POST">
+                                                                                @method('put')
+                                                                                @csrf
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="is_checkout_service"
+                                                                                        class="form-label">
+                                                                                        Tambahin Produk ke Cart
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="is_checkout_service"
+                                                                                        name="is_checkout"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi
+                                                                                        </option>
+                                                                                        <option value="1">Tambah
+                                                                                        </option>
+                                                                                        <option value="0">Jangan
+                                                                                            Tambahkan
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="quantity_service"
+                                                                                        class="form-label">Jumlah
+                                                                                        Produk</label>
+                                                                                    <input type="number"
+                                                                                        class="form-control"
+                                                                                        id="quantity_service"
+                                                                                        name="quantity" min="1"
+                                                                                        max="99"
+                                                                                        value="{{ $item->quantity }}">
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="material"
+                                                                                        class="form-label">
+                                                                                        Material
+                                                                                    </label>
+                                                                                    <select class="form-select"
+                                                                                        id="material" name="material"
+                                                                                        aria-label="Default select example">
+                                                                                        <option value="">
+                                                                                            Pilih Opsi Bahan
+                                                                                        </option>
+                                                                                        <option value="Polo">
+                                                                                            Polo
+                                                                                        </option>
+                                                                                        <option value="Katun">
+                                                                                            Katun
+                                                                                        </option>
+                                                                                        <option value="Polyester">
+                                                                                            Polyester
+                                                                                        </option>
+                                                                                        <option value="Rayon">
+                                                                                            Rayon
+                                                                                        </option>
+                                                                                        <option value="Linen">
+                                                                                            Linen
+                                                                                        </option>
+                                                                                        <option value="Wool">
+                                                                                            Wool
+                                                                                        </option>
+                                                                                        <option value="Spandex">
+                                                                                            Spandex
+                                                                                        </option>
+                                                                                    </select>
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="custom_design"
+                                                                                        class="form-label">Foto Custom
+                                                                                        Desain *(optional)
+                                                                                    </label>
+                                                                                    <input id="custom_design"
+                                                                                        name="custom_design"
+                                                                                        class="form-control"
+                                                                                        type="file" id="formFile">
+                                                                                </div>
+
+                                                                                <div class="form-group mb-3">
+                                                                                    <label for="deadline"
+                                                                                        class="form-label">Deadline
+                                                                                        Order
+                                                                                    </label>
+                                                                                    <input type="date"
+                                                                                        class="form-control"
+                                                                                        id="deadline" name="deadline"
+                                                                                        min="1" max="99">
+                                                                                </div>
+
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-unconfirm"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <button type="submit"
+                                                                                        class="btn btn-confirm">Simpan</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endforeach
                                             @else
                                                 <span>
@@ -567,9 +559,9 @@
                                                         <span class="fw-bold">Daftar Pesanan Jasa :</span>
                                                     </div>
 
-                                                    @if (DB::table('carts')->count())
+                                                    @if ($order_services->count())
                                                         <ul>
-                                                            @foreach ($cart_products as $item)
+                                                            @foreach ($order_services as $item)
                                                                 <li>
                                                                     <p class="mb-2">
                                                                         <span class="limit-text-title fw-medium"
@@ -594,13 +586,31 @@
                                                     <div class="d-flex justify-content-between">
                                                         <p class="mb-2 fw-bold">Total Order :</p>
                                                         <p class="mb-2 fw-bold">Rp.
-                                                            {{ priceConversion($total_price_cart) }}
+                                                            {{ priceConversion($total_price_order) }}
                                                         </p>
                                                     </div>
 
-                                                    @if (DB::table('carts')->count())
-                                                        @if (DB::table('transactions')->count())
-                                                            @if ($last_transaction->status == 'Success Order')
+                                                    @if ($order_services->count())
+                                                        @foreach ($order_services as $item)
+                                                            @if (DB::table('transactions')->count())
+                                                                @if ($last_transaction->status == 'Success Order')
+                                                                    <div class="mt-3">
+                                                                        <button type="submit"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#orderService">Order
+                                                                            Sekarang</button>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="mt-3">
+                                                                        <a href="{{ route('transaction.index') }}"
+                                                                            type="button"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            Proses
+                                                                            Order</a>
+                                                                    </div>
+                                                                @endif
+                                                            @else
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
@@ -608,24 +618,8 @@
                                                                         data-bs-target="#orderService">Order
                                                                         Sekarang</button>
                                                                 </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <a href="{{ route('transaction.index') }}"
-                                                                        type="button"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                        Proses
-                                                                        Order</a>
-                                                                </div>
                                                             @endif
-                                                        @else
-                                                            <div class="mt-3">
-                                                                <button type="submit"
-                                                                    class="btn btn-checklist w-100 shadow-0 mb-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#orderService">Order
-                                                                    Sekarang</button>
-                                                            </div>
-                                                        @endif
+                                                        @endforeach
                                                     @else
                                                         <div class="mt-3">
                                                             <a href="{{ route('customer.beranda') }}" type="submit"
@@ -678,13 +672,187 @@
         <div class="container my-4">
             <div class="row">
                 <div class="slider owl-carousel owl-theme">
-                    @foreach ($products as $value)
-                        <form action="" method="POST">
-                            @csrf
-
+                    @foreach ($recommend_items as $value)
+                        {{-- mengambil data product --}}
+                        @if ($value->category->type == 'product')
                             <div class="item col-md-12 d-flex justify-content-center p-1">
                                 <div class="card my-2 shadow-sm p-4 card-hover">
-                                    <a href="#!" class="img-wrap">
+                                    <a href="{{ route('customer.product.detail', $value->id) }}" class="img-wrap">
+                                        <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
+                                            title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
+                                    </a>
+                                    <div class="card-body p-0 pt-2">
+                                        <h6 class="card-title product-title mt-2 pt-2 limit-text"
+                                            title="{{ $value->name }}">
+                                            <span class="text-black fw-bold">{{ $value->name }}</span>
+                                        </h6>
+
+                                        <div class="product-details">
+                                            <div class="row">
+                                                <div class="col d-flex">
+                                                    <span class="card-text mx-auto my-auto">
+                                                        <span class="text-theme-two fw-bold">Rp.
+                                                            {{ priceConversion($value->price) }}</span>
+                                                    </span>
+                                                </div>
+                                                <div class="col d-flex">
+                                                    <div class="product-rating mx-auto my-auto">
+                                                        @php
+                                                            $product_id = $value->id;
+                                                            $averageRating = $value->product_rating->where('product_id', $product_id)->avg('rating');
+                                                            
+                                                            $rating = $averageRating;
+                                                            $whole = floor($rating);
+                                                            $fraction = $rating - $whole;
+                                                        @endphp
+
+                                                        @for ($i = 0; $i < $whole; $i++)
+                                                            <i class="fa fa-star"></i>
+                                                        @endfor
+
+                                                        @if ($fraction > 0)
+                                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                                        @endif
+
+                                                        <span class="rating-number fw-medium text-theme">
+                                                            @php
+                                                                $product_id = $value->id;
+                                                                $product_rating = $value->product_rating->where('product_id', $product_id)->first();
+                                                            @endphp
+
+                                                            @if ($product_rating)
+                                                                ({{ roundToOneDecimal($averageRating) }})
+                                                            @else
+                                                                Null
+                                                            @endif
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-between mt-1">
+                                                <div class="col-6 d-flex">
+                                                    @if ($value->status == 'Tersedia')
+                                                        <span class="status-available-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @elseif ($value->status == 'Pre Order')
+                                                        <span class="status-pre-order-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @elseif ($value->status == 'Habis')
+                                                        <span class="status-run-out-badge">
+                                                            {{ $value->status }}
+                                                        </span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col bg-danger d-flex">
+                                                <div class="mx-auto my-auto">
+                                                    <span
+                                                        class="fw-medium text-theme new-badge">{{ $value->condition }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- Pengecekan Product --}}
+                                        @if (!Auth::check())
+                                            {{-- kondisi jika user masih guest --}}
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- kondisi normal login karena masih guest --}}
+                                                <div class="row">
+                                                    <a href="{{ route('customer.login') }}" type="button"
+                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                        title="Tambahkan Produk ke Keranjang?"><i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp; Add to Cart
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            {{-- kondisijika user admin --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                            {{-- mengecek status barang --}}
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- kondisi button non fungsi karena admin --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                        title="Tambahkan Produk ke Keranjang?"><i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp; Add to Cart
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            {{-- kondisi jika user customer --}}
+                                        @elseif(auth()->user() != null && auth()->user()->role == 'customer')
+                                            {{-- mengecek status barang --}}
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- mengecek apakah barang ada di keranjang milik customer ada atau tidak --}}
+                                                @if (
+                                                    $list_product_carts->contains('product_id', $value->id) &&
+                                                        $list_product_carts->contains('user_id', auth()->user()->id))
+                                                    {{-- jikalau barang ada di keranjang customer --}}
+                                                    <div class="row">
+                                                        <a href="#!" type="button"
+                                                            class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                            title="Produk Ada Di Daftar Keranjang"> Produk
+                                                            Sudah
+                                                            Ditambahkan
+                                                        </a>
+                                                    </div>
+                                                @else
+                                                    {{-- jikalau barang tidak ada --}}
+                                                    <form
+                                                        action="{{ route('cart.store.product.home', ['user_id' => auth()->user()->id, 'product_id' => $value->id]) }}"
+                                                        method="POST">
+                                                        @csrf
+
+                                                        <div class="row">
+                                                            <button type="submit"
+                                                                class="btn btn-checklist icon-cart-hover mt-2"
+                                                                title="Tambahkan Produk ke Keranjang?"><i
+                                                                    class="fa-solid fa-cart-plus"></i>
+                                                                &ensp; Add to Cart
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                @endif
+                                            @endif
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        @elseif ($value->category->type == 'service')
+                            <div class="item col-md-12 d-flex justify-content-center p-1">
+                                <div class="card my-2 shadow-sm p-4 card-hover">
+                                    <a href="{{ route('customer.service.detail', $value->id) }}" class="img-wrap">
                                         <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
                                             title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
                                     </a>
@@ -693,54 +861,123 @@
                                             <span class="text-black fw-bold">{{ $value->name }}</span>
                                         </h6>
 
-                                        <div class="row justify-content-between my-2">
-                                            <div class="col-6 d-flex">
-                                                <span class="card-text">
+                                        <div class="row">
+                                            <div class="col d-flex">
+                                                <span class="card-text mx-auto my-auto">
                                                     <span class="text-theme-two fw-bold">Rp.
-                                                        {{ priceConversion($value->price) }}</span>
-                                                    <br>
-                                                    <span class="fw-medium text-theme">{{ $value->condition }}</span>
+                                                        {{ priceConversion($value->price_per_pcs) }}</span>
                                                 </span>
                                             </div>
+                                            <div class="col d-flex">
+                                                <div class="product-rating mx-auto my-auto">
+                                                    @php
+                                                        $service_id = $value->id;
+                                                        $averageRating = $value->service_rating->where('service_id', $service_id)->avg('rating');
+                                                        
+                                                        $rating = $averageRating;
+                                                        $whole = floor($rating);
+                                                        $fraction = $rating - $whole;
+                                                    @endphp
 
-                                            <div class="col-6 d-flex">
-                                                @if ($value->status == 'Tersedia')
-                                                    <div class="btn ready-content my-auto mx-auto">
-                                                        {{ $value->status }}
-                                                    </div>
-                                                @elseif ($value->status == 'Pre Order')
-                                                    <div class="btn pre-order-content my-auto mx-auto">
-                                                        {{ $value->status }}
-                                                    </div>
-                                                @elseif ($value->status == 'Habis')
-                                                    <div class="btn run-out-content my-auto mx-auto">
-                                                        {{ $value->status }}
-                                                    </div>
-                                                @endif
+                                                    @for ($i = 0; $i < $whole; $i++)
+                                                        <i class="fa fa-star"></i>
+                                                    @endfor
+
+                                                    @if ($fraction > 0)
+                                                        <i class="fa-solid fa-star-half-stroke"></i>
+                                                    @endif
+
+                                                    <span class="rating-number fw-medium text-theme">
+                                                        @php
+                                                            $service_id = $value->id;
+                                                            $service_rating = $value->service_rating->where('service_id', $service_id)->first();
+                                                        @endphp
+
+                                                        @if ($service_rating)
+                                                            ({{ roundToOneDecimal($averageRating) }})
+                                                        @else
+                                                            Null
+                                                        @endif
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    @if ($carts->contains('services_id', $value->id))
-                                        <a href="#!" type="button"
-                                            class="btn btn-checklist-on icon-cart-hover mt-2"
-                                            title="Produk ada di keranjang"> On My Cart
-                                        </a>
-                                    @else
-                                        @if ($value->status == 'Habis' || $value->status == 'Pre Order')
-                                            <a href="#!" type="button"
-                                                class="btn btn-checklist-on icon-cart-hover mt-2"
-                                                title="Produk ada di keranjang"> Product Unavailable
-                                            </a>
-                                        @else
-                                            <button type="submit" class="btn btn-checklist icon-cart-hover mt-2"
-                                                title="Tambah ke keranjang?"> ADD TO CART
-                                            </button>
+                                        <div class="row">
+                                            <div class="col bg-danger d-flex">
+                                                <div class="mx-auto my-auto">
+                                                    <span
+                                                        class="fw-medium text-theme new-badge">{{ $value->estimation }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row justify-content-between my-2">
+                                            <div class="col-6 d-flex">
+                                                <span class="status-available-badge">
+                                                    {{ $value->category->name }}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {{-- Pengecekan Service --}}
+                                        @if (!Auth::check())
+                                            {{-- kondisi jika user masih guest --}}
+                                            <div class="row">
+                                                <a href="{{ route('customer.login') }}" type="button"
+                                                    class="btn btn-checklist icon-cart-hover mt-2"
+                                                    title="Tambahkan Jasa ke Pesanan?"><i
+                                                        class="fa-solid fa-cart-plus"></i>
+                                                    &ensp; Add to Order
+                                                </a>
+                                            </div>
+                                            {{-- kondisi jika user admin --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                            {{-- kondisi button non fungsi karena admin --}}
+                                            <div class="row">
+                                                <a href="#!" type="button"
+                                                    class="btn btn-checklist icon-cart-hover mt-2"
+                                                    title="Tambahkan Jasa ke Pesanan?"><i
+                                                        class="fa-solid fa-cart-plus"></i>
+                                                    &ensp; Add to Order
+                                                </a>
+                                            </div>
+                                            {{-- kondisi jika user customer --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'customer')
+                                            {{-- mengecek apakah barang ada di pesanan milik customer ada atau tidak --}}
+                                            @if (
+                                                $list_service_orders->contains('service_id', $value->id) &&
+                                                    $list_service_orders->contains('user_id', auth()->user()->id))
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Jasa Ada Di Daftar Pesanan"> Jasa Sudah
+                                                        Ditambahkan
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- jikalau barang tidak ada --}}
+                                                <form
+                                                    action="{{ route('order.store.service.home', ['user_id' => auth()->user()->id, 'service_id' => $value->id]) }}"
+                                                    method="POST">
+                                                    @csrf
+
+                                                    <div class="row">
+                                                        <button type="submit"
+                                                            class="btn btn-checklist icon-cart-hover mt-2"
+                                                            title="Tambahkan Jasa ke Pesanan?"><i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp; Add to Order
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            @endif
                                         @endif
-                                    @endif
+
+                                    </div>
                                 </div>
                             </div>
-                        </form>
+                        @endif
                     @endforeach
                 </div>
             </div>

@@ -361,39 +361,93 @@
                                                     </div>
                                                 </div>
 
-                                                @if ($carts->contains('product_id', $product->id))
-                                                    <div class="row">
-                                                        <a href="#!" type="button"
-                                                            class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                            title="Produk ada di daftar keranjang"> Produk Sudah
-                                                            Ditambahkan
-                                                        </a>
-                                                    </div>
-                                                @else
+                                                {{-- Pengecekan Product --}}
+                                                @if (!Auth::check())
+                                                    {{-- kondisi jika user masih guest --}}
                                                     @if ($product->status == 'Habis' || $product->status == 'Pre Order')
+                                                        {{-- mengecek status barang --}}
                                                         <div class="row">
                                                             <a href="#!" type="button"
-                                                                class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                                title="Produk tidak tersedia"> Produk Tidak Tersedia
+                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                title="Produk Tidak Tersedia"> Produk Tidak Tersedia
                                                             </a>
                                                         </div>
                                                     @else
-                                                        <form action="{{ route('cart.store', $product->id) }}"
-                                                            method="POST">
-                                                            @csrf
-
+                                                        {{-- kondisi normal login karena masih guest --}}
+                                                        <div class="row">
+                                                            <a href="{{ route('customer.login') }}" type="button"
+                                                                class="btn btn-checklist icon-cart-hover mt-2"
+                                                                title="Tambahkan Produk ke Keranjang?"><i
+                                                                    class="fa-solid fa-cart-plus"></i>
+                                                                &ensp; Add to Cart
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    {{-- kondisijika user admin --}}
+                                                @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                                    {{-- mengecek status barang --}}
+                                                    @if ($product->status == 'Habis' || $product->status == 'Pre Order')
+                                                        {{-- mengecek status barang --}}
+                                                        <div class="row">
+                                                            <a href="#!" type="button"
+                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        {{-- kondisi button non fungsi karena admin --}}
+                                                        <div class="row">
+                                                            <a href="#!" type="button"
+                                                                class="btn btn-checklist icon-cart-hover mt-2"
+                                                                title="Tambahkan Produk ke Keranjang?"><i
+                                                                    class="fa-solid fa-cart-plus"></i>
+                                                                &ensp; Add to Cart
+                                                            </a>
+                                                        </div>
+                                                    @endif
+                                                    {{-- kondisi jika user customer --}}
+                                                @elseif(auth()->user() != null && auth()->user()->role == 'customer')
+                                                    {{-- mengecek status barang --}}
+                                                    @if ($product->status == 'Habis' || $product->status == 'Pre Order')
+                                                        {{-- mengecek status barang --}}
+                                                        <div class="row">
+                                                            <a href="#!" type="button"
+                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                            </a>
+                                                        </div>
+                                                    @else
+                                                        {{-- mengecek apakah barang ada di keranjang milik customer ada atau tidak --}}
+                                                        @if (DB::table('cart_products')->where('product_id', $product->id)->where('user_id', auth()->user()->id)->exists())
+                                                            {{-- jikalau barang ada di keranjang customer --}}
                                                             <div class="row">
-                                                                <button type="submit"
-                                                                    class="btn btn-checklist icon-cart-hover mt-3"
-                                                                    title="Tambah ke keranjang?"><i
-                                                                        class="fa-solid fa-cart-plus"></i>
-                                                                    &ensp; Add to Cart
-                                                                </button>
+                                                                <a href="#!" type="button"
+                                                                    class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                    title="Produk Ada Di Daftar Keranjang"> Produk
+                                                                    Sudah
+                                                                    Ditambahkan
+                                                                </a>
                                                             </div>
+                                                        @else
+                                                            {{-- jikalau barang tidak ada --}}
+                                                            <form
+                                                                action="{{ route('cart.store.product.home', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
+                                                                method="POST">
+                                                                @csrf
 
-                                                        </form>
+                                                                <div class="row">
+                                                                    <button type="submit"
+                                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                                        title="Tambahkan Produk ke Keranjang?"><i
+                                                                            class="fa-solid fa-cart-plus"></i>
+                                                                        &ensp; Add to Cart
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        @endif
                                                     @endif
                                                 @endif
+
                                             </div>
                                         </div>
                                     </div>
@@ -478,39 +532,58 @@
                                                     </div>
                                                 </div>
 
-                                                @if ($carts->contains('product_id', $service->id))
+                                                {{-- Pengecekan Service --}}
+                                                @if (!Auth::check())
+                                                    {{-- kondisi jika user masih guest --}}
                                                     <div class="row">
-                                                        <a href="#!" type="button"
-                                                            class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                            title="Jasa ada di daftar order"> Jasa Sudah
-                                                            Ditambahkan
+                                                        <a href="{{ route('customer.login') }}" type="button"
+                                                            class="btn btn-checklist icon-cart-hover mt-2"
+                                                            title="Tambahkan Jasa ke Pesanan?"><i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp; Add to Order
                                                         </a>
                                                     </div>
-                                                @else
-                                                    @if ($service->status == 'Habis' || $service->status == 'Pre Order')
+                                                    {{-- kondisi jika user admin --}}
+                                                @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                                    {{-- kondisi button non fungsi karena admin --}}
+                                                    <div class="row">
+                                                        <a href="#!" type="button"
+                                                            class="btn btn-checklist icon-cart-hover mt-2"
+                                                            title="Tambahkan Jasa ke Pesanan?"><i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp; Add to Order
+                                                        </a>
+                                                    </div>
+                                                    {{-- kondisi jika user customer --}}
+                                                @elseif (auth()->user() != null && auth()->user()->role == 'customer')
+                                                    {{-- mengecek apakah barang ada di pesanan milik customer ada atau tidak --}}
+                                                    @if (DB::table('order_services')->where('service_id', $service->id)->where('user_id', auth()->user()->id)->exists())
                                                         <div class="row">
                                                             <a href="#!" type="button"
-                                                                class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                                title="Jasa tidak tersedia"> Jasa Tidak Tersedia
+                                                                class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                                title="Jasa Ada Di Daftar Pesanan"> Jasa Sudah
+                                                                Ditambahkan
                                                             </a>
                                                         </div>
                                                     @else
-                                                        <form action="{{ route('cart.store', $service->id) }}"
+                                                        {{-- jikalau barang tidak ada --}}
+                                                        <form
+                                                            action="{{ route('order.store.service.home', ['user_id' => auth()->user()->id, 'service_id' => $service->id]) }}"
                                                             method="POST">
                                                             @csrf
 
                                                             <div class="row">
                                                                 <button type="submit"
                                                                     class="btn btn-checklist icon-cart-hover mt-2"
-                                                                    title="Order Jasa?"><i
+                                                                    title="Tambahkan Jasa ke Pesanan?"><i
                                                                         class="fa-solid fa-cart-plus"></i>
                                                                     &ensp; Add to Order
                                                                 </button>
                                                             </div>
-
                                                         </form>
                                                     @endif
                                                 @endif
+
                                             </div>
                                         </div>
                                     </div>
@@ -602,38 +675,93 @@
                                             </div>
                                         </div>
 
-                                        @if ($carts->contains('product_id', $value->id))
-                                            <div class="row">
-                                                <a href="#!" type="button"
-                                                    class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                    title="Produk ada di daftar keranjang"> Produk Sudah
-                                                    Ditambahkan
-                                                </a>
-                                            </div>
-                                        @else
+                                        {{-- Pengecekan Product --}}
+                                        @if (!Auth::check())
+                                            {{-- kondisi jika user masih guest --}}
                                             @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
                                                 <div class="row">
                                                     <a href="#!" type="button"
-                                                        class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                        title="Produk tidak tersedia"> Produk Tidak Tersedia
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
                                                     </a>
                                                 </div>
                                             @else
-                                                <form action="{{ route('cart.store', $value->id) }}" method="POST">
-                                                    @csrf
-
+                                                {{-- kondisi normal login karena masih guest --}}
+                                                <div class="row">
+                                                    <a href="{{ route('customer.login') }}" type="button"
+                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                        title="Tambahkan Produk ke Keranjang?"><i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp; Add to Cart
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            {{-- kondisijika user admin --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                            {{-- mengecek status barang --}}
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- kondisi button non fungsi karena admin --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist icon-cart-hover mt-2"
+                                                        title="Tambahkan Produk ke Keranjang?"><i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp; Add to Cart
+                                                    </a>
+                                                </div>
+                                            @endif
+                                            {{-- kondisi jika user customer --}}
+                                        @elseif(auth()->user() != null && auth()->user()->role == 'customer')
+                                            {{-- mengecek status barang --}}
+                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                                {{-- mengecek status barang --}}
+                                                <div class="row">
+                                                    <a href="#!" type="button"
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Produk Tidak Tersedia"> Produk Tidak Tersedia
+                                                    </a>
+                                                </div>
+                                            @else
+                                                {{-- mengecek apakah barang ada di keranjang milik customer ada atau tidak --}}
+                                                @if (DB::table('cart_products')->where('product_id', $value->id)->where('user_id', auth()->user()->id)->exists())
+                                                    {{-- jikalau barang ada di keranjang customer --}}
                                                     <div class="row">
-                                                        <button type="submit"
-                                                            class="btn btn-checklist icon-cart-hover mt-3"
-                                                            title="Tambah ke keranjang?"><i
-                                                                class="fa-solid fa-cart-plus"></i>
-                                                            &ensp; Add to Cart
-                                                        </button>
+                                                        <a href="#!" type="button"
+                                                            class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                            title="Produk Ada Di Daftar Keranjang"> Produk
+                                                            Sudah
+                                                            Ditambahkan
+                                                        </a>
                                                     </div>
+                                                @else
+                                                    {{-- jikalau barang tidak ada --}}
+                                                    <form
+                                                        action="{{ route('cart.store.product.home', ['user_id' => auth()->user()->id, 'product_id' => $value->id]) }}"
+                                                        method="POST">
+                                                        @csrf
 
-                                                </form>
+                                                        <div class="row">
+                                                            <button type="submit"
+                                                                class="btn btn-checklist icon-cart-hover mt-2"
+                                                                title="Tambahkan Produk ke Keranjang?"><i
+                                                                    class="fa-solid fa-cart-plus"></i>
+                                                                &ensp; Add to Cart
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                @endif
                                             @endif
                                         @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -711,37 +839,58 @@
                                             </div>
                                         </div>
 
-                                        @if ($carts->contains('product_id', $value->id))
+                                        {{-- Pengecekan Service --}}
+                                        @if (!Auth::check())
+                                            {{-- kondisi jika user masih guest --}}
                                             <div class="row">
-                                                <a href="#!" type="button"
-                                                    class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                    title="Jasa ada di daftar order"> Jasa Sudah
-                                                    Ditambahkan
+                                                <a href="{{ route('customer.login') }}" type="button"
+                                                    class="btn btn-checklist icon-cart-hover mt-2"
+                                                    title="Tambahkan Jasa ke Pesanan?"><i
+                                                        class="fa-solid fa-cart-plus"></i>
+                                                    &ensp; Add to Order
                                                 </a>
                                             </div>
-                                        @else
-                                            @if ($value->status == 'Habis' || $value->status == 'Pre Order')
+                                            {{-- kondisi jika user admin --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                            {{-- kondisi button non fungsi karena admin --}}
+                                            <div class="row">
+                                                <a href="#!" type="button"
+                                                    class="btn btn-checklist icon-cart-hover mt-2"
+                                                    title="Tambahkan Jasa ke Pesanan?"><i
+                                                        class="fa-solid fa-cart-plus"></i>
+                                                    &ensp; Add to Order
+                                                </a>
+                                            </div>
+                                            {{-- kondisi jika user customer --}}
+                                        @elseif (auth()->user() != null && auth()->user()->role == 'customer')
+                                            {{-- mengecek apakah barang ada di pesanan milik customer ada atau tidak --}}
+                                            @if (DB::table('order_services')->where('service_id', $value->id)->where('user_id', auth()->user()->id)->exists())
                                                 <div class="row">
                                                     <a href="#!" type="button"
-                                                        class="btn btn-checklist-on icon-cart-hover mt-3"
-                                                        title="Jasa tidak tersedia"> Jasa Tidak Tersedia
+                                                        class="btn btn-checklist-on icon-cart-hover mt-2"
+                                                        title="Jasa Ada Di Daftar Pesanan"> Jasa Sudah
+                                                        Ditambahkan
                                                     </a>
                                                 </div>
                                             @else
-                                                <form action="{{ route('cart.store', $value->id) }}" method="POST">
+                                                {{-- jikalau barang tidak ada --}}
+                                                <form
+                                                    action="{{ route('order.store.service.home', ['user_id' => auth()->user()->id, 'service_id' => $value->id]) }}"
+                                                    method="POST">
                                                     @csrf
 
                                                     <div class="row">
                                                         <button type="submit"
                                                             class="btn btn-checklist icon-cart-hover mt-2"
-                                                            title="Order Jasa?"><i class="fa-solid fa-cart-plus"></i>
+                                                            title="Tambahkan Jasa ke Pesanan?"><i
+                                                                class="fa-solid fa-cart-plus"></i>
                                                             &ensp; Add to Order
                                                         </button>
                                                     </div>
-
                                                 </form>
                                             @endif
                                         @endif
+
                                     </div>
                                 </div>
                             </div>
