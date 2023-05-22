@@ -194,9 +194,13 @@
                                                                                         <option value="">
                                                                                             Pilih Opsi
                                                                                         </option>
-                                                                                        <option value="1">Tambah
+                                                                                        <option value="1"
+                                                                                            {{ $item->is_checkout == true || 1 ? 'selected' : '' }}>
+                                                                                            Tambah
                                                                                         </option>
-                                                                                        <option value="0">Jangan
+                                                                                        <option value="0"
+                                                                                            {{ $item->is_checkout == false || 0 ? 'selected' : '' }}>
+                                                                                            Jangan
                                                                                             Tambahkan
                                                                                         </option>
                                                                                     </select>
@@ -452,9 +456,13 @@
                                                                                         <option value="">
                                                                                             Pilih Opsi
                                                                                         </option>
-                                                                                        <option value="1">Tambah
+                                                                                        <option value="1"
+                                                                                            {{ $item->is_checkout == true || 1 ? 'selected' : '' }}>
+                                                                                            Tambah
                                                                                         </option>
-                                                                                        <option value="0">Jangan
+                                                                                        <option value="0"
+                                                                                            {{ $item->is_checkout == false || 0 ? 'selected' : '' }}>
+                                                                                            Jangan
                                                                                             Tambahkan
                                                                                         </option>
                                                                                     </select>
@@ -483,25 +491,32 @@
                                                                                         <option value="">
                                                                                             Pilih Opsi Bahan
                                                                                         </option>
-                                                                                        <option value="Polo">
+                                                                                        <option value="Polo"
+                                                                                            {{ $item->material == 'Polo' ? 'selected' : '' }}>
                                                                                             Polo
                                                                                         </option>
-                                                                                        <option value="Katun">
+                                                                                        <option value="Katun"
+                                                                                            {{ $item->material == 'Katun' ? 'selected' : '' }}>
                                                                                             Katun
                                                                                         </option>
-                                                                                        <option value="Polyester">
+                                                                                        <option value="Polyester"
+                                                                                            {{ $item->material == 'Polyester' ? 'selected' : '' }}>
                                                                                             Polyester
                                                                                         </option>
-                                                                                        <option value="Rayon">
+                                                                                        <option value="Rayon"
+                                                                                            {{ $item->material == 'Rayon' ? 'selected' : '' }}>
                                                                                             Rayon
                                                                                         </option>
-                                                                                        <option value="Linen">
+                                                                                        <option value="Linen"
+                                                                                            {{ $item->material == 'Linen' ? 'selected' : '' }}>
                                                                                             Linen
                                                                                         </option>
-                                                                                        <option value="Wool">
+                                                                                        <option value="Wool"
+                                                                                            {{ $item->material == 'Wool' ? 'selected' : '' }}>
                                                                                             Wool
                                                                                         </option>
-                                                                                        <option value="Spandex">
+                                                                                        <option value="Spandex"
+                                                                                            {{ $item->material == 'Spandex' ? 'selected' : '' }}>
                                                                                             Spandex
                                                                                         </option>
                                                                                     </select>
@@ -526,7 +541,8 @@
                                                                                     <input type="date"
                                                                                         class="form-control"
                                                                                         id="deadline" name="deadline"
-                                                                                        min="1" max="99">
+                                                                                        min="1" max="99"
+                                                                                        value="{{ $item->deadline }}">
                                                                                 </div>
 
                                                                                 <div class="modal-footer">
@@ -814,9 +830,7 @@
                                                 </div>
                                             @else
                                                 {{-- mengecek apakah barang ada di keranjang milik customer ada atau tidak --}}
-                                                @if (
-                                                    $list_product_carts->contains('product_id', $value->id) &&
-                                                        $list_product_carts->contains('user_id', auth()->user()->id))
+                                                @if (DB::table('cart_products')->where('product_id', $value->id)->where('user_id', auth()->user()->id)->exists())
                                                     {{-- jikalau barang ada di keranjang customer --}}
                                                     <div class="row">
                                                         <a href="#!" type="button"
@@ -945,9 +959,7 @@
                                             {{-- kondisi jika user customer --}}
                                         @elseif (auth()->user() != null && auth()->user()->role == 'customer')
                                             {{-- mengecek apakah barang ada di pesanan milik customer ada atau tidak --}}
-                                            @if (
-                                                $list_service_orders->contains('service_id', $value->id) &&
-                                                    $list_service_orders->contains('user_id', auth()->user()->id))
+                                            @if (DB::table('order_services')->where('service_id', $value->id)->where('user_id', auth()->user()->id)->exists())
                                                 <div class="row">
                                                     <a href="#!" type="button"
                                                         class="btn btn-checklist-on icon-cart-hover mt-2"

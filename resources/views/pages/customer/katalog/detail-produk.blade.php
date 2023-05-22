@@ -12,22 +12,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
@@ -54,7 +54,7 @@
                                     @php
                                         $product_id = $product->id;
                                         $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
-
+                                        
                                         $rating = $averageRating;
                                         $whole = floor($rating);
                                         $fraction = $rating - $whole;
@@ -86,57 +86,36 @@
                             </p>
 
                             <div class="row mb-2">
+                                <div class="col-md-6 col-6 mb-2 d-flex">
+                                    <form
+                                        action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
+                                        method="POST" class="mx-auto my-auto">
+                                        @csrf
 
-                                <div class="col-md-4 col-6 mb-2">
-                                    <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
-                                    <div class="input-group mb-3" style="width: 170px;">
-                                        <button class="btn btn-white border border-secondary px-3" type="button"
-                                            id="btn-minus" data-mdb-ripple-color="dark">
-                                            <i class="fa-solid fa-minus"></i>
-                                        </button>
+                                        <div class="form-group">
+                                            <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
+                                            <div class="input-group mb-3" style="width: 170px;">
+                                                <button class="btn btn-white border border-secondary px-3" type="button"
+                                                    id="btn-minus" data-mdb-ripple-color="dark">
+                                                    <i class="fa-solid fa-minus"></i>
+                                                </button>
 
-                                        <form
-                                            action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
-                                            method="POST">
-                                            @csrf
 
-                                            <input type="text" name="quantity" id="quantity"
-                                                class="form-control text-center border border-secondary" placeholder="1"
-                                                min="1" aria-label="Example text with button addon"
-                                                aria-describedby="button-addon1" value="1" />
-                                        </form>
+                                                <input type="text" name="quantity" id="quantity"
+                                                    class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary text-center"
+                                                    placeholder="1" min="1"
+                                                    aria-label="Example text with button addon"
+                                                    aria-describedby="button-addon1" value="1" />
 
-                                        <button class="btn btn-white border border-secondary px-3" type="button"
-                                            id="btn-plus" data-mdb-ripple-color="dark">
-                                            <i class="fa-solid fa-plus"></i>
-                                        </button>
+                                                <button class="btn btn-white border border-secondary px-3" type="button"
+                                                    id="btn-plus" data-mdb-ripple-color="dark">
+                                                    <i class="fa-solid fa-plus"></i>
+                                                </button>
 
-                                    </div>
+                                            </div>
+                                        </div>
+                                        {{-- </form> --}}
                                 </div>
-
-                                {{-- script untuk memfungsikan tombol quantity --}}
-                                <script>
-                                    // Get the buttons and input element
-                                    const btnMinus = document.getElementById('btn-minus');
-                                    const btnPlus = document.getElementById('btn-plus');
-                                    const inputQuantity = document.getElementById('quantity');
-
-                                    // Add event listener to minus button
-                                    btnMinus.addEventListener('click', () => {
-                                        let quantity = parseInt(inputQuantity.value);
-                                        if (quantity > 1) {
-                                            quantity--;
-                                            inputQuantity.value = quantity;
-                                        }
-                                    });
-
-                                    // Add event listener to plus button
-                                    btnPlus.addEventListener('click', () => {
-                                        let quantity = parseInt(inputQuantity.value);
-                                        quantity++;
-                                        inputQuantity.value = quantity;
-                                    });
-                                </script>
 
                                 <div class="col-md-6 col-6 d-flex">
                                     <div class="my-auto mx-auto">
@@ -159,15 +138,11 @@
                                             @endguest
 
                                             @if (auth()->user() != null && auth()->user()->role == 'customer')
-                                                <form
-                                                    action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
-                                                    method="POST">
-                                                    @csrf
-
-                                                    <button type="submit" class="btn btn-theme shadow-0"> <i
-                                                            class="fa-solid fa-cart-plus"></i>
-                                                        &ensp;
-                                                        Add to cart </button>
+                                                {{-- continue form --}}
+                                                <button type="submit" class="btn btn-theme shadow-0"> <i
+                                                        class="fa-solid fa-cart-plus"></i>
+                                                    &ensp;
+                                                    Add to cart </button>
                                                 </form>
                                             @elseif (auth()->user() != null && auth()->user()->role == 'admin')
                                                 <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
@@ -178,6 +153,24 @@
                                             @endif
                                         @endif
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    @if ($errors->has('quantity'))
+                                        <div class="alert alert-danger">
+                                            Jumlah pesanan produk harus di isi
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div class="col-12">
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
 
@@ -466,6 +459,30 @@
 @endsection
 
 @section('script')
+    {{-- script untuk memfungsikan tombol quantity --}}
+    <script>
+        // Get the buttons and input element
+        const btnMinus = document.getElementById('btn-minus');
+        const btnPlus = document.getElementById('btn-plus');
+        const inputQuantity = document.getElementById('quantity');
+
+        // Add event listener to minus button
+        btnMinus.addEventListener('click', () => {
+            let quantity = parseInt(inputQuantity.value);
+            if (quantity > 1) {
+                quantity--;
+                inputQuantity.value = quantity;
+            }
+        });
+
+        // Add event listener to plus button
+        btnPlus.addEventListener('click', () => {
+            let quantity = parseInt(inputQuantity.value);
+            quantity++;
+            inputQuantity.value = quantity;
+        });
+    </script>
+
     <script>
         const ratingInputs = document.querySelectorAll('.rating-input');
 

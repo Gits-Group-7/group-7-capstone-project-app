@@ -51,9 +51,29 @@ class OrderServiceController extends Controller
 
         return redirect()->route('cart.index');
     }
-    public function store_detail($user_id, $service_id)
+
+    public function store_detail(Request $request, $user_id, $service_id)
     {
-        //
+        // validasi field
+        $validated = $request->validate([
+            'material' => 'required',
+            'quantity' => 'required|numeric',
+        ]);
+
+        //  mengambil data service dan user customer
+        $service = Service::find($service_id);
+        $user = User::find($user_id);
+
+        // validasi field satu persatu sebelum melakukan insert
+        OrderService::create([
+            'material' =>  $validated['material'],
+            'quantity' =>  $validated['quantity'],
+            'total_price' =>  $validated['quantity'] * $service->price_per_pcs,
+            'service_id' => $service->id,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('cart.index');
     }
 
     /**

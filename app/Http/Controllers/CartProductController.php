@@ -52,9 +52,31 @@ class CartProductController extends Controller
         return redirect()->route('cart.index');
     }
 
-    public function store_detail($user_id, $product_id)
+    public function store_detail(Request $request, $user_id, $product_id)
     {
-        //
+        // validasi field
+        $validated = $request->validate([
+            'quantity' => 'required|numeric',
+        ]);
+
+        // mengambil data product dan user customer
+        $product = Product::find($product_id);
+        $user = User::find($user_id);
+
+        // validasi stok produk
+        if ($product->stock < $validated['quantity']) {
+            return redirect()->back()->with('error', 'Maaf stok produk tidak mencukupi');
+        }
+
+        // validasi field satu persatu sebelum melakukan insert
+        CartProduct::create([
+            'quantity' => $validated['quantity'],
+            'total_price' => $validated['quantity'] * $product->price,
+            'product_id' => $product->id,
+            'user_id' => $user->id,
+        ]);
+
+        return redirect()->route('cart.index');
     }
 
     /**

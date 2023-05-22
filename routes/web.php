@@ -35,22 +35,8 @@ Route::get('/detail-layanan-jasa/{id}', [PageController::class, 'detailService']
 Route::post('/tambah-ulasan-produk/{product_id}/{user_id}', [ProductRatingsController::class, 'store'])->name('customer.rating.product');
 Route::post('/tambah-ulasan-jasa/{service_id}/{user_id}', [ServiceRatingsController::class, 'store'])->name('customer.rating.service');
 
-// Route Transaction
-Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');
-Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
-Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
-Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->name('customer.transaction.proccess'); // edit
-Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
-Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
-
 // route action logout customer & admin
 Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
-
-// Route Cart
-// Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
-// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');c
-// Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
-// Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // Halaman Cart
 Route::get('/keranjang-produk-dan-pesanan-jasa', [CartOrderController::class, 'index'])->name('cart.index');
@@ -63,8 +49,22 @@ Route::post('/add-to-cart-product-detail/{user_id}/{product_id}', [CartProductCo
 Route::post('/add-to-order-service-home/{user_id}/{service_id}', [OrderServiceController::class, 'store_home'])->name('order.store.service.home');
 Route::post('/add-to-order-service-detail/{user_id}/{service_id}', [OrderServiceController::class, 'store_detail'])->name('order.store.service.detail');
 
+// Route Transaction
+Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');
+Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
+Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->name('customer.transaction.proccess'); // edit
+Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
+Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
+
 // Route::put('/keranjang/product-update/{id}', [CartProductController::class, 'update'])->name('cart.update');
 // Route::get('/keranjang/product-delete/{id}', [CartProductController::class, 'destroy'])->name('cart.delete');
+
+// Route Cart
+// Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
+// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');c
+// Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
+// Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // route for guest user
 Route::middleware(['guest'])->group(function () {
