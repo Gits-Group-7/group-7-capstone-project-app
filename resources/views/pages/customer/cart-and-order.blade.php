@@ -154,7 +154,8 @@
                                                                     Manage
                                                                 </button>
                                                                 &ensp;
-                                                                <a href="" class="btn btn-delete px-2">
+                                                                <a href="{{ route('cart.delete.product', $item->id) }}"
+                                                                    class="btn btn-delete px-2">
                                                                     <i class="fa-solid fa-trash fa-lg px-1"></i>
                                                                 </a>
                                                             </div>
@@ -177,7 +178,8 @@
                                                                         </div>
 
                                                                         <div class="modal-body">
-                                                                            <form class="m-3" action=""
+                                                                            <form class="m-3"
+                                                                                action="{{ route('cart.update.product', $item->id) }}"
                                                                                 method="POST">
                                                                                 @method('put')
                                                                                 @csrf
@@ -185,11 +187,12 @@
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="is_checkout_product"
                                                                                         class="form-label">
-                                                                                        Tambahin Produk ke Cart
+                                                                                        Tambahkan Produk ke Cart
                                                                                     </label>
-                                                                                    <select class="form-select"
+                                                                                    <select
+                                                                                        class="form-select @error('is_checkout_product') is-invalid @enderror"
                                                                                         id="is_checkout_product"
-                                                                                        name="is_checkout"
+                                                                                        name="is_checkout_product"
                                                                                         aria-label="Default select example">
                                                                                         <option value="">
                                                                                             Pilih Opsi
@@ -205,18 +208,30 @@
                                                                                         </option>
                                                                                     </select>
                                                                                 </div>
+                                                                                @if ($errors->has('is_checkout_product'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *option Tambah ke Cart harus dipilih
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="quantity_product"
                                                                                         class="form-label">Jumlah
                                                                                         Produk</label>
                                                                                     <input type="number"
-                                                                                        class="form-control"
+                                                                                        class="form-control @error('quantity') is-invalid @enderror"
                                                                                         id="quantity_product"
                                                                                         name="quantity" min="1"
                                                                                         max="99"
                                                                                         value="{{ $item->quantity }}">
                                                                                 </div>
+                                                                                @if ($errors->has('quantity'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *field Jumlah Produk harus di isi
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="modal-footer">
                                                                                     <button type="button"
@@ -248,9 +263,9 @@
                                                         <span class="fw-bold">Daftar Pesanan Produk :</span>
                                                     </div>
 
-                                                    @if ($cart_products->count())
+                                                    @if ($cart_products_check->count())
                                                         <ul>
-                                                            @foreach ($cart_products as $item)
+                                                            @foreach ($cart_products_check as $item)
                                                                 <li>
                                                                     <p class="mb-2">
                                                                         <span class="limit-text-title fw-medium"
@@ -280,26 +295,8 @@
                                                     </div>
 
                                                     @if ($cart_products->count())
-                                                        @foreach ($cart_products as $item)
-                                                            @if (DB::table('transactions')->count())
-                                                                @if ($last_transaction->status == 'Success Order')
-                                                                    <div class="mt-3">
-                                                                        <button type="submit"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#transactionProduct">Beli
-                                                                            Sekarang</button>
-                                                                    </div>
-                                                                @else
-                                                                    <div class="mt-3">
-                                                                        <a href="{{ route('transaction.index') }}"
-                                                                            type="button"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                            Proses
-                                                                            Transaksi</a>
-                                                                    </div>
-                                                                @endif
-                                                            @else
+                                                        @if (DB::table('transactions')->count())
+                                                            @if ($last_transaction->status == 'Success Order')
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
@@ -307,8 +304,24 @@
                                                                         data-bs-target="#transactionProduct">Beli
                                                                         Sekarang</button>
                                                                 </div>
+                                                            @else
+                                                                <div class="mt-3">
+                                                                    <a href="{{ route('transaction.index') }}"
+                                                                        type="button"
+                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                        Proses
+                                                                        Transaksi</a>
+                                                                </div>
                                                             @endif
-                                                        @endforeach
+                                                        @else
+                                                            <div class="mt-3">
+                                                                <button type="submit"
+                                                                    class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#transactionProduct">Beli
+                                                                    Sekarang</button>
+                                                            </div>
+                                                        @endif
                                                     @else
                                                         <div class="mt-3">
                                                             <a href="{{ route('customer.beranda') }}" type="submit"
@@ -415,7 +428,8 @@
                                                                     Manage
                                                                 </button>
                                                                 &ensp;
-                                                                <a href="" class="btn btn-delete px-2">
+                                                                <a href="{{ route('order.delete.service', $item->id) }}"
+                                                                    class="btn btn-delete px-2">
                                                                     <i class="fa-solid fa-trash fa-lg px-1"></i>
                                                                 </a>
                                                             </div>
@@ -439,19 +453,22 @@
                                                                         </div>
 
                                                                         <div class="modal-body">
-                                                                            <form class="m-3" action=""
-                                                                                method="POST">
+                                                                            <form class="m-3"
+                                                                                action="{{ route('order.update.service', $item->id) }}"
+                                                                                method="POST"
+                                                                                enctype="multipart/form-data">
                                                                                 @method('put')
                                                                                 @csrf
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="is_checkout_service"
                                                                                         class="form-label">
-                                                                                        Tambahin Produk ke Cart
+                                                                                        Tambahkan Jasa ke Order
                                                                                     </label>
-                                                                                    <select class="form-select"
+                                                                                    <select
+                                                                                        class="form-select @error('is_checkout_service') is-invalid @enderror"
                                                                                         id="is_checkout_service"
-                                                                                        name="is_checkout"
+                                                                                        name="is_checkout_service"
                                                                                         aria-label="Default select example">
                                                                                         <option value="">
                                                                                             Pilih Opsi
@@ -467,25 +484,39 @@
                                                                                         </option>
                                                                                     </select>
                                                                                 </div>
+                                                                                @if ($errors->has('is_checkout_service'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *option Tambah ke Order harus
+                                                                                        dipilih
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="quantity_service"
                                                                                         class="form-label">Jumlah
                                                                                         Produk</label>
                                                                                     <input type="number"
-                                                                                        class="form-control"
+                                                                                        class="form-control @error('quantity') is-invalid @enderror"
                                                                                         id="quantity_service"
                                                                                         name="quantity" min="1"
                                                                                         max="99"
                                                                                         value="{{ $item->quantity }}">
                                                                                 </div>
+                                                                                @if ($errors->has('quantity'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *field Jumlah Produk harus di isi
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="material"
                                                                                         class="form-label">
                                                                                         Material
                                                                                     </label>
-                                                                                    <select class="form-select"
+                                                                                    <select
+                                                                                        class="form-select @error('material') is-invalid @enderror"
                                                                                         id="material" name="material"
                                                                                         aria-label="Default select example">
                                                                                         <option value="">
@@ -521,6 +552,12 @@
                                                                                         </option>
                                                                                     </select>
                                                                                 </div>
+                                                                                @if ($errors->has('material'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *option Bahan Material harus dipilih
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="custom_design"
@@ -529,9 +566,16 @@
                                                                                     </label>
                                                                                     <input id="custom_design"
                                                                                         name="custom_design"
-                                                                                        class="form-control"
+                                                                                        class="form-control @error('custom_design') is-invalid @enderror"
                                                                                         type="file" id="formFile">
                                                                                 </div>
+                                                                                @if ($errors->has('custom_design'))
+                                                                                    <div
+                                                                                        class="invalid feedback text-danger mb-3">
+                                                                                        *upload gambar kurang dari 10
+                                                                                        Mb (jpg/png/webp)
+                                                                                    </div>
+                                                                                @endif
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="deadline"
@@ -575,9 +619,9 @@
                                                         <span class="fw-bold">Daftar Pesanan Jasa :</span>
                                                     </div>
 
-                                                    @if ($order_services->count())
+                                                    @if ($order_services_check->count())
                                                         <ul>
-                                                            @foreach ($order_services as $item)
+                                                            @foreach ($order_services_check as $item)
                                                                 <li>
                                                                     <p class="mb-2">
                                                                         <span class="limit-text-title fw-medium"
@@ -607,26 +651,8 @@
                                                     </div>
 
                                                     @if ($order_services->count())
-                                                        @foreach ($order_services as $item)
-                                                            @if (DB::table('transactions')->count())
-                                                                @if ($last_transaction->status == 'Success Order')
-                                                                    <div class="mt-3">
-                                                                        <button type="submit"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#orderService">Order
-                                                                            Sekarang</button>
-                                                                    </div>
-                                                                @else
-                                                                    <div class="mt-3">
-                                                                        <a href="{{ route('transaction.index') }}"
-                                                                            type="button"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                            Proses
-                                                                            Order</a>
-                                                                    </div>
-                                                                @endif
-                                                            @else
+                                                        @if (DB::table('transactions')->count())
+                                                            @if ($last_transaction->status == 'Success Order')
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
@@ -634,8 +660,24 @@
                                                                         data-bs-target="#orderService">Order
                                                                         Sekarang</button>
                                                                 </div>
+                                                            @else
+                                                                <div class="mt-3">
+                                                                    <a href="{{ route('transaction.index') }}"
+                                                                        type="button"
+                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                        Proses
+                                                                        Order</a>
+                                                                </div>
                                                             @endif
-                                                        @endforeach
+                                                        @else
+                                                            <div class="mt-3">
+                                                                <button type="submit"
+                                                                    class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#orderService">Order
+                                                                    Sekarang</button>
+                                                            </div>
+                                                        @endif
                                                     @else
                                                         <div class="mt-3">
                                                             <a href="{{ route('customer.beranda') }}" type="submit"

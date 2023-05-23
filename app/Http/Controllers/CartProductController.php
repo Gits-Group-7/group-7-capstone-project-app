@@ -108,9 +108,31 @@ class CartProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $product_id)
     {
-        //
+        // mengambil data price product
+        $cart = CartProduct::find($product_id);
+        $searchProduct = $cart->product_id;
+        $price = Product::where('id', $searchProduct)->value('price');
+
+        // mengambil data field quantity
+        $quantity = $request->input('quantity');
+        $fix_quantity = intval($quantity);
+
+        // validasi field
+        $validated = $request->validate([
+            'is_checkout_product' => 'required',
+            'quantity' => 'required|numeric',
+        ]);
+
+        // validasi field satu persatu sebelum melakukan update
+        CartProduct::where('id', $product_id)->update([
+            'is_checkout' => $validated['is_checkout_product'],
+            'quantity' => $validated['quantity'],
+            'total_price' => $price * $fix_quantity,
+        ]);
+
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -119,8 +141,11 @@ class CartProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($product_id)
     {
-        //
+        $data = CartProduct::findOrFail($product_id);
+        $data->delete();
+
+        return redirect()->route('cart.index');
     }
 }

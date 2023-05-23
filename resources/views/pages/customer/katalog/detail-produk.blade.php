@@ -86,74 +86,116 @@
                             </p>
 
                             <div class="row mb-2">
-                                <div class="col-md-6 col-6 mb-2 d-flex">
-                                    <form
-                                        action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
-                                        method="POST" class="mx-auto my-auto">
-                                        @csrf
+                                @if (auth()->user())
+                                    <div class="col-md-6 col-6 mb-2 d-flex">
+                                        <form
+                                            action="{{ route('cart.store.product.detail', ['user_id' => auth()->user()->id, 'product_id' => $product->id]) }}"
+                                            method="POST" class="mx-auto my-auto">
+                                            @csrf
 
-                                        <div class="form-group">
-                                            <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
-                                            <div class="input-group mb-3" style="width: 170px;">
-                                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                                    id="btn-minus" data-mdb-ripple-color="dark">
-                                                    <i class="fa-solid fa-minus"></i>
-                                                </button>
+                                            <div class="form-group">
+                                                <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
+                                                <div class="input-group mb-3" style="width: 170px;">
+                                                    <button class="btn btn-white border border-secondary px-3"
+                                                        type="button" id="btn-minus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
 
 
-                                                <input type="text" name="quantity" id="quantity"
-                                                    class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary text-center"
-                                                    placeholder="1" min="1"
-                                                    aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1" value="1" />
+                                                    <input type="text" name="quantity" id="quantity"
+                                                        class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary text-center"
+                                                        placeholder="1" min="1"
+                                                        aria-label="Example text with button addon"
+                                                        aria-describedby="button-addon1" value="1" />
 
-                                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                                    id="btn-plus" data-mdb-ripple-color="dark">
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </button>
+                                                    <button class="btn btn-white border border-secondary px-3"
+                                                        type="button" id="btn-plus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
 
+                                                </div>
+                                            </div>
+                                            {{-- </form> --}}
+                                    </div>
+                                @endif
+
+                                @if (auth()->user())
+                                    <div class="col-md-6 col-6 d-flex">
+                                        <div class="my-auto mx-auto">
+                                            @if (auth()->user() != null && auth()->user()->role == 'customer')
+                                                @if (DB::table('cart_products')->where('product_id', $product->id)->where('user_id', auth()->user()->id)->exists())
+                                                    <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0"> <i
+                                                            class="fa-solid fa-cart-shopping"></i> &ensp;
+                                                        On My Cart </a>
+                                                @elseif ($product->status == 'Habis' || $product->status == 'Pre Order')
+                                                    <a href="#!" class="btn btn-block btn-theme shadow-0">
+                                                        <i class="fa-solid fa-ban"></i> &ensp;
+                                                        Product Unavailable
+                                                    </a>
+                                                @else
+                                                    {{-- continue form --}}
+                                                    <button type="submit" class="btn btn-theme shadow-0"> <i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp;
+                                                        Add to cart </button>
+                                                    </form>
+                                                @endif
+                                            @elseif (auth()->user() != null && auth()->user()->role == 'admin')
+                                                @if ($product->status == 'Habis' || $product->status == 'Pre Order')
+                                                    <a href="#!" class="btn btn-block btn-theme shadow-0">
+                                                        <i class="fa-solid fa-ban"></i> &ensp;
+                                                        Product Unavailable
+                                                    </a>
+                                                @else
+                                                    <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
+                                                            class="fa-solid fa-cart-plus"></i>
+                                                        &ensp;
+                                                        Add to cart
+                                                    </a>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div>
+                                @else
+                                    @guest
+                                        <div class="row">
+                                            <div class="col-6 d-flex">
+                                                <div class="form-group mx-auto my-auto">
+                                                    <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
+                                                    <div class="input-group mb-3" style="width: 170px;">
+                                                        <button class="btn btn-white border border-secondary px-3"
+                                                            type="button" id="btn-minus" data-mdb-ripple-color="dark">
+                                                            <i class="fa-solid fa-minus"></i>
+                                                        </button>
+
+
+                                                        <input type="text" name="quantity" id="quantity"
+                                                            class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary text-center"
+                                                            placeholder="1" min="1"
+                                                            aria-label="Example text with button addon"
+                                                            aria-describedby="button-addon1" value="1" />
+
+                                                        <button class="btn btn-white border border-secondary px-3"
+                                                            type="button" id="btn-plus" data-mdb-ripple-color="dark">
+                                                            <i class="fa-solid fa-plus"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 d-flex">
+                                                <div class="mx-auto my-auto">
+                                                    <a href="{{ route('customer.login') }}" type="buttton"
+                                                        class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
+                                                        &ensp;
+                                                        Add to cart
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
-                                        {{-- </form> --}}
-                                </div>
-
-                                <div class="col-md-6 col-6 d-flex">
-                                    <div class="my-auto mx-auto">
-                                        @if (DB::table('cart_products')->where('product_id', $product->id)->where('user_id', auth()->user()->id)->exists())
-                                            <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0"> <i
-                                                    class="fa-solid fa-cart-shopping"></i> &ensp;
-                                                On My Cart </a>
-                                        @elseif ($product->status == 'Habis' || $product->status == 'Pre Order')
-                                            <a href="#!" class="btn btn-block btn-theme shadow-0">
-                                                <i class="fa-solid fa-ban"></i> &ensp;
-                                                Product Unavailable
-                                            </a>
-                                        @else
-                                            @guest
-                                                <a href="{{ route('customer.login') }}" type="buttton"
-                                                    class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
-                                                    &ensp;
-                                                    Add to cart
-                                                </a>
-                                            @endguest
-
-                                            @if (auth()->user() != null && auth()->user()->role == 'customer')
-                                                {{-- continue form --}}
-                                                <button type="submit" class="btn btn-theme shadow-0"> <i
-                                                        class="fa-solid fa-cart-plus"></i>
-                                                    &ensp;
-                                                    Add to cart </button>
-                                                </form>
-                                            @elseif (auth()->user() != null && auth()->user()->role == 'admin')
-                                                <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
-                                                        class="fa-solid fa-cart-plus"></i>
-                                                    &ensp;
-                                                    Add to cart
-                                                </a>
-                                            @endif
-                                        @endif
-                                    </div>
-                                </div>
+                                    @endguest
+                                @endif
                             </div>
 
                             <div class="row mt-3">
@@ -191,7 +233,6 @@
                         </div>
                     </div>
                 </main>
-
             </div>
         </div>
     </section>
@@ -329,8 +370,8 @@
                                                                         Ulasan</button>
                                                                 </div>
                                                             </form>
-
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>

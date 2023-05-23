@@ -6,6 +6,7 @@ use App\Models\OrderService;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class OrderServiceController extends Controller
 {
@@ -105,9 +106,50 @@ class OrderServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $service_id)
     {
-        //
+        // get data foto custom design service
+        $data = OrderService::findOrFail($service_id);
+
+        // mengambil data price service
+        $order = OrderService::find($service_id);
+        $searchService = $order->service_id;
+        $price = Service::where('id', $searchService)->value('price_per_pcs');
+
+        // mengambil data field quantity
+        $quantity = $request->input('quantity');
+        $fix_quantity = intval($quantity);
+
+        // validasi field
+        $validated = $request->validate([
+            'is_checkout_service' => 'required',
+            'quantity' => 'required|numeric',
+            'material' => 'required',
+            'custom_design' => 'nullable|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
+
+        // mengecek apakah field untuk upload photo sudah upload atau belum
+        if ($request->file('custom_design')) {
+            // hapus data photo sebelumnya terlbih dahulu
+            Storage::delete($data->custom_design);
+
+            // simpan photo yang baru
+            $saveData['custom_design'] = Storage::putFile('public/custom-design', $request->file('custom_design'));
+        } else {
+            $saveData['custom_design'] = $data->custom_design;
+        }
+
+        // validasi field satu persatu sebelum melakukan update
+        OrderService::where('id', $service_id)->update([
+            'is_checkout' => $validated['is_checkout_service'],
+            'quantity' => $validated['quantity'],
+            'material' => $request->material,
+            'custom_design' => $saveData['custom_design'],
+            'deadline' => $request->deadline,
+            'total_price' => $price * $fix_quantity,
+        ]);
+
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -116,8 +158,19 @@ class OrderServiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($service_id)
     {
-        //
+        $data = OrderService::findOrFail($service_id);
+
+        // Cek jika field 'custom_design' tidak bernilai null
+        if ($data->custom_design != null) {
+            // Hapus data foto
+            Storage::delete($data->custom_design);
+        }
+
+        // Hapus data
+        $data->delete();
+
+        return redirect()->route('cart.index');
     }
 }

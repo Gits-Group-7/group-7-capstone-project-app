@@ -27,6 +27,23 @@ class CartOrderController extends Controller
         $cart_products = DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->where('cart_products.user_id', $customerId)->orderBy('cart_products.product_id', 'desc')->get();
         $order_services = DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->where('order_services.user_id', $customerId)->orderBy('order_services.service_id', 'desc')->get();
 
+        $cart_products_check = DB::table('cart_products')
+            ->join('products', 'cart_products.product_id', '=', 'products.id')
+            ->select('products.*', 'cart_products.*')
+            ->where('cart_products.user_id', $customerId)
+            ->where('cart_products.is_checkout', true)
+            ->orderBy('cart_products.product_id', 'desc')
+            ->get();
+
+        $order_services_check = DB::table('order_services')
+            ->join('services', 'order_services.service_id', '=', 'services.id')
+            ->select('services.*', 'order_services.*')
+            ->where('order_services.user_id', $customerId)
+            ->where('order_services.is_checkout', true)
+            ->orderBy('order_services.service_id', 'desc')
+            ->get();
+
+
         // rekommended product and service
         $randomProducts = Product::inRandomOrder()->with('category')->limit(5)->get();
         $randomServices = Service::inRandomOrder()->with('category')->limit(5)->get();
@@ -58,7 +75,7 @@ class CartOrderController extends Controller
 
         // dd($data['cart_products']);
 
-        return view('pages.customer.cart-and-order', $data, compact('total_price_cart', 'total_price_order', 'cart_products', 'order_services', 'recommend_items'));
+        return view('pages.customer.cart-and-order', $data, compact('total_price_cart', 'total_price_order', 'cart_products', 'order_services', 'recommend_items', 'cart_products_check', 'order_services_check'));
     }
 
     /**

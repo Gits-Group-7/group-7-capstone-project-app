@@ -89,127 +89,180 @@
                                 {{ $service->description }}
                             </p>
 
-                            <form
-                                action="{{ route('order.store.service.detail', ['user_id' => auth()->user()->id, 'service_id' => $service->id]) }}"
-                                method="POST">
-                                @csrf
+                            @if (auth()->user())
+                                <form
+                                    action="{{ route('order.store.service.detail', ['user_id' => auth()->user()->id, 'service_id' => $service->id]) }}"
+                                    method="POST">
+                                    @csrf
 
-                                <div class="row mb-2">
-                                    <div class="col-sm-6 col-md-6 col-6">
-                                        <div class="form-group">
-                                            <label class="mb-2 d-block fw-medium" for="material">Bahan</label>
-                                            <select
-                                                class="form-select @error('material') is-invalid @enderror border border-secondary"
-                                                name="material" id="material" style="height: 35px;">
-                                                <option value="">Pilih Material</option>
-                                                <option value="Polo">Polo</option>
-                                                <option value="Katun">Katun</option>
-                                                <option value="Polyester">Polyester</option>
-                                                <option value="Rayon">Rayon</option>
-                                                <option value="Linen">Linen</option>
-                                                <option value="Wool">Wool</option>
-                                                <option value="Spandex">Spandex</option>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6 col-6 mb-2 d-flex">
-                                        <div class="form-group mx-auto my-auto">
-                                            <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
-                                            <div class="input-group mb-3" style="width: 170px;">
-                                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                                    id="btn-minus" data-mdb-ripple-color="dark">
-                                                    <i class="fa-solid fa-minus"></i>
-                                                </button>
-
-                                                <input type="text" name="quantity" id="quantity"
-                                                    class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary"
-                                                    placeholder="1" min="1"
-                                                    aria-label="Example text with button addon"
-                                                    aria-describedby="button-addon1" value="1" />
-
-                                                <button class="btn btn-white border border-secondary px-3" type="button"
-                                                    id="btn-plus" data-mdb-ripple-color="dark">
-                                                    <i class="fa-solid fa-plus"></i>
-                                                </button>
-
+                                    <div class="row mb-2">
+                                        <div class="col-sm-6 col-md-6 col-6">
+                                            <div class="form-group">
+                                                <label class="mb-2 d-block fw-medium" for="material">Bahan</label>
+                                                <select
+                                                    class="form-select @error('material') is-invalid @enderror border border-secondary"
+                                                    name="material" id="material" style="height: 35px;">
+                                                    <option value="">Pilih Material</option>
+                                                    <option value="Polo">Polo</option>
+                                                    <option value="Katun">Katun</option>
+                                                    <option value="Polyester">Polyester</option>
+                                                    <option value="Rayon">Rayon</option>
+                                                    <option value="Linen">Linen</option>
+                                                    <option value="Wool">Wool</option>
+                                                    <option value="Spandex">Spandex</option>
+                                                </select>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-sm-6 col-md-6 col-6 d-flex">
-                                        <div class="my-auto mx-start">
-                                            @if (DB::table('order_services')->where('service_id', $service->id)->where('user_id', auth()->user()->id)->exists())
-                                                <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0"> <i
-                                                        class="fa-solid fa-cart-shopping"></i> &ensp;
-                                                    On My Order </a>
-                                            @elseif ($service->status == 'Habis' || $service->status == 'Pre Order')
-                                                <a href="#!" class="btn btn-block btn-theme shadow-0">
-                                                    <i class="fa-solid fa-ban"></i> &ensp;
-                                                    Service Unavailable
-                                                </a>
-                                            @else
-                                                @guest
-                                                    <a href="{{ route('customer.login') }}" type="buttton"
-                                                        class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
-                                                        &ensp;
-                                                        Add to Order
-                                                    </a>
-                                                @endguest
+                                        <div class="col-sm-6 col-md-6 col-6 mb-2 d-flex">
+                                            <div class="form-group mx-auto my-auto">
+                                                <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
+                                                <div class="input-group mb-3" style="width: 170px;">
+                                                    <button class="btn btn-white border border-secondary px-3"
+                                                        type="button" id="btn-minus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
 
+                                                    <input type="text" name="quantity" id="quantity"
+                                                        class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary"
+                                                        placeholder="1" min="1"
+                                                        aria-label="Example text with button addon"
+                                                        aria-describedby="button-addon1" value="1" />
+
+                                                    <button class="btn btn-white border border-secondary px-3"
+                                                        type="button" id="btn-plus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-6 col-6 d-flex">
+                                            <div class="my-auto mx-start">
                                                 @if (auth()->user() != null && auth()->user()->role == 'customer')
-                                                    {{-- action add to order --}}
-                                                    <button type="submit" class="btn btn-theme shadow-0"> <i
-                                                            class="fa-solid fa-cart-plus"></i>
-                                                        &ensp;
-                                                        Add to Order </button>
+                                                    @if (DB::table('order_services')->where('service_id', $service->id)->where('user_id', auth()->user()->id)->exists())
+                                                        <a href="{{ route('cart.index') }}" class="btn btn-theme shadow-0">
+                                                            <i class="fa-solid fa-cart-shopping"></i> &ensp;
+                                                            On My Order </a>
+                                                    @elseif ($service->status == 'Habis' || $service->status == 'Pre Order')
+                                                        <a href="#!" class="btn btn-block btn-theme shadow-0">
+                                                            <i class="fa-solid fa-ban"></i> &ensp;
+                                                            Service Unavailable
+                                                        </a>
+                                                    @else
+                                                        {{-- action add to order --}}
+                                                        <button type="submit" class="btn btn-theme shadow-0"> <i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp;
+                                                            Add to Order </button>
+                                                    @endif
                                                 @elseif (auth()->user() != null && auth()->user()->role == 'admin')
-                                                    <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
-                                                            class="fa-solid fa-cart-plus"></i>
-                                                        &ensp;
-                                                        Add to Order
-                                                    </a>
+                                                    @if ($service->status == 'Habis' || $service->status == 'Pre Order')
+                                                        <a href="#!" class="btn btn-block btn-theme shadow-0">
+                                                            <i class="fa-solid fa-ban"></i> &ensp;
+                                                            Service Unavailable
+                                                        </a>
+                                                    @else
+                                                        <a href="#!" type="buttton" class="btn btn-theme shadow-0"> <i
+                                                                class="fa-solid fa-cart-plus"></i>
+                                                            &ensp;
+                                                            Add to Order
+                                                        </a>
+                                                    @endif
                                                 @endif
-                                            @endif
+                                            </div>
+                                        </div>
+                                </form>
+                            @else
+                                @guest
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6 col-6">
+                                            <div class="form-group">
+                                                <label class="mb-2 d-block fw-medium" for="material">Bahan</label>
+                                                <select
+                                                    class="form-select @error('material') is-invalid @enderror border border-secondary"
+                                                    name="material" id="material" style="height: 35px;">
+                                                    <option value="">Pilih Material</option>
+                                                    <option value="Polo">Polo</option>
+                                                    <option value="Katun">Katun</option>
+                                                    <option value="Polyester">Polyester</option>
+                                                    <option value="Rayon">Rayon</option>
+                                                    <option value="Linen">Linen</option>
+                                                    <option value="Wool">Wool</option>
+                                                    <option value="Spandex">Spandex</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-6 col-6 mb-2 d-flex">
+                                            <div class="form-group mx-auto my-auto">
+                                                <label class="mb-2 d-block fw-medium" for="quantity">Jumlah</label>
+                                                <div class="input-group mb-3" style="width: 170px;">
+                                                    <button class="btn btn-white border border-secondary px-3" type="button"
+                                                        id="btn-minus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+
+                                                    <input type="text" name="quantity" id="quantity"
+                                                        class="form-control @error('quantity') is-invalid @enderror text-center border border-secondary"
+                                                        placeholder="1" min="1"
+                                                        aria-label="Example text with button addon"
+                                                        aria-describedby="button-addon1" value="1" />
+
+                                                    <button class="btn btn-white border border-secondary px-3" type="button"
+                                                        id="btn-plus" data-mdb-ripple-color="dark">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-sm-6 col-md-6 col-6">
+                                            <a href="{{ route('customer.login') }}" type="buttton"
+                                                class="btn btn-theme shadow-0"> <i class="fa-solid fa-cart-plus"></i>
+                                                &ensp;
+                                                Add to Order
+                                            </a>
                                         </div>
                                     </div>
-                                </div>
-                            </form>
+                                @endguest
+                            @endif
+                        </div>
 
-                            <div class="row mt-3">
-                                <div class="col-12">
-                                    @if ($errors->has('material'))
-                                        <div class="alert alert-danger">
-                                            Bahan material order harus dipilih
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <div class="col-12">
-                                    @if ($errors->has('quantity'))
-                                        <div class="alert alert-danger">
-                                            Jumlah pesanan jasa harus di isi
-                                        </div>
-                                    @endif
-                                </div>
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                @if ($errors->has('material'))
+                                    <div class="alert alert-danger">
+                                        Bahan material order harus dipilih
+                                    </div>
+                                @endif
                             </div>
 
-                            <hr />
-                            <div class="row mt-3">
-                                <dt class="col-5">Kategori:</dt>
-                                <dd class="col-7 text-theme">Layanan {{ $service->category->name }}</dd>
-
-                                <dt class="col-5">Nego : </dt>
-                                <dd class="col-7 text-theme">Iya</dd>
-
-                                <dt class="col-5">Estimasi Pengerjaan : </dt>
-                                <dd class="col-7 text-theme">Min {{ $service->estimation }}</dd>
+                            <div class="col-12">
+                                @if ($errors->has('quantity'))
+                                    <div class="alert alert-danger">
+                                        Jumlah pesanan jasa harus di isi
+                                    </div>
+                                @endif
                             </div>
+                        </div>
 
+                        <hr />
+                        <div class="row mt-3">
+                            <dt class="col-5">Kategori:</dt>
+                            <dd class="col-7 text-theme">Layanan {{ $service->category->name }}</dd>
+
+                            <dt class="col-5">Nego : </dt>
+                            <dd class="col-7 text-theme">Iya</dd>
+
+                            <dt class="col-5">Estimasi Pengerjaan : </dt>
+                            <dd class="col-7 text-theme">Min {{ $service->estimation }}</dd>
                         </div>
                     </div>
-                </main>
 
+                </main>
             </div>
         </div>
     </section>
