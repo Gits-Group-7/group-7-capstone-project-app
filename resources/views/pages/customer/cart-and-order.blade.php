@@ -1,7 +1,7 @@
 @extends('layouts.customer.template-customer')
 
 @section('title')
-    <title>Halaman Cart dan Order | Gadget Web Store</title>
+    <title>Halaman Cart dan Order | Print-Shop</title>
 @endsection
 
 @section('css')
@@ -16,7 +16,7 @@
         $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
         return number_format($rounded, 1); // Format angka dengan satu angka di belakang koma
     }
-    
+
     // fungsi konversi data tipe date ke tanggal
     function dateConversion($date)
     {
@@ -24,22 +24,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
@@ -61,7 +61,7 @@
                         <div class="col-lg-4 d-flex justify-content-end">
                             <div class="my-auto pb-3">
                                 <div class="">
-                                    <a href="{{ route('transaction.index') }}"
+                                    <a href="{{ route('transaction.order.customer.list') }}"
                                         class="btn btn-checklist w-100 shadow-0 mb-2">Daftar
                                         Transaksi Order</a>
                                 </div>
@@ -294,23 +294,33 @@
                                                         </p>
                                                     </div>
 
-                                                    @if ($cart_products->count())
-                                                        @if (DB::table('transactions')->count())
-                                                            @if ($last_transaction->status == 'Success Order')
+                                                    @if ($cart_products_check->count())
+                                                        @if (DB::table('transaction_orders')->where('type_transaction_order', 'product')->count())
+                                                            @if ($last_transaction_product != null)
+                                                                @if ($last_transaction_product->status_delivery == 'Start Order')
+                                                                    <div class="mt-3">
+                                                                        <a href="{{ route('transaction.order.customer.list') }}"
+                                                                            type="button"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            Proses
+                                                                            Transaksi</a>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="mt-3">
+                                                                        <button type="submit"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#transactionProduct">Beli
+                                                                            Sekarang</button>
+                                                                    </div>
+                                                                @endif
+                                                            @else
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
                                                                         data-bs-toggle="modal"
                                                                         data-bs-target="#transactionProduct">Beli
                                                                         Sekarang</button>
-                                                                </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <a href="{{ route('transaction.index') }}"
-                                                                        type="button"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                        Proses
-                                                                        Transaksi</a>
                                                                 </div>
                                                             @endif
                                                         @else
@@ -348,7 +358,7 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-unconfirm"
                                                                         data-bs-dismiss="modal">Batal</button>
-                                                                    <a href="{{ route('transaction.store') }}"
+                                                                    <a href="{{ route('transaction.order.product.store', auth()->user()->id) }}"
                                                                         type="button" class="btn btn-confirm">Oke</a>
                                                                 </div>
                                                             </div>
@@ -650,23 +660,33 @@
                                                         </p>
                                                     </div>
 
-                                                    @if ($order_services->count())
-                                                        @if (DB::table('transactions')->count())
-                                                            @if ($last_transaction->status == 'Success Order')
+                                                    @if ($order_services_check->count())
+                                                        @if (DB::table('transaction_orders')->where('type_transaction_order', 'service')->count())
+                                                            @if ($last_order_service != null)
+                                                                @if ($last_order_service->status_delivery == 'Start Order')
+                                                                    <div class="mt-3">
+                                                                        <a href="{{ route('transaction.order.customer.list') }}"
+                                                                            type="button"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            Proses
+                                                                            Pesanan</a>
+                                                                    </div>
+                                                                @else
+                                                                    <div class="mt-3">
+                                                                        <button type="submit"
+                                                                            class="btn btn-checklist w-100 shadow-0 mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#orderService">Pesan
+                                                                            Sekarang</button>
+                                                                    </div>
+                                                                @endif
+                                                            @else
                                                                 <div class="mt-3">
                                                                     <button type="submit"
                                                                         class="btn btn-checklist w-100 shadow-0 mb-2"
                                                                         data-bs-toggle="modal"
-                                                                        data-bs-target="#orderService">Order
+                                                                        data-bs-target="#orderService">Pesan
                                                                         Sekarang</button>
-                                                                </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <a href="{{ route('transaction.index') }}"
-                                                                        type="button"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
-                                                                        Proses
-                                                                        Order</a>
                                                                 </div>
                                                             @endif
                                                         @else
@@ -674,7 +694,7 @@
                                                                 <button type="submit"
                                                                     class="btn btn-checklist w-100 shadow-0 mb-2"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#orderService">Order
+                                                                    data-bs-target="#orderService">Pesan
                                                                     Sekarang</button>
                                                             </div>
                                                         @endif
@@ -704,7 +724,7 @@
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-unconfirm"
                                                                         data-bs-dismiss="modal">Batal</button>
-                                                                    <a href="{{ route('transaction.store') }}"
+                                                                    <a href="{{ route('transaction.order.service.store', auth()->user()->id) }}"
                                                                         type="button" class="btn btn-confirm">Oke</a>
                                                                 </div>
                                                             </div>
@@ -758,7 +778,7 @@
                                                         @php
                                                             $product_id = $value->id;
                                                             $averageRating = $value->product_rating->where('product_id', $product_id)->avg('rating');
-                                                            
+
                                                             $rating = $averageRating;
                                                             $whole = floor($rating);
                                                             $fraction = $rating - $whole;
@@ -929,7 +949,7 @@
                                                     @php
                                                         $service_id = $value->id;
                                                         $averageRating = $value->service_rating->where('service_id', $service_id)->avg('rating');
-                                                        
+
                                                         $rating = $averageRating;
                                                         $whole = floor($rating);
                                                         $fraction = $rating - $whole;

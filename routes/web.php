@@ -17,6 +17,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceRatingsController;
 use App\Http\Controllers\ShopRatingsController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\TransactionOrderController;
 use Illuminate\Support\Facades\Route;
 
 // Route Beranda Cuustomer
@@ -37,23 +38,6 @@ Route::post('/tambah-ulasan-jasa/{service_id}/{user_id}', [ServiceRatingsControl
 
 // route action logout customer & admin
 Route::get('/logout', [PageController::class, "logout"])->name('logout.page');
-
-// Route Transaction
-Route::get('/manajemen-transaksi', [TransactionController::class, 'index'])->name('transaction.index');
-Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
-Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
-Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->name('customer.transaction.proccess'); // edit
-Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
-Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
-
-// Route::put('/keranjang/product-update/{id}', [CartProductController::class, 'update'])->name('cart.update');
-// Route::get('/keranjang/product-delete/{id}', [CartProductController::class, 'destroy'])->name('cart.delete');
-
-// Route Cart
-// Route::get('/keranjang-produk-dan-pesanan-jasa', [CartController::class, 'index'])->name('cart.index');
-// Route::post('/keranjang/product-store/{id}', [CartController::class, 'store'])->name('cart.store');c
-// Route::put('/keranjang/product-update/{id}', [CartController::class, 'update'])->name('cart.update');
-// Route::get('/keranjang/product-delete/{id}', [CartController::class, 'destroy'])->name('cart.delete');
 
 // route for guest user
 Route::middleware(['guest'])->group(function () {
@@ -145,6 +129,17 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::post('/add-to-order-service-detail/{user_id}/{service_id}', [OrderServiceController::class, 'store_detail'])->name('order.store.service.detail');
     Route::put('/update-order-service/{service_id}', [OrderServiceController::class, 'update'])->name('order.update.service');
     Route::get('/delete-order-service/{service_id}', [OrderServiceController::class, 'destroy'])->name('order.delete.service');
+
+    // Route Transaction Order
+    Route::get('/daftar-transaksi-order', [TransactionOrderController::class, 'index'])->name('transaction.order.customer.list');
+    Route::get('/tambah-transaksi-product/{user_id}', [TransactionOrderController::class, 'transaction_store_product'])->name('transaction.order.product.store');
+    Route::get('/tambah-order-service/{user_id}', [TransactionOrderController::class, 'order_store_service'])->name('transaction.order.service.store');
+
+    // Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
+    // Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
+    // Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->name('customer.transaction.proccess'); // edit
+    // Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
+    // Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
 
     Route::get('/cusomer/{id}/daftar-transaksi', [PageController::class, 'listTransaction'])->name('customer.transaction.list');
     Route::get('/cusomer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');

@@ -8,6 +8,7 @@ use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\Transaction;
+use App\Models\TransactionOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,10 +23,14 @@ class CartOrderController extends Controller
     {
         // cart and order total price
         $customerId = auth()->user()->id;
-        $total_price_cart = CartProduct::where('user_id', $customerId)->sum('total_price');
-        $total_price_order = OrderService::where('user_id', $customerId)->sum('total_price');
+        $total_price_cart = CartProduct::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+        $total_price_order = OrderService::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
         $cart_products = DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->where('cart_products.user_id', $customerId)->orderBy('cart_products.product_id', 'desc')->get();
         $order_services = DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->where('order_services.user_id', $customerId)->orderBy('order_services.service_id', 'desc')->get();
+
+        // transaction & order
+        $last_transaction_product = TransactionOrder::where('user_id', $customerId)->where('type_transaction_order', 'product')->where('order_confirmed', 'No')->latest('created_at')->first();
+        $last_order_service = TransactionOrder::where('user_id', $customerId)->where('type_transaction_order', 'service')->where('order_confirmed', 'No')->latest('created_at')->first();
 
         $cart_products_check = DB::table('cart_products')
             ->join('products', 'cart_products.product_id', '=', 'products.id')
@@ -75,7 +80,17 @@ class CartOrderController extends Controller
 
         // dd($data['cart_products']);
 
-        return view('pages.customer.cart-and-order', $data, compact('total_price_cart', 'total_price_order', 'cart_products', 'order_services', 'recommend_items', 'cart_products_check', 'order_services_check'));
+        return view('pages.customer.cart-and-order', $data, compact(
+            'total_price_cart',
+            'total_price_order',
+            'cart_products',
+            'order_services',
+            'recommend_items',
+            'cart_products_check',
+            'order_services_check',
+            'last_transaction_product',
+            'last_order_service'
+        ));
     }
 
     /**

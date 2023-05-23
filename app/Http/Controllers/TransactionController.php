@@ -19,20 +19,7 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $data = [
-            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
-            'transactions' => Transaction::orderBy('status', 'desc')->orderBy('order_date', 'desc')->get(),
-            'total_price_cart' => DB::table('carts')->sum('total_price'),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
-            'category_name' => Product::all(),
-            'products' => Product::where('status', '!=', 'Habis')->get(),
-            'category_nav' => Category::select('name')->where('status', 'Aktif')->orderBy('name', 'asc')->get(),
-            'cart_products' => DB::table('carts')->join('products', 'carts.product_id', '=', 'products.id')->select('products.*', 'carts.*')->orderBy('.carts.product_id', 'desc')->get(),
-            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
-            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
-        ];
-
-        return view('pages.customer.tranksaksi.transaction-manage', $data);
+        // 
     }
 
     /**
