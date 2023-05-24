@@ -301,7 +301,7 @@
                                                                     <div class="mt-3">
                                                                         <a href="{{ route('transaction.order.customer.list') }}"
                                                                             type="button"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            class="btn btn-unchecklist w-100 shadow-0 mb-2">Selesaikan
                                                                             Proses
                                                                             Transaksi</a>
                                                                     </div>
@@ -667,7 +667,7 @@
                                                                     <div class="mt-3">
                                                                         <a href="{{ route('transaction.order.customer.list') }}"
                                                                             type="button"
-                                                                            class="btn btn-checklist w-100 shadow-0 mb-2">Selesaikan
+                                                                            class="btn btn-unchecklist w-100 shadow-0 mb-2">Selesaikan
                                                                             Proses
                                                                             Pesanan</a>
                                                                     </div>

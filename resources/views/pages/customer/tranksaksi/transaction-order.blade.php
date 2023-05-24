@@ -92,85 +92,147 @@
                                     <div class="row">
                                         @if (!$transaction_product_customers->isEmpty())
                                             @foreach ($transaction_product_customers as $item)
-                                                <div class="col-lg-3 mb-3">
+                                                <div class="col-lg-12 mb-3">
                                                     <div class="card shadow-sm border card-hover">
                                                         <div class="card-body">
-                                                            <div class="card-title">
-                                                                <span><i>Detail Transaksi Produk :</i></span>
-                                                            </div>
+                                                            <div class="row mb-4">
+                                                                <div class="col-lg-7 col-md-7 col-7">
+                                                                    <span class="fw-bold">Kode Transaksi :
+                                                                        {{ $item->id }}</span>
+                                                                    <span class="text-success fw-medium">[
+                                                                        {{ $item->status_delivery }}
+                                                                        ]</span> <br>
+                                                                    <span class="text-secondary">Tanggal Transaksi :
+                                                                        {{ timestampConversion($item->order_date) }}
+                                                                    </span>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-5 col-5 d-flex justify-content-end">
+                                                                    <center class="pt-3 pb-2">
 
-                                                            <span class="">
-                                                                <b>Tanggal Order :</b><br>
-                                                                <i>{{ timestampConversion($item->order_date) }}</i>
-                                                            </span>
-                                                            <br>
-                                                            <span class="">
-                                                                <b>Status :</b>
-                                                                <i>{{ $item->status_delivery }}</i>
-                                                            </span>
+                                                                        <button type="button"
+                                                                            class="btn btn-cancel-checkout mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal{{ $item->id }}">Batalkan
+                                                                            Transaksi</button>
 
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="exampleModal{{ $item->id }}"
-                                                                tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                                                Hapus
-                                                                                transaksi?
-                                                                            </h5>
-                                                                            <button type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <i>*note : proses checkout akan dibatalkan jika
-                                                                                anda
-                                                                                menghapus data
-                                                                                transaksi.</i><br><br>
-                                                                            <span><b>Tanggal Order :</b>
-                                                                                {{ timestampConversion($item->order_date) }}</span><br>
-                                                                            <span><b>Status :</b>
-                                                                                {{ $item->status_delivery }}</span>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button" class="btn btn-checklist"
-                                                                                data-bs-dismiss="modal">Batal</button>
-                                                                            <a href="" type="button"
-                                                                                class="btn btn-hapus">Hapus</a>
+                                                                        <a href="#!" class="btn btn-checkout mb-2">
+                                                                            Checkout Transaksi
+                                                                        </a>
+                                                                    </center>
+
+                                                                    <!-- Modal Delete Transaksi -->
+                                                                    <div class="modal fade"
+                                                                        id="exampleModal{{ $item->id }}" tabindex="-1"
+                                                                        aria-labelledby="exampleModalLabel"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title"
+                                                                                        id="exampleModalLabel">
+                                                                                        Hapus
+                                                                                        transaksi produk?
+                                                                                    </h5>
+                                                                                    <button type="button" class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <i>*note : proses checkout akan
+                                                                                        dibatalkan jika
+                                                                                        anda
+                                                                                        menghapus
+                                                                                        transaksi produk.</i><br><br>
+                                                                                    <span><b>Tanggal Order :</b>
+                                                                                        {{ timestampConversion($item->order_date) }}</span><br>
+                                                                                    <span><b>Status :</b>
+                                                                                        {{ $item->status_delivery }}</span>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-checklist"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <a href="" type="button"
+                                                                                        class="btn btn-hapus">Hapus</a>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                             </div>
-
-                                                            @if ($item->status == 'Success Order')
-                                                                <div class="mt-3">
-                                                                    <button type="submit" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal{{ $item->id }}"
-                                                                        class="btn btn-cancel w-100 shadow-0 mb-2">Delete
-                                                                        Log Transaksi</button>
+                                                            <hr>
+                                                            <div class="row justify-content-around">
+                                                                <div class="col-lg-4 col-md-4 mb-2 mt-2">
+                                                                    <p>
+                                                                        <span class="fw-medium">Kontak</span> <br>
+                                                                        <span class="text-secondary">Nama Pelanggan :
+                                                                            {{ auth()->user()->name }}</span> <br>
+                                                                        <span class="text-secondary">Nomor HP :
+                                                                            {{ auth()->user()->phone }}</span>
+                                                                        <br>
+                                                                        <span class="text-secondary">Email :
+                                                                            {{ auth()->user()->email }}</span>
+                                                                    </p>
                                                                 </div>
-                                                                <div class="mt-2">
-                                                                    <a href="{{ route('customer.transaction.detail', $item->id) }}"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Lihat
-                                                                        Transaksi</a>
+                                                                <div class="col-lg-5 col-md-6 mb-2 mt-2">
+                                                                    <p class="text-justify">
+                                                                        <span class="fw-medium">Informasi Pesanan</span>
+                                                                        <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->order_address == '')
+                                                                                Alamat : <i>Belum ditambahkan</i>.
+                                                                            @else
+                                                                                Alamat : {{ $item->order_address }}.
+                                                                            @endif
+                                                                        </span> <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->order_note == '')
+                                                                                Catatan : <i>Tidak ditambahkan</i>.
+                                                                            @else
+                                                                                Catatan : {{ $item->order_note }}.
+                                                                            @endif
+                                                                        </span>
+                                                                    </p>
                                                                 </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <button type="submit" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal{{ $item->id }}"
-                                                                        class="btn btn-cancel w-100 shadow-0 mb-2">Batalkan
-                                                                        /
-                                                                        Delete
-                                                                        Transaksi</button>
+                                                                <div class="col-lg-3 col-md-12 mb-2 mt-2">
+                                                                    <span class="fw-medium">Pembayaran</span> <br>
+                                                                    <span class="text-secondary">Ongkos Pengiriman : Rp.
+                                                                        {{ priceConversion($item->delivery_price) }}</span>
+                                                                    <br>
+                                                                    <span class="text-secondary">
+                                                                        @if ($item->prof_order_payment == 'empty')
+                                                                            Sudah Dibayar :
+                                                                            <span
+                                                                                class="span text-white bg-red-theme px-3 rounded">
+                                                                                Belum Dibayar
+                                                                            </span>
+                                                                        @elseif(!$item->prof_order_payment == 'empty')
+                                                                            Sudah Dibayar :
+                                                                            <span
+                                                                                class="span text-white bg-green-theme px-3 rounded">
+                                                                                Lunas
+                                                                            </span>
+                                                                        @endif
+                                                                    </span> <br>
+                                                                    <span class="text-secondary">
+                                                                        @if ($item->order_confirmed == 'No')
+                                                                            Status Pesanan :
+                                                                            <span
+                                                                                class="span text-white bg-red-theme px-3 rounded">
+                                                                                Pending
+                                                                            </span>
+                                                                        @elseif($item->order_confirmed == 'Yes')
+                                                                            Status Pesanan :
+                                                                            <span
+                                                                                class="span text-white bg-green-theme px-3 rounded">
+                                                                                Diproses
+                                                                            </span>
+                                                                        @endif
+                                                                    </span>
                                                                 </div>
-                                                                <div class="mt-2">
-                                                                    <a href=""
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Checkout
-                                                                        Sekarang</a>
-                                                                </div>
-                                                            @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -178,7 +240,6 @@
                                         @elseif($transaction_product_customers->isEmpty())
                                             <p>*Tidak ada riwayat transaksi produk aktif milik pelanggan</p>
                                         @endif
-
                                     </div>
                                 </div>
                                 <div class="tab-pane fade mb-2" id="order-service" role="tabpanel">
@@ -187,91 +248,153 @@
                                     <div class="row">
                                         @if (!$order_service_customers->isEmpty())
                                             @foreach ($order_service_customers as $item)
-                                                <div class="col-lg-3 mb-3">
+                                                <div class="col-lg-12 mb-3">
                                                     <div class="card shadow-sm border card-hover">
                                                         <div class="card-body">
-                                                            <div class="card-title">
-                                                                <span><i>Detail Pesanan Jasa :</i></span>
-                                                            </div>
+                                                            <div class="row mb-4">
+                                                                <div class="col-lg-7 col-md-7 col-7">
+                                                                    <span class="fw-bold">Kode Pesanan :
+                                                                        {{ $item->id }}</span>
+                                                                    <span class="text-success fw-medium">[
+                                                                        {{ $item->status_delivery }}
+                                                                        ]</span> <br>
+                                                                    <span class="text-secondary">Tanggal Pesanan :
+                                                                        {{ timestampConversion($item->order_date) }}
+                                                                    </span>
+                                                                </div>
+                                                                <div
+                                                                    class="col-lg-5 col-md-5 col-5 d-flex justify-content-end">
+                                                                    <center class="pt-3 pb-2">
 
-                                                            <span class="">
-                                                                <b>Tanggal Order :</b><br>
-                                                                <i>{{ timestampConversion($item->order_date) }}</i>
-                                                            </span>
-                                                            <br>
-                                                            <span class="">
-                                                                <b>Status :</b>
-                                                                <i>{{ $item->status_delivery }}</i>
-                                                            </span>
+                                                                        <button type="button"
+                                                                            class="btn btn-cancel-checkout mb-2"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal{{ $item->id }}">Batalkan
+                                                                            Pesanan</button>
 
-                                                            <!-- Modal -->
-                                                            <div class="modal fade" id="exampleModal{{ $item->id }}"
-                                                                tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                                aria-hidden="true">
-                                                                <div class="modal-dialog">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h5 class="modal-title" id="exampleModalLabel">
-                                                                                Hapus
-                                                                                transaksi?
-                                                                            </h5>
-                                                                            <button type="button" class="btn-close"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <i>*note : proses checkout akan dibatalkan jika
-                                                                                anda
-                                                                                menghapus data
-                                                                                transaksi.</i><br><br>
-                                                                            <span><b>Tanggal Order :</b>
-                                                                                {{ timestampConversion($item->order_date) }}</span><br>
-                                                                            <span><b>Status :</b>
-                                                                                {{ $item->status_delivery }}</span>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                class="btn btn-checklist"
-                                                                                data-bs-dismiss="modal">Batal</button>
-                                                                            <a href="" type="button"
-                                                                                class="btn btn-hapus">Hapus</a>
+                                                                        <a href="#!" class="btn btn-checkout mb-2">
+                                                                            Checkout Pesanan
+                                                                        </a>
+                                                                    </center>
+
+                                                                    <!-- Modal Delete Transaksi -->
+                                                                    <div class="modal fade"
+                                                                        id="exampleModal{{ $item->id }}"
+                                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                                        aria-hidden="true">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title"
+                                                                                        id="exampleModalLabel">
+                                                                                        Hapus
+                                                                                        pesanan jasa?
+                                                                                    </h5>
+                                                                                    <button type="button"
+                                                                                        class="btn-close"
+                                                                                        data-bs-dismiss="modal"
+                                                                                        aria-label="Close"></button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <i>*note : proses checkout akan
+                                                                                        dibatalkan jika
+                                                                                        anda
+                                                                                        menghapus
+                                                                                        pesanan jasa.</i><br><br>
+                                                                                    <span><b>Tanggal Order :</b>
+                                                                                        {{ timestampConversion($item->order_date) }}</span><br>
+                                                                                    <span><b>Status :</b>
+                                                                                        {{ $item->status_delivery }}</span>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button"
+                                                                                        class="btn btn-checklist"
+                                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                                    <a href="" type="button"
+                                                                                        class="btn btn-hapus">Hapus</a>
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
+
                                                                 </div>
                                                             </div>
-
-                                                            @if ($item->status == 'Success Order')
-                                                                <div class="mt-3">
-                                                                    <button type="submit" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal{{ $item->id }}"
-                                                                        class="btn btn-cancel w-100 shadow-0 mb-2">Delete
-                                                                        Log Transaksi</button>
+                                                            <hr>
+                                                            <div class="row justify-content-around">
+                                                                <div class="col-lg-4 col-md-4 mb-2 mt-2">
+                                                                    <p>
+                                                                        <span class="fw-medium">Kontak</span> <br>
+                                                                        <span class="text-secondary">Nama Pelanggan :
+                                                                            {{ auth()->user()->name }}</span> <br>
+                                                                        <span class="text-secondary">Nomor HP :
+                                                                            {{ auth()->user()->phone }}</span>
+                                                                        <br>
+                                                                        <span class="text-secondary">Email :
+                                                                            {{ auth()->user()->email }}</span>
+                                                                    </p>
                                                                 </div>
-                                                                <div class="mt-2">
-                                                                    <a href="{{ route('customer.transaction.detail', $item->id) }}"
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Lihat
-                                                                        Transaksi</a>
+                                                                <div class="col-lg-5 col-md-6 mb-2 mt-2">
+                                                                    <p class="text-justify">
+                                                                        <span class="fw-medium">Informasi Pesanan</span>
+                                                                        <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->order_address == '')
+                                                                                Alamat : <i>Belum ditambahkan</i>.
+                                                                            @else
+                                                                                Alamat : {{ $item->order_address }}.
+                                                                            @endif
+                                                                        </span> <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->order_note == '')
+                                                                                Catatan : <i>Tidak ditambahkan</i>.
+                                                                            @else
+                                                                                Catatan : {{ $item->order_note }}.
+                                                                            @endif
+                                                                        </span>
+                                                                    </p>
                                                                 </div>
-                                                            @else
-                                                                <div class="mt-3">
-                                                                    <button type="submit" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal{{ $item->id }}"
-                                                                        class="btn btn-cancel w-100 shadow-0 mb-2">Batalkan
-                                                                        /
-                                                                        Delete
-                                                                        Order</button>
+                                                                <div class="col-lg-3 col-md-12 mb-2 mt-2">
+                                                                    <span class="fw-medium">Pembayaran</span> <br>
+                                                                    <span class="text-secondary">Ongkos Pengiriman : Rp.
+                                                                        {{ priceConversion($item->delivery_price) }}</span>
+                                                                    <br>
+                                                                    <span class="text-secondary">
+                                                                        @if ($item->prof_order_payment == 'empty')
+                                                                            Sudah Dibayar :
+                                                                            <span
+                                                                                class="span text-white bg-red-theme px-3 rounded">
+                                                                                Belum Dibayar
+                                                                            </span>
+                                                                        @elseif(!$item->prof_order_payment == 'empty')
+                                                                            Sudah Dibayar :
+                                                                            <span
+                                                                                class="span text-white bg-green-theme px-3 rounded">
+                                                                                Lunas
+                                                                            </span>
+                                                                        @endif
+                                                                    </span> <br>
+                                                                    <span class="text-secondary">
+                                                                        @if ($item->order_confirmed == 'No')
+                                                                            Status Pesanan :
+                                                                            <span
+                                                                                class="span text-white bg-red-theme px-3 rounded">
+                                                                                Pending
+                                                                            </span>
+                                                                        @elseif($item->order_confirmed == 'Yes')
+                                                                            Status Pesanan :
+                                                                            <span
+                                                                                class="span text-white bg-green-theme px-3 rounded">
+                                                                                Diproses
+                                                                            </span>
+                                                                        @endif
+                                                                    </span>
                                                                 </div>
-                                                                <div class="mt-2">
-                                                                    <a href=""
-                                                                        class="btn btn-checklist w-100 shadow-0 mb-2">Checkout
-                                                                        Sekarang</a>
-                                                                </div>
-                                                            @endif
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        @elseif ($order_service_customers->isEmpty())
+                                        @elseif($order_service_customers->isEmpty())
                                             <p>*Tidak ada riwayat pesanan jasa aktif milik pelanggan</p>
                                         @endif
                                     </div>

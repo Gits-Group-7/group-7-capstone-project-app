@@ -145,6 +145,56 @@ body {
     border-radius: 6px !important;
 }
 
+.btn-unchecklist {
+    background-color: #10a19d !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-unchecklist:hover {
+    background-color: white !important;
+    color: #10a19d !important;
+    border: #10a19d 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-checkout {
+    background-color: #10a19d !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-checkout:hover {
+    background-color: white !important;
+    color: #10a19d !important;
+    border: #10a19d 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-cancel-checkout {
+    background-color: white !important;
+    color: #ff597b !important;
+    border: #ff597b 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.btn-cancel-checkout:hover {
+    background-color: #ff597b !important;
+    color: white !important;
+    border: transparent 2px solid !important;
+    border-radius: 6px !important;
+}
+
+.bg-red-theme {
+    background-color: #ff597b !important;
+}
+
+.bg-green-theme {
+    background-color: #10a19d !important;
+}
+
 .btn-hapus {
     background-color: #ff597b !important;
     color: white !important;
