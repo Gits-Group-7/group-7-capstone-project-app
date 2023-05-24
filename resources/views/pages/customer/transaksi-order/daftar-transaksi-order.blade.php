@@ -66,7 +66,7 @@
 
             <div class="row">
                 <div class="col-lg-12 mb-4">
-                    <div class="card border shadow-sm card-hover">
+                    <div class="card shadow-sm card-hover">
                         <div class="rounded-2 px-3 py-2 bg-white">
                             <!-- Pills navs -->
                             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -116,8 +116,13 @@
                                                                             data-bs-target="#exampleModal{{ $item->id }}">Batalkan
                                                                             Transaksi</button>
 
-                                                                        <a href="#!" class="btn btn-checkout mb-2">
-                                                                            Checkout Transaksi
+                                                                        <a href="{{ route('transaction.order.show_transaction_product', $item->id) }}"
+                                                                            class="btn btn-checkout mb-2">
+                                                                            @if ($item->status_delivery == 'Start Order')
+                                                                                Checkout Transaksi
+                                                                            @elseif($item->status_delivery == 'Order Checkouted')
+                                                                                Ubah Informasi Checkout
+                                                                            @endif
                                                                         </a>
                                                                     </center>
 
@@ -153,7 +158,8 @@
                                                                                     <button type="button"
                                                                                         class="btn btn-checklist"
                                                                                         data-bs-dismiss="modal">Batal</button>
-                                                                                    <a href="" type="button"
+                                                                                    <a href="{{ route('transaction.order.destroy', $item->id) }}"
+                                                                                        type="button"
                                                                                         class="btn btn-hapus">Hapus</a>
                                                                                 </div>
                                                                             </div>
@@ -232,6 +238,18 @@
                                                                         @endif
                                                                     </span>
                                                                 </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <small class="text-secondary">
+                                                                    *note : transaksi produk akan tetap
+                                                                    ditampilkan dan
+                                                                    dapat diubah sampai Anda melakukan Upload Bukti
+                                                                    Pembayaran di
+                                                                </small>
+                                                                <a href="{{ route('customer.transaction.list', auth()->user()->id) }}"
+                                                                    class="fw-medium text-grey" target="_blank">[ Riwayat
+                                                                    Transaksi Produk ]</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -272,8 +290,13 @@
                                                                             data-bs-target="#exampleModal{{ $item->id }}">Batalkan
                                                                             Pesanan</button>
 
-                                                                        <a href="#!" class="btn btn-checkout mb-2">
-                                                                            Checkout Pesanan
+                                                                        <a href="{{ route('transaction.order.show_order_service', $item->id) }}"
+                                                                            class="btn btn-checkout mb-2">
+                                                                            @if ($item->status_delivery == 'Start Order')
+                                                                                Checkout Transaksi
+                                                                            @elseif($item->status_delivery == 'Order Checkouted')
+                                                                                Ubah Informasi Checkout
+                                                                            @endif
                                                                         </a>
                                                                     </center>
 
@@ -310,7 +333,8 @@
                                                                                     <button type="button"
                                                                                         class="btn btn-checklist"
                                                                                         data-bs-dismiss="modal">Batal</button>
-                                                                                    <a href="" type="button"
+                                                                                    <a href="{{ route('transaction.order.destroy', $item->id) }}"
+                                                                                        type="button"
                                                                                         class="btn btn-hapus">Hapus</a>
                                                                                 </div>
                                                                             </div>
@@ -389,6 +413,18 @@
                                                                         @endif
                                                                     </span>
                                                                 </div>
+                                                            </div>
+                                                            <hr>
+                                                            <div>
+                                                                <small class="text-secondary">
+                                                                    *note : order jasa akan tetap
+                                                                    ditampilkan dan
+                                                                    dapat diubah sampai Anda melakukan Upload Bukti
+                                                                    Pembayaran.
+                                                                </small>
+                                                                <a href="{{ route('customer.order.list', auth()->user()->id) }}"
+                                                                    class="fw-medium text-grey" target="_blank">[ Riwayat
+                                                                    Pesanan Jasa ]</a>
                                                             </div>
                                                         </div>
                                                     </div>

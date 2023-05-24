@@ -48,7 +48,6 @@ class CartOrderController extends Controller
             ->orderBy('order_services.service_id', 'desc')
             ->get();
 
-
         // rekommended product and service
         $randomProducts = Product::inRandomOrder()->with('category')->limit(5)->get();
         $randomServices = Service::inRandomOrder()->with('category')->limit(5)->get();
@@ -77,8 +76,6 @@ class CartOrderController extends Controller
             // 'orders' => OrderService::orderBy('created_at', 'desc')->get(),
             // 'products' => Product::where('status', '!=', 'Habis')->get(),
         ];
-
-        // dd($data['cart_products']);
 
         return view('pages.customer.cart-and-order', $data, compact(
             'total_price_cart',

@@ -16,7 +16,7 @@
         $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
         return number_format($rounded, 1); // Format angka dengan satu angka di belakang koma
     }
-
+    
     // fungsi konversi data tipe date ke tanggal
     function dateConversion($date)
     {
@@ -24,22 +24,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-
+    
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
 @endphp
@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div class="card border shadow-sm card-hover">
+                    <div class="card shadow-sm card-hover">
                         <div class="rounded-2 px-3 py-2 bg-white">
                             <!-- Pills navs -->
                             <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
@@ -778,7 +778,7 @@
                                                         @php
                                                             $product_id = $value->id;
                                                             $averageRating = $value->product_rating->where('product_id', $product_id)->avg('rating');
-
+                                                            
                                                             $rating = $averageRating;
                                                             $whole = floor($rating);
                                                             $fraction = $rating - $whole;
@@ -949,7 +949,7 @@
                                                     @php
                                                         $service_id = $value->id;
                                                         $averageRating = $value->service_rating->where('service_id', $service_id)->avg('rating');
-
+                                                        
                                                         $rating = $averageRating;
                                                         $whole = floor($rating);
                                                         $fraction = $rating - $whole;

@@ -130,10 +130,17 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::put('/update-order-service/{service_id}', [OrderServiceController::class, 'update'])->name('order.update.service');
     Route::get('/delete-order-service/{service_id}', [OrderServiceController::class, 'destroy'])->name('order.delete.service');
 
-    // Route Transaction Order
+    // Route Transaction Order (Product & Service)
     Route::get('/daftar-transaksi-order', [TransactionOrderController::class, 'index'])->name('transaction.order.customer.list');
     Route::get('/tambah-transaksi-product/{user_id}', [TransactionOrderController::class, 'transaction_store_product'])->name('transaction.order.product.store');
     Route::get('/tambah-order-service/{user_id}', [TransactionOrderController::class, 'order_store_service'])->name('transaction.order.service.store');
+    Route::get('/hapus-transaksi-order/{transaction_order_id}', [TransactionOrderController::class, 'destroy'])->name('transaction.order.destroy');
+
+    // Route Transaction & Order Checkout (Product & Service)
+    Route::get('/detail-transaksi-produk/{transaction_id}', [TransactionOrderController::class, 'show_transaction_product'])->name('transaction.order.show_transaction_product');
+    Route::put('/checkout-transaksi-produk/{transaction_id}', [TransactionOrderController::class, 'update_transaction_product'])->name('transaction.order.checkout_transaction_product'); // checkout product (update)
+    Route::get('/detail-order-jasa/{order_id}', [TransactionOrderController::class, 'show_order_service'])->name('transaction.order.show_order_service');
+    Route::put('/checkout-order-jasa/{order_id}', [TransactionOrderController::class, 'update_order_jasa'])->name('transaction.order.checkout_order_jasa'); // checkout service (update)
 
     // Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
     // Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');

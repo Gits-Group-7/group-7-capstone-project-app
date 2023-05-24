@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\TransactionOrder;
@@ -33,7 +35,7 @@ class TransactionOrderController extends Controller
             'category_name' => Product::all(),
         ];
 
-        return view('pages.customer.tranksaksi.transaction-order', $data, compact('transaction_product_customers', 'order_service_customers'));
+        return view('pages.customer.transaksi-order.daftar-transaksi-order', $data, compact('transaction_product_customers', 'order_service_customers'));
     }
 
     /**
@@ -103,6 +105,46 @@ class TransactionOrderController extends Controller
         //
     }
 
+    public function show_transaction_product($transaction_id)
+    {
+        $customerId = auth()->user()->id;
+        $cart_products = DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->where('cart_products.user_id', $customerId)->where('is_checkout', true)->orderBy('cart_products.product_id', 'desc')->get();
+        $total_price_cart = CartProduct::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+
+        $data = [
+            // navbar
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
+            'category_name' => Product::all(),
+
+            // data transaction product
+            'transaction_product' =>  TransactionOrder::findOrFail($transaction_id),
+        ];
+
+        return view('pages.customer.transaksi-order.checkout-transaksi-produk', $data, compact('cart_products', 'total_price_cart'));
+    }
+
+    public function show_order_service($order_id)
+    {
+        $customerId = auth()->user()->id;
+        $order_services = DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->where('order_services.user_id', $customerId)->where('is_checkout', true)->orderBy('order_services.service_id', 'desc')->get();
+        $total_price_order = OrderService::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+
+        $data = [
+            // navbar
+            'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
+            'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
+            'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
+            'category_name' => Product::all(),
+
+            // data transaction product
+            'transaction_order' =>  TransactionOrder::findOrFail($order_id),
+        ];
+
+        return view('pages.customer.transaksi-order.checkout-order-jasa', $data, compact('order_services', 'total_price_order'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -126,14 +168,53 @@ class TransactionOrderController extends Controller
         //
     }
 
+    public function update_transaction_product(Request $request, $transaction_id)
+    {
+        // validasi field
+        $validated = $request->validate([
+            'order_address' => 'required',
+            'order_note' => 'nullable',
+        ]);
+
+        // validasi field satu persatu sebelum melakukan update
+        TransactionOrder::where('id', $transaction_id)->update([
+            'order_address' => $validated['order_address'],
+            'order_note' => $validated['order_note'],
+            'status_delivery' => 'Order Checkouted',
+        ]);
+
+        return redirect()->route('transaction.order.customer.list');
+    }
+
+    public function update_order_jasa(Request $request, $order_id)
+    {
+        // validasi field
+        $validated = $request->validate([
+            'order_address' => 'required',
+            'order_note' => 'nullable',
+        ]);
+
+        // validasi field satu persatu sebelum melakukan update
+        TransactionOrder::where('id', $order_id)->update([
+            'order_address' => $validated['order_address'],
+            'order_note' => $validated['order_note'],
+            'status_delivery' => 'Order Checkouted',
+        ]);
+
+        return redirect()->route('transaction.order.customer.list');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($transaction_order_id)
     {
-        //
+        $data = TransactionOrder::findOrFail($transaction_order_id);
+        $data->delete();
+
+        return redirect()->route('transaction.order.customer.list');
     }
 }
