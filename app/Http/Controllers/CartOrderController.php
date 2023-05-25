@@ -70,11 +70,6 @@ class CartOrderController extends Controller
 
             'category_product_name' => Product::all(),
             'category_service_name' => Service::all(),
-
-            // product & services, contain
-            // 'carts' => CartProduct::orderBy('created_at', 'desc')->get(),
-            // 'orders' => OrderService::orderBy('created_at', 'desc')->get(),
-            // 'products' => Product::where('status', '!=', 'Habis')->get(),
         ];
 
         return view('pages.customer.cart-and-order', $data, compact(
