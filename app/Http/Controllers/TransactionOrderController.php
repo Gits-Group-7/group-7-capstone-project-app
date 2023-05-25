@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\OrderDetail;
@@ -15,6 +14,7 @@ use App\Models\TransactionDetail;
 use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionOrderController extends Controller
 {
@@ -342,6 +342,55 @@ class TransactionOrderController extends Controller
         return redirect()->route('transaction.order.customer.list');
     }
 
+    public function upload_transaction_order_payment(Request $request, $transaction_order_id)
+    {
+        // get data photo transaction order
+        $data = TransactionOrder::findOrFail($transaction_order_id);
+
+        // fungsi validasi update product
+        $request->validate([
+            'prof_order_payment' => 'required|mimes:jpg,jpeg,png,webp|max:10240',
+        ]);
+
+        // mengecek apakah field untuk upload photo sudah upload atau belum
+        if ($request->file('prof_order_payment')) {
+            // hapus data photo sebelumnya terlbih dahulu
+            Storage::delete($data->prof_order_payment);
+
+            // simpan photo yang baru
+            $saveData['prof_order_payment'] = Storage::putFile('public/prof-order-payment', $request->file('prof_order_payment'));
+        } else {
+            $saveData['prof_order_payment'] = $data->prof_order_payment;
+        }
+
+        // validasi field satu persatu sebelum melakukan update
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'prof_order_payment' => $saveData['prof_order_payment'],
+            'status_delivery' => 'Payment Success',
+        ]);
+
+        if ($data->type_transaction_order == 'product') {
+            // Mendapatkan data Transaction Detail
+            $transactionDetails = TransactionDetail::where('transaction_order_id', $transaction_order_id)->get();
+
+            // Update stok produk berdasarkan data Transaction Detail
+            foreach ($transactionDetails as $transactionDetail) {
+                $product = Product::find($transactionDetail->product_id);
+                $product->stock -= $transactionDetail->quantity;
+                $product->save();
+            }
+        }
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Berhasil Upload Pembayaran',
+            'status' => 'Success Upload Payment',
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        return redirect()->route('transaction.order.customer.list');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -351,6 +400,11 @@ class TransactionOrderController extends Controller
     public function destroy($transaction_order_id)
     {
         $data = TransactionOrder::findOrFail($transaction_order_id);
+
+        if ($data->prof_order_payment != 'empty') {
+            Storage::delete($data->prof_order_payment);
+        }
+
         $data->delete();
 
         return redirect()->route('transaction.order.customer.list');

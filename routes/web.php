@@ -16,7 +16,6 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ServiceRatingsController;
 use App\Http\Controllers\ShopRatingsController;
-use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\TransactionOrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -141,12 +140,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::put('/checkout-transaksi-produk/{transaction_id}', [TransactionOrderController::class, 'update_transaction_product'])->name('transaction.order.checkout_transaction_product'); // checkout product (update)
     Route::get('/detail-order-jasa/{order_id}', [TransactionOrderController::class, 'show_order_service'])->name('transaction.order.show_order_service');
     Route::put('/checkout-order-jasa/{order_id}', [TransactionOrderController::class, 'update_order_service'])->name('transaction.order.checkout_order_jasa'); // checkout service (update)
-
-    // Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
-    // Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');
-    // Route::get('/proses-transaksi/{id}', [TransactionController::class, 'edit'])->name('customer.transaction.proccess'); // edit
-    // Route::put('/update-transaksi/{id}', [TransactionController::class, 'update'])->name('customer.transaction.update'); // update (backend)
-    // Route::get('/detail-transaksi/{id}', [TransactionController::class, 'show'])->name('customer.transaction.detail');
+    Route::put('/upload-prof-transaction-order-payment/{transaction_order_id}', [TransactionOrderController::class, 'upload_transaction_order_payment'])->name('transaction.order.upload_transaction_order_payment'); // upload transaction order payment (product & service)
 
     Route::get('/cusomer/{id}/daftar-transaksi', [PageController::class, 'listTransaction'])->name('customer.transaction.list');
     Route::get('/cusomer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');

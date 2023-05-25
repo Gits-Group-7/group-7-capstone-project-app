@@ -108,8 +108,7 @@
                                                                 </div>
                                                                 <div
                                                                     class="col-lg-5 col-md-5 col-5 d-flex justify-content-end">
-                                                                    <center class="pt-3 pb-2">
-
+                                                                    <div class="pt-3 pb-2">
                                                                         <button type="button"
                                                                             class="btn btn-cancel-checkout mb-2"
                                                                             data-bs-toggle="modal"
@@ -123,11 +122,96 @@
                                                                             </a>
                                                                         @elseif($item->status_delivery == 'Order Checkouted')
                                                                             <button type="button"
-                                                                                class="btn btn-checkout mb-2">
+                                                                                class="btn btn-checkout mb-2"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#upload-transaction-product{{ $item->id }}">
                                                                                 Upload Bukti Pembayaran
                                                                             </button>
+
+                                                                            <!-- Modal Upload Bukti Pembayaran Transaksi -->
+                                                                            <div class="modal fade"
+                                                                                id="upload-transaction-product{{ $item->id }}"
+                                                                                tabindex="-1"
+                                                                                aria-labelledby="exampleModalLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title"
+                                                                                                id="exampleModalLabel">
+                                                                                                Upload Bukti Pembayaran
+                                                                                                Transaksi
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                class="btn-close"
+                                                                                                data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form
+                                                                                            action="{{ route('transaction.order.upload_transaction_order_payment', $item->id) }}"
+                                                                                            method="POST" class="m-3"
+                                                                                            enctype="multipart/form-data">
+                                                                                            @method('put')
+                                                                                            @csrf
+
+                                                                                            <div class="modal-body">
+                                                                                                <span><b>Total Pembayaran
+                                                                                                        :</b>
+                                                                                                    Rp.
+                                                                                                    {{ priceConversion($item->total_price_transaction_order) }}</span><br>
+                                                                                                <span><b>Status Pembayaran
+                                                                                                        :</b>
+                                                                                                    @if ($item->prof_order_payment == 'empty')
+                                                                                                        Belum Dibayar
+                                                                                                    @else
+                                                                                                        Lunas
+                                                                                                    @endif
+                                                                                                </span>
+
+                                                                                                <div
+                                                                                                    class="form-control mt-4 mb-2">
+                                                                                                    <div
+                                                                                                        class="form-group mb-3">
+                                                                                                        <label
+                                                                                                            for="prof_order_payment"
+                                                                                                            class="form-label">Upload
+                                                                                                            Foto Bukti
+                                                                                                            Pembayaran
+                                                                                                        </label>
+                                                                                                        <input
+                                                                                                            id="prof_order_payment"
+                                                                                                            name="prof_order_payment"
+                                                                                                            class="form-control @error('prof_order_payment') is-invalid @enderror"
+                                                                                                            type="file"
+                                                                                                            id="formFile"
+                                                                                                            required>
+                                                                                                    </div>
+                                                                                                    @if ($errors->has('prof_order_payment'))
+                                                                                                        <div
+                                                                                                            class="invalid feedback text-danger mb-3">
+                                                                                                            *upload gambar
+                                                                                                            kurang dari 10
+                                                                                                            Mb
+                                                                                                            (jpg/png/webp)
+                                                                                                        </div>
+                                                                                                    @endif
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-checklist"
+                                                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                                                <button type="submit"
+                                                                                                    class="btn btn-hapus">Simpan</button>
+                                                                                            </div>
+                                                                                        </form>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         @endif
-                                                                    </center>
+                                                                    </div>
 
                                                                     <!-- Modal Delete Transaksi -->
                                                                     <div class="modal fade"
@@ -142,7 +226,8 @@
                                                                                         Hapus
                                                                                         transaksi produk?
                                                                                     </h5>
-                                                                                    <button type="button" class="btn-close"
+                                                                                    <button type="button"
+                                                                                        class="btn-close"
                                                                                         data-bs-dismiss="modal"
                                                                                         aria-label="Close"></button>
                                                                                 </div>
@@ -236,11 +321,11 @@
                                                                                 class="span text-white bg-red-theme px-3 rounded">
                                                                                 Belum Dibayar
                                                                             </span>
-                                                                        @elseif(!$item->prof_order_payment == 'empty')
+                                                                        @else
                                                                             Status Pembayaran :
                                                                             <span
                                                                                 class="span text-white bg-green-theme px-3 rounded">
-                                                                                Lunas
+                                                                                Sudah Dibayar
                                                                             </span>
                                                                         @endif
                                                                     </span> <br>
@@ -265,13 +350,8 @@
                                                             <div>
                                                                 <small class="text-secondary">
                                                                     *note : transaksi produk akan tetap
-                                                                    ditampilkan dan
-                                                                    dapat diubah sampai Anda melakukan Upload Bukti
-                                                                    Pembayaran di
+                                                                    ditampilkan sampai Admin melakukan Konfirmasi Pemesanan.
                                                                 </small>
-                                                                <a href="{{ route('customer.transaction.list', auth()->user()->id) }}"
-                                                                    class="fw-medium text-grey" target="_blank">[ Riwayat
-                                                                    Transaksi Produk ]</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -304,7 +384,7 @@
                                                                 </div>
                                                                 <div
                                                                     class="col-lg-5 col-md-5 col-5 d-flex justify-content-end">
-                                                                    <center class="pt-3 pb-2">
+                                                                    <div class="pt-3 pb-2">
 
                                                                         <button type="button"
                                                                             class="btn btn-cancel-checkout mb-2"
@@ -319,11 +399,96 @@
                                                                             </a>
                                                                         @elseif($item->status_delivery == 'Order Checkouted')
                                                                             <button type="button"
-                                                                                class="btn btn-checkout mb-2">
+                                                                                class="btn btn-checkout mb-2"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#upload-order-service{{ $item->id }}">
                                                                                 Upload Bukti Pembayaran
                                                                             </button>
+
+                                                                            <!-- Modal Upload Bukti Pembayaran Order -->
+                                                                            <div class="modal fade"
+                                                                                id="upload-order-service{{ $item->id }}"
+                                                                                tabindex="-1"
+                                                                                aria-labelledby="exampleModalLabel"
+                                                                                aria-hidden="true">
+                                                                                <div class="modal-dialog">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title"
+                                                                                                id="exampleModalLabel">
+                                                                                                Upload Bukti Pembayaran
+                                                                                                Order
+                                                                                            </h5>
+                                                                                            <button type="button"
+                                                                                                class="btn-close"
+                                                                                                data-bs-dismiss="modal"
+                                                                                                aria-label="Close"></button>
+                                                                                        </div>
+                                                                                        <form
+                                                                                            action="{{ route('transaction.order.upload_transaction_order_payment', $item->id) }}"
+                                                                                            method="POST" class="m-3"
+                                                                                            enctype="multipart/form-data">
+                                                                                            @method('put')
+                                                                                            @csrf
+
+                                                                                            <div class="modal-body">
+                                                                                                <span><b>Total Pembayaran
+                                                                                                        :</b>
+                                                                                                    Rp.
+                                                                                                    {{ priceConversion($item->total_price_transaction_order) }}</span><br>
+                                                                                                <span><b>Status Pembayaran
+                                                                                                        :</b>
+                                                                                                    @if ($item->prof_order_payment == 'empty')
+                                                                                                        Belum Dibayar
+                                                                                                    @else
+                                                                                                        Lunas
+                                                                                                    @endif
+                                                                                                </span>
+
+                                                                                                <div
+                                                                                                    class="form-control mt-4 mb-2">
+                                                                                                    <div
+                                                                                                        class="form-group mb-3">
+                                                                                                        <label
+                                                                                                            for="prof_order_payment"
+                                                                                                            class="form-label">Upload
+                                                                                                            Foto Bukti
+                                                                                                            Pembayaran
+                                                                                                        </label>
+                                                                                                        <input
+                                                                                                            id="prof_order_payment"
+                                                                                                            name="prof_order_payment"
+                                                                                                            class="form-control @error('prof_order_payment') is-invalid @enderror"
+                                                                                                            type="file"
+                                                                                                            id="formFile"
+                                                                                                            required>
+                                                                                                    </div>
+                                                                                                    @if ($errors->has('prof_order_payment'))
+                                                                                                        <div
+                                                                                                            class="invalid feedback text-danger mb-3">
+                                                                                                            *upload gambar
+                                                                                                            kurang dari 10
+                                                                                                            Mb
+                                                                                                            (jpg/png/webp)
+                                                                                                        </div>
+                                                                                                    @endif
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button"
+                                                                                                    class="btn btn-checklist"
+                                                                                                    data-bs-dismiss="modal">Batal</button>
+                                                                                                <button type="submit"
+                                                                                                    class="btn btn-hapus">Simpan</button>
+                                                                                            </div>
+                                                                                        </form>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
                                                                         @endif
-                                                                    </center>
+                                                                    </div>
 
                                                                     <!-- Modal Delete Transaksi -->
                                                                     <div class="modal fade"
@@ -439,11 +604,11 @@
                                                                                     class="span text-white bg-red-theme px-3 rounded">
                                                                                     Belum Dibayar
                                                                                 </span>
-                                                                            @elseif(!$item->prof_order_payment == 'empty')
+                                                                            @else
                                                                                 Status Pembayaran :
                                                                                 <span
                                                                                     class="span text-white bg-green-theme px-3 rounded">
-                                                                                    Lunas
+                                                                                    Sudah Dibayar
                                                                                 </span>
                                                                             @endif
                                                                         </span> <br>
@@ -469,13 +634,8 @@
                                                             <div>
                                                                 <small class="text-secondary">
                                                                     *note : order jasa akan tetap
-                                                                    ditampilkan dan
-                                                                    dapat diubah sampai Anda melakukan Upload Bukti
-                                                                    Pembayaran.
+                                                                    ditampilkan sampai Admin melakukan Konfirmasi Pemesanan.
                                                                 </small>
-                                                                <a href="{{ route('customer.order.list', auth()->user()->id) }}"
-                                                                    class="fw-medium text-grey" target="_blank">[ Riwayat
-                                                                    Pesanan Jasa ]</a>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -151,7 +151,9 @@
                                 <div class="float-end mt-2">
                                     <a href="{{ route('transaction.order.customer.list') }}"
                                         class="btn btn-unchecklist border">Batal</a>
-                                    <button class="btn btn-checklist shadow-0 border">Proses Checkout</button>
+                                    @if (!$order_services->isEmpty())
+                                        <button class="btn btn-checklist shadow-0 border">Proses Checkout</button>
+                                    @endif
                                 </div>
                             </form>
                         </div>

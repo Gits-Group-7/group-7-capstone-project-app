@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('location', 50)->nullable(true);
             $table->text('note')->nullable(true);
-            $table->string('status', 20)->nullable(false);
+            $table->string('status', 30)->nullable(false);
             $table->string('is_complete', 20)->default('No')->nullable(false);
             $table->string('transaction_order_id');
             $table->foreign('transaction_order_id')->references('id')->on('transaction_orders')->onDelete('cascade');
