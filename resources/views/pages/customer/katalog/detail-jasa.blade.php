@@ -258,7 +258,7 @@
                             <dd class="col-7 text-theme">Iya</dd>
 
                             <dt class="col-5">Estimasi Pengerjaan : </dt>
-                            <dd class="col-7 text-theme">Min {{ $service->estimation }}</dd>
+                            <dd class="col-7 text-theme">Minimal {{ $service->estimation }} Hari</dd>
                         </div>
                     </div>
 

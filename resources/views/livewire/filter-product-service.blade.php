@@ -519,7 +519,8 @@
                                                     <div class="col bg-danger d-flex">
                                                         <div class="mx-auto my-auto">
                                                             <span
-                                                                class="fw-medium text-theme new-badge">{{ $service->estimation }}</span>
+                                                                class="fw-medium text-theme new-badge">{{ $service->estimation }}
+                                                                Hari</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -826,7 +827,8 @@
                                             <div class="col bg-danger d-flex">
                                                 <div class="mx-auto my-auto">
                                                     <span
-                                                        class="fw-medium text-theme new-badge">{{ $value->estimation }}</span>
+                                                        class="fw-medium text-theme new-badge">{{ $value->estimation }}
+                                                        Hari</span>
                                                 </div>
                                             </div>
                                         </div>

@@ -10,19 +10,19 @@
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-
+    
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-
+    
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-
+    
         return $string;
     }
-
+    
     function roundToOneDecimal($number)
     {
         $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
@@ -75,7 +75,7 @@
                                                             @php
                                                                 $product_id = $product->id;
                                                                 $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
-
+                                                                
                                                                 $rating = $averageRating;
                                                                 $whole = floor($rating);
                                                                 $fraction = $rating - $whole;
@@ -264,7 +264,7 @@
                                                         @php
                                                             $service_id = $service->id;
                                                             $averageRating = $service->service_rating->where('service_id', $service_id)->avg('rating');
-
+                                                            
                                                             $rating = $averageRating;
                                                             $whole = floor($rating);
                                                             $fraction = $rating - $whole;
@@ -298,7 +298,8 @@
                                                 <div class="col bg-danger d-flex">
                                                     <div class="mx-auto my-auto">
                                                         <span
-                                                            class="fw-medium text-theme new-badge">{{ $service->estimation }}</span>
+                                                            class="fw-medium text-theme new-badge">{{ $service->estimation }}
+                                                            Hari</span>
                                                     </div>
                                                 </div>
                                             </div>

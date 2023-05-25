@@ -173,7 +173,7 @@
                                                             </div>
                                                             <hr>
                                                             <div class="row justify-content-around">
-                                                                <div class="col-lg-4 col-md-4 mb-2 mt-2">
+                                                                <div class="col-lg-3 col-md-4 mb-2 mt-2">
                                                                     <p>
                                                                         <span class="fw-medium">Kontak</span> <br>
                                                                         <span class="text-secondary">Nama Pelanggan :
@@ -205,7 +205,7 @@
                                                                         </span>
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-12 mb-2 mt-2">
+                                                                <div class="col-lg-4 col-md-12 mb-2 mt-2">
                                                                     <span class="fw-medium">Pembayaran</span> <br>
                                                                     <span class="text-secondary">Ongkos Pengiriman :
                                                                         <span class="text-success fw-medium">
@@ -231,13 +231,13 @@
                                                                     <br>
                                                                     <span class="text-secondary">
                                                                         @if ($item->prof_order_payment == 'empty')
-                                                                            Sudah Dibayar :
+                                                                            Status Pembayaran :
                                                                             <span
                                                                                 class="span text-white bg-red-theme px-3 rounded">
                                                                                 Belum Dibayar
                                                                             </span>
                                                                         @elseif(!$item->prof_order_payment == 'empty')
-                                                                            Sudah Dibayar :
+                                                                            Status Pembayaran :
                                                                             <span
                                                                                 class="span text-white bg-green-theme px-3 rounded">
                                                                                 Lunas
@@ -370,7 +370,7 @@
                                                             </div>
                                                             <hr>
                                                             <div class="row justify-content-around">
-                                                                <div class="col-lg-4 col-md-4 mb-2 mt-2">
+                                                                <div class="col-lg-3 col-md-4 mb-2 mt-2">
                                                                     <p>
                                                                         <span class="fw-medium">Kontak</span> <br>
                                                                         <span class="text-secondary">Nama Pelanggan :
@@ -402,10 +402,9 @@
                                                                         </span>
                                                                     </p>
                                                                 </div>
-                                                                <div class="col-lg-3 col-md-12 mb-2 mt-2">
+                                                                <div class="col-lg-4 col-md-12 mb-2 mt-2">
                                                                     <span class="fw-medium">Pembayaran</span> <br>
                                                                     <span class="text-secondary">Ongkos Pengiriman :
-                                                                        Rp.
                                                                         <span class="text-success fw-medium">
                                                                             Rp.
                                                                             @if ($item->delivery_price == 0)
@@ -416,14 +415,32 @@
                                                                         </span>
                                                                         <br>
                                                                         <span class="text-secondary">
+                                                                            Biaya Jasa =
+                                                                            <span class="text-success fw-medium">
+                                                                                Rp. {{ priceConversion($servicePrice) }}
+                                                                            </span>
+                                                                        </span>
+                                                                        <br>
+                                                                        <span class="text-secondary">Total Pembayaran :
+                                                                            <span class="text-success fw-medium">
+                                                                                Rp.
+                                                                                @if ($item->total_price_transaction_order == 0)
+                                                                                    {{ priceConversion($total_price_order + $deliveryPriceOrder + $servicePrice) }}
+                                                                                @else
+                                                                                    {{ priceConversion($item->total_price_transaction_order) }}
+                                                                                @endif
+                                                                            </span>
+                                                                        </span>
+                                                                        <br>
+                                                                        <span class="text-secondary">
                                                                             @if ($item->prof_order_payment == 'empty')
-                                                                                Sudah Dibayar :
+                                                                                Status Pembayaran :
                                                                                 <span
                                                                                     class="span text-white bg-red-theme px-3 rounded">
                                                                                     Belum Dibayar
                                                                                 </span>
                                                                             @elseif(!$item->prof_order_payment == 'empty')
-                                                                                Sudah Dibayar :
+                                                                                Status Pembayaran :
                                                                                 <span
                                                                                     class="span text-white bg-green-theme px-3 rounded">
                                                                                     Lunas
