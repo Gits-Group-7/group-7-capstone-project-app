@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
+use App\Models\TrackingLog;
 use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -62,11 +63,11 @@ class TransactionOrderController extends Controller
 
     public function transaction_store_product($user_id)
     {
-        // mengambil data user customer
+        // Mengambil data user customer
         $user = User::find($user_id);
 
-        // validasi field satu persatu sebelum melakukan insert
-        TransactionOrder::create([
+        // Membuat transaksi baru dan mendapatkan ID transaksi
+        $transactionOrder = TransactionOrder::create([
             'order_address' => '',
             'order_confirmed' => 'No',
             'type_transaction_order' => 'product',
@@ -74,16 +75,26 @@ class TransactionOrderController extends Controller
             'user_id' => $user->id,
         ]);
 
+        // Mendapatkan ID transaksi yang baru saja dibuat
+        $transactionOrderId = $transactionOrder->id;
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Berhasil Melakukan Transaksi',
+            'status' => 'Start Order',
+            'transaction_order_id' => $transactionOrderId,
+        ]);
+
         return redirect()->route('transaction.order.customer.list');
     }
 
     public function order_store_service($user_id)
     {
-        // mengambil data user customer
+        // Mengambil data user customer
         $user = User::find($user_id);
 
-        // validasi field satu persatu sebelum melakukan insert
-        TransactionOrder::create([
+        // Membuat transaksi baru dan mendapatkan ID transaksi
+        $transactionOrder = TransactionOrder::create([
             'order_address' => '',
             'order_confirmed' => 'No',
             'type_transaction_order' => 'service',
@@ -91,8 +102,19 @@ class TransactionOrderController extends Controller
             'user_id' => $user->id,
         ]);
 
+        // Mendapatkan ID transaksi yang baru saja dibuat
+        $transactionOrderId = $transactionOrder->id;
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Berhasil Melakukan Transaksi',
+            'status' => 'Start Order',
+            'transaction_order_id' => $transactionOrderId,
+        ]);
+
         return redirect()->route('transaction.order.customer.list');
     }
+
 
     /**
      * Display the specified resource.

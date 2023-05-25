@@ -42,4 +42,10 @@ class TransactionOrder extends Model
         'delivery_complete',
         'user_id',
     ];
+
+    // satu Transaction Order memiliki banyak Transaction Log
+    public function tracking_logs()
+    {
+        return $this->hasMany(TrackingLog::class);
+    }
 }
