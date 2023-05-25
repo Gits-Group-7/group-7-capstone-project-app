@@ -116,14 +116,17 @@
                                                                             data-bs-target="#exampleModal{{ $item->id }}">Batalkan
                                                                             Transaksi</button>
 
-                                                                        <a href="{{ route('transaction.order.show_transaction_product', $item->id) }}"
-                                                                            class="btn btn-checkout mb-2">
-                                                                            @if ($item->status_delivery == 'Start Order')
+                                                                        @if ($item->status_delivery == 'Start Order')
+                                                                            <a href="{{ route('transaction.order.show_transaction_product', $item->id) }}"
+                                                                                class="btn btn-checkout mb-2">
                                                                                 Checkout Transaksi
-                                                                            @elseif($item->status_delivery == 'Order Checkouted')
-                                                                                Ubah Informasi Checkout
-                                                                            @endif
-                                                                        </a>
+                                                                            </a>
+                                                                        @elseif($item->status_delivery == 'Order Checkouted')
+                                                                            <button type="button"
+                                                                                class="btn btn-checkout mb-2">
+                                                                                Upload Bukti Pembayaran
+                                                                            </button>
+                                                                        @endif
                                                                     </center>
 
                                                                     <!-- Modal Delete Transaksi -->
@@ -290,14 +293,17 @@
                                                                             data-bs-target="#exampleModal{{ $item->id }}">Batalkan
                                                                             Pesanan</button>
 
-                                                                        <a href="{{ route('transaction.order.show_order_service', $item->id) }}"
-                                                                            class="btn btn-checkout mb-2">
-                                                                            @if ($item->status_delivery == 'Start Order')
-                                                                                Checkout Transaksi
-                                                                            @elseif($item->status_delivery == 'Order Checkouted')
-                                                                                Ubah Informasi Checkout
-                                                                            @endif
-                                                                        </a>
+                                                                        @if ($item->status_delivery == 'Start Order')
+                                                                            <a href="{{ route('transaction.order.show_order_service', $item->id) }}"
+                                                                                class="btn btn-checkout mb-2">
+                                                                                Checkout Pesanan
+                                                                            </a>
+                                                                        @elseif($item->status_delivery == 'Order Checkouted')
+                                                                            <button type="button"
+                                                                                class="btn btn-checkout mb-2">
+                                                                                Upload Bukti Pembayaran
+                                                                            </button>
+                                                                        @endif
                                                                     </center>
 
                                                                     <!-- Modal Delete Transaksi -->

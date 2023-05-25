@@ -39,25 +39,29 @@
                     <div class="card card-hover px-4 pb-1 mb-4">
                         <h6 class="mb-3 fw-medium mt-4">Daftar Produk di Keranjang</h6>
 
-                        <div class="row">
+                        <div class="row justify-content-around">
                             @if (!$cart_products->isEmpty())
                                 @foreach ($cart_products as $products)
-                                    <div class="col-xl-6 col-lg-12 col-md-6 col-sm-12 col-12">
+                                    <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12 col-12 p-3 rounded mb-4 border">
                                         <div class="d-flex align-items-center mb-4">
                                             <div class="me-3 position-relative">
-                                                <span
-                                                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-secondary">
-                                                    {{ $products->quantity }}
-                                                </span>
                                                 <img src="{{ Storage::url($products->photo) }}"
                                                     class="border rounded me-3 p-2" style="width: 96px; height: 96px;" />
                                             </div>
                                             <div class="">
-                                                <span class="nav-link mb-1 text-justify text-muted">
+                                                <span class="nav-link mb-1 text-justify text-muted mb-2">
                                                     {{ $products->name }}
                                                 </span>
-                                                <div class="price fw-medium">Total :
-                                                    <span class="text-success">
+                                                <div class="price fw-medium">
+                                                    <span class="text-theme">
+                                                        {{ $products->quantity }} X
+                                                    </span>
+                                                    <span class="text-theme">
+                                                        Rp. {{ priceConversion($products->price) }}
+                                                    </span>
+                                                </div>
+                                                <div class="price fw-medium">
+                                                    Total : <span class="text-success">
                                                         Rp. {{ priceConversion($products->total_price) }}
                                                     </span>
                                                 </div>

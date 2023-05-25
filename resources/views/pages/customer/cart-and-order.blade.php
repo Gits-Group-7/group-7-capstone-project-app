@@ -193,7 +193,8 @@
                                                                                         class="form-select @error('is_checkout_product') is-invalid @enderror"
                                                                                         id="is_checkout_product"
                                                                                         name="is_checkout_product"
-                                                                                        aria-label="Default select example">
+                                                                                        aria-label="Default select example"
+                                                                                        required>
                                                                                         <option value="">
                                                                                             Pilih Opsi
                                                                                         </option>
@@ -479,7 +480,8 @@
                                                                                         class="form-select @error('is_checkout_service') is-invalid @enderror"
                                                                                         id="is_checkout_service"
                                                                                         name="is_checkout_service"
-                                                                                        aria-label="Default select example">
+                                                                                        aria-label="Default select example"
+                                                                                        required>
                                                                                         <option value="">
                                                                                             Pilih Opsi
                                                                                         </option>
@@ -528,7 +530,8 @@
                                                                                     <select
                                                                                         class="form-select @error('material') is-invalid @enderror"
                                                                                         id="material" name="material"
-                                                                                        aria-label="Default select example">
+                                                                                        aria-label="Default select example"
+                                                                                        required>
                                                                                         <option value="">
                                                                                             Pilih Opsi Bahan
                                                                                         </option>
