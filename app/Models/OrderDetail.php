@@ -5,26 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransactionDetail extends Model
+class OrderDetail extends Model
 {
     use HasFactory;
 
-    protected $table = 'transaction_details';
+    protected $table = 'order_details';
 
     protected $fillable = [
         'quantity',
         'total_price',
-        'product_id',
+        'material',
+        'deadline',
+        'service_id',
         'transaction_order_id',
     ];
 
-    // suatu transaction detail berpengaruh terhadap satu product
-    public function product()
+    // suatu order detail berpengaruh terhadap satu service
+    public function service()
     {
-        return $this->belongsTo(Product::class, 'product_id', 'id');
+        return $this->belongsTo(Service::class, 'service_id', 'id');
     }
 
-    // suatu transaction detail berpengaruh terhadap satu transaction
+    // suatu order detail berpengaruh terhadap satu transaction
     public function transaction_orders()
     {
         return $this->belongsTo(TransactionOrder::class, 'transaction_order_id', 'id');

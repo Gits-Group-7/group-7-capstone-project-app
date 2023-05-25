@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
-            $table->string('transaction_id');
-            $table->string('product_id');
             $table->unsignedInteger('quantity')->default(1);
             $table->unsignedInteger('total_price')->default(0);
-            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
+            $table->string('product_id');
+            $table->string('transaction_order_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('transaction_order_id')->references('id')->on('transaction_orders')->onDelete('cascade');
             $table->timestamps();
         });
     }

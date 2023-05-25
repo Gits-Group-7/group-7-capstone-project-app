@@ -54,4 +54,10 @@ class Service extends Model
     {
         return $this->hasMany(ServiceRating::class);
     }
+
+    // satu jasa memiliki banyak detail order jasa
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

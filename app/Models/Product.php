@@ -63,12 +63,8 @@ class Product extends Model
         return $this->hasMany(CartProduct::class);
     }
 
-    public function carts()
-    {
-        return $this->hasMany(Cart::class);
-    }
-
-    public function transaction_detail()
+    // satu produk memiliki banyak detail transaksi produk
+    public function transaction_details()
     {
         return $this->hasMany(TransactionDetail::class);
     }

@@ -48,4 +48,16 @@ class TransactionOrder extends Model
     {
         return $this->hasMany(TrackingLog::class);
     }
+
+    // satu Transaction Order memiliki banyak order detail Log
+    public function order_details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+    // satu Transaction Order memiliki banyak transaction detail Log
+    public function transaction_details()
+    {
+        return $this->hasMany(TransactionDetail::class);
+    }
 }
