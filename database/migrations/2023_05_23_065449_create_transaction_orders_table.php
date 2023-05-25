@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('prof_order_payment')->nullable(false)->default('empty');
             $table->string('order_confirmed', 20)->nullable(false)->default('No');
             $table->unsignedInteger('delivery_price')->nullable(false)->default(0);
+            $table->unsignedInteger('total_price_transaction_order')->nullable(false)->default(0);
             $table->string('track_delivery_location', 100)->nullable(true);
             $table->string('status_delivery', 20)->nullable(false);
             $table->string('delivery_complete', 20)->nullable(false)->default("No");

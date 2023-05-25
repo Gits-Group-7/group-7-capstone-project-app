@@ -89,7 +89,7 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2">Ongkos Pengiriman :</p>
-                                <p class="mb-2 fw-medium">Rp. {{ priceConversion($transaction_order->delivery_price) }}
+                                <p class="mb-2 fw-medium">Rp. {{ priceConversion($deliveryPrice) }}
                                 </p>
                             </div>
 
@@ -98,7 +98,7 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2 fw-medium">Total Harga :</p>
                                 <p class="mb-2 fw-bold text-success">Rp.
-                                    {{ priceConversion($total_price_order + $transaction_order->delivery_price) }}</p>
+                                    {{ priceConversion($total_price_order + $deliveryPrice) }}</p>
                             </div>
                         </div>
 

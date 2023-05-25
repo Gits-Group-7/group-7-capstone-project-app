@@ -207,8 +207,27 @@
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-12 mb-2 mt-2">
                                                                     <span class="fw-medium">Pembayaran</span> <br>
-                                                                    <span class="text-secondary">Ongkos Pengiriman : Rp.
-                                                                        {{ priceConversion($item->delivery_price) }}</span>
+                                                                    <span class="text-secondary">Ongkos Pengiriman :
+                                                                        <span class="text-success fw-medium">
+                                                                            Rp.
+                                                                            @if ($item->delivery_price == 0)
+                                                                                {{ priceConversion($deliveryPriceCart) }}
+                                                                            @else
+                                                                                {{ priceConversion($item->delivery_price) }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </span>
+                                                                    <br>
+                                                                    <span class="text-secondary">Total Pembayaran :
+                                                                        <span class="text-success fw-medium">
+                                                                            Rp.
+                                                                            @if ($item->total_price_transaction_order == 0)
+                                                                                {{ priceConversion($total_price_cart + $deliveryPriceCart) }}
+                                                                            @else
+                                                                                {{ priceConversion($item->total_price_transaction_order) }}
+                                                                            @endif
+                                                                        </span>
+                                                                    </span>
                                                                     <br>
                                                                     <span class="text-secondary">
                                                                         @if ($item->prof_order_payment == 'empty')
@@ -385,38 +404,47 @@
                                                                 </div>
                                                                 <div class="col-lg-3 col-md-12 mb-2 mt-2">
                                                                     <span class="fw-medium">Pembayaran</span> <br>
-                                                                    <span class="text-secondary">Ongkos Pengiriman : Rp.
-                                                                        {{ priceConversion($item->delivery_price) }}</span>
-                                                                    <br>
-                                                                    <span class="text-secondary">
-                                                                        @if ($item->prof_order_payment == 'empty')
-                                                                            Sudah Dibayar :
-                                                                            <span
-                                                                                class="span text-white bg-red-theme px-3 rounded">
-                                                                                Belum Dibayar
-                                                                            </span>
-                                                                        @elseif(!$item->prof_order_payment == 'empty')
-                                                                            Sudah Dibayar :
-                                                                            <span
-                                                                                class="span text-white bg-green-theme px-3 rounded">
-                                                                                Lunas
-                                                                            </span>
-                                                                        @endif
-                                                                    </span> <br>
-                                                                    <span class="text-secondary">
-                                                                        @if ($item->order_confirmed == 'No')
-                                                                            Status Pesanan :
-                                                                            <span
-                                                                                class="span text-white bg-red-theme px-3 rounded">
-                                                                                Pending
-                                                                            </span>
-                                                                        @elseif($item->order_confirmed == 'Yes')
-                                                                            Status Pesanan :
-                                                                            <span
-                                                                                class="span text-white bg-green-theme px-3 rounded">
-                                                                                Diproses
-                                                                            </span>
-                                                                        @endif
+                                                                    <span class="text-secondary">Ongkos Pengiriman :
+                                                                        Rp.
+                                                                        <span class="text-success fw-medium">
+                                                                            Rp.
+                                                                            @if ($item->delivery_price == 0)
+                                                                                {{ priceConversion($deliveryPriceOrder) }}
+                                                                            @else
+                                                                                {{ priceConversion($item->delivery_price) }}
+                                                                            @endif
+                                                                        </span>
+                                                                        <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->prof_order_payment == 'empty')
+                                                                                Sudah Dibayar :
+                                                                                <span
+                                                                                    class="span text-white bg-red-theme px-3 rounded">
+                                                                                    Belum Dibayar
+                                                                                </span>
+                                                                            @elseif(!$item->prof_order_payment == 'empty')
+                                                                                Sudah Dibayar :
+                                                                                <span
+                                                                                    class="span text-white bg-green-theme px-3 rounded">
+                                                                                    Lunas
+                                                                                </span>
+                                                                            @endif
+                                                                        </span> <br>
+                                                                        <span class="text-secondary">
+                                                                            @if ($item->order_confirmed == 'No')
+                                                                                Status Pesanan :
+                                                                                <span
+                                                                                    class="span text-white bg-red-theme px-3 rounded">
+                                                                                    Pending
+                                                                                </span>
+                                                                            @elseif($item->order_confirmed == 'Yes')
+                                                                                Status Pesanan :
+                                                                                <span
+                                                                                    class="span text-white bg-green-theme px-3 rounded">
+                                                                                    Diproses
+                                                                                </span>
+                                                                            @endif
+                                                                        </span>
                                                                     </span>
                                                                 </div>
                                                             </div>

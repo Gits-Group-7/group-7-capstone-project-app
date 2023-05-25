@@ -140,7 +140,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/detail-transaksi-produk/{transaction_id}', [TransactionOrderController::class, 'show_transaction_product'])->name('transaction.order.show_transaction_product');
     Route::put('/checkout-transaksi-produk/{transaction_id}', [TransactionOrderController::class, 'update_transaction_product'])->name('transaction.order.checkout_transaction_product'); // checkout product (update)
     Route::get('/detail-order-jasa/{order_id}', [TransactionOrderController::class, 'show_order_service'])->name('transaction.order.show_order_service');
-    Route::put('/checkout-order-jasa/{order_id}', [TransactionOrderController::class, 'update_order_jasa'])->name('transaction.order.checkout_order_jasa'); // checkout service (update)
+    Route::put('/checkout-order-jasa/{order_id}', [TransactionOrderController::class, 'update_order_service'])->name('transaction.order.checkout_order_jasa'); // checkout service (update)
 
     // Route::get('/tambah-transaksi', [TransactionController::class, 'store'])->name('transaction.store');
     // Route::get('/hapus-transaksi/{id}', [TransactionController::class, 'destroy'])->name('transaction.destroy');

@@ -10,6 +10,7 @@ use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\TrackingLog;
+use App\Models\TransactionDetail;
 use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -28,6 +29,16 @@ class TransactionOrderController extends Controller
         $transaction_product_customers = TransactionOrder::where('user_id', $customerId)->where('type_transaction_order', 'product')->where('order_confirmed', 'No')->orderBy('order_date', 'desc')->get();
         $order_service_customers = TransactionOrder::where('user_id', $customerId)->where('type_transaction_order', 'service')->where('order_confirmed', 'No')->orderBy('order_date', 'desc')->get();
 
+        // price transaction order
+        $total_price_cart = CartProduct::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+
+        $totalQuantityCart = CartProduct::where('user_id', $customerId)->sum('quantity');
+        $totalQuantityOrder = OrderService::where('user_id', $customerId)->sum('quantity');
+
+        // Menghitung delivery_price berdasarkan total kuantity
+        $deliveryPriceCart = ($totalQuantityCart * 2000) + 5000;
+        $deliveryPriceOrder = ($totalQuantityOrder * 2000) + 10000;
+
         $data = [
             // navbar
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
@@ -36,7 +47,7 @@ class TransactionOrderController extends Controller
             'category_name' => Product::all(),
         ];
 
-        return view('pages.customer.transaksi-order.daftar-transaksi-order', $data, compact('transaction_product_customers', 'order_service_customers'));
+        return view('pages.customer.transaksi-order.daftar-transaksi-order', $data, compact('transaction_product_customers', 'order_service_customers', 'deliveryPriceCart', 'deliveryPriceOrder', 'total_price_cart'));
     }
 
     /**
@@ -133,6 +144,15 @@ class TransactionOrderController extends Controller
         $cart_products = DB::table('cart_products')->join('products', 'cart_products.product_id', '=', 'products.id')->select('products.*', 'cart_products.*')->where('cart_products.user_id', $customerId)->where('is_checkout', true)->orderBy('cart_products.product_id', 'desc')->get();
         $total_price_cart = CartProduct::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
 
+        // Menghitung total kuantity dari CartProduct
+        $totalQuantity = CartProduct::where('user_id', $customerId)->sum('quantity');
+
+        // Menghitung delivery_price berdasarkan total kuantity
+        $deliveryPrice = ($totalQuantity * 2000) + 5000;
+
+        // mengecek apakah data transaction product sudah di checkout atau belum
+        $transactionOrder = TransactionOrder::findOrFail($transaction_id);
+
         $data = [
             // navbar
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
@@ -144,7 +164,13 @@ class TransactionOrderController extends Controller
             'transaction_product' =>  TransactionOrder::findOrFail($transaction_id),
         ];
 
-        return view('pages.customer.transaksi-order.checkout-transaksi-produk', $data, compact('cart_products', 'total_price_cart'));
+        if ($transactionOrder->status_delivery === 'Start Order') {
+            // Izinkan akses ke halaman show
+            return view('pages.customer.transaksi-order.checkout-transaksi-produk', $data, compact('cart_products', 'total_price_cart', 'deliveryPrice'));
+        } else {
+            // Redirect ke error 404
+            abort(404);
+        }
     }
 
     public function show_order_service($order_id)
@@ -152,6 +178,12 @@ class TransactionOrderController extends Controller
         $customerId = auth()->user()->id;
         $order_services = DB::table('order_services')->join('services', 'order_services.service_id', '=', 'services.id')->select('services.*', 'order_services.*')->where('order_services.user_id', $customerId)->where('is_checkout', true)->orderBy('order_services.service_id', 'desc')->get();
         $total_price_order = OrderService::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+
+        // Menghitung total kuantity dari CartProduct
+        $totalQuantity = OrderService::where('user_id', $customerId)->sum('quantity');
+
+        // Menghitung delivery_price berdasarkan total kuantity
+        $deliveryPrice = ($totalQuantity * 2000) + 10000;
 
         $data = [
             // navbar
@@ -164,7 +196,7 @@ class TransactionOrderController extends Controller
             'transaction_order' =>  TransactionOrder::findOrFail($order_id),
         ];
 
-        return view('pages.customer.transaksi-order.checkout-order-jasa', $data, compact('order_services', 'total_price_order'));
+        return view('pages.customer.transaksi-order.checkout-order-jasa', $data, compact('order_services', 'total_price_order', 'deliveryPrice'));
     }
 
     /**
@@ -190,8 +222,15 @@ class TransactionOrderController extends Controller
         //
     }
 
+    // fungsi checkout transaction procuct
     public function update_transaction_product(Request $request, $transaction_id)
     {
+        // variabel price transaction product
+        $customerId = auth()->user()->id;
+        $total_price_cart = CartProduct::where('user_id', $customerId)->where('is_checkout', true)->sum('total_price');
+        $totalQuantityCart = CartProduct::where('user_id', $customerId)->sum('quantity');
+        $deliveryPriceCart = ($totalQuantityCart * 2000) + 5000;
+
         // validasi field
         $validated = $request->validate([
             'order_address' => 'required',
@@ -203,12 +242,40 @@ class TransactionOrderController extends Controller
             'order_address' => $validated['order_address'],
             'order_note' => $validated['order_note'],
             'status_delivery' => 'Order Checkouted',
+            'delivery_price' => $deliveryPriceCart,
+            'total_price_transaction_order' => $total_price_cart + $deliveryPriceCart,
+        ]);
+
+        // Mendapatkan ID transaksi yang baru saja dibuat
+        $transactionOrderId = $transaction_id;
+
+        // Menambahkan informasi data cart product ke transaction details
+        $cartProducts = CartProduct::where('user_id', auth()->user()->id)->where('is_checkout', true)->get();
+
+        foreach ($cartProducts as $cartProduct) {
+            $transactionDetail = new TransactionDetail();
+            $transactionDetail->quantity = $cartProduct->quantity;
+            $transactionDetail->total_price = $cartProduct->total_price;
+            $transactionDetail->product_id = $cartProduct->product_id;
+            $transactionDetail->transaction_order_id = $transactionOrderId;
+            $transactionDetail->save();
+
+            // Menghapus data cart product setelah berhasil ditambahkan ke transaction details
+            $cartProduct->delete();
+        }
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Berhasil Checkout',
+            'status' => 'Order Checkouted',
+            'transaction_order_id' => $transactionOrderId,
         ]);
 
         return redirect()->route('transaction.order.customer.list');
     }
 
-    public function update_order_jasa(Request $request, $order_id)
+    // fungsi checkout order service
+    public function update_order_service(Request $request, $order_id)
     {
         // validasi field
         $validated = $request->validate([
