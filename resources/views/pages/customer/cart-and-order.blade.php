@@ -151,7 +151,7 @@
                                                                 <button type="button" class="btn btn-checklist"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#modal_product{{ $item->id }}">
-                                                                    Manage
+                                                                    Siap
                                                                 </button>
                                                                 &ensp;
                                                                 <a href="{{ route('cart.delete.product', $item->id) }}"
@@ -433,11 +433,22 @@
                                                         <div class="col-lg-3 col-md-6 d-flex">
                                                             <div class="mx-auto my-auto d-flex justify-content-around">
                                                                 {{-- Modal Button --}}
-                                                                <button type="button" class="btn btn-checklist"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#modal_service{{ $item->id }}">
-                                                                    Manage
-                                                                </button>
+                                                                @if ($item->material == null)
+                                                                    <button type="button" class="btn btn-warning"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_service{{ $item->id }}"
+                                                                        title="Please Update Material">
+                                                                        Manage
+                                                                    </button>
+                                                                @else
+                                                                    <button type="button" class="btn btn-checklist"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#modal_service{{ $item->id }}"
+                                                                        title="Ready to Order">
+                                                                        Ready
+                                                                    </button>
+                                                                @endif
+
                                                                 &ensp;
                                                                 <a href="{{ route('order.delete.service', $item->id) }}"
                                                                     class="btn btn-delete px-2">
@@ -592,14 +603,16 @@
 
                                                                                 <div class="form-group mb-3">
                                                                                     <label for="deadline"
-                                                                                        class="form-label">Deadline
-                                                                                        Order
+                                                                                        class="form-label">Estimasi
+                                                                                        Maksimal
+                                                                                        Pengerjaan
                                                                                     </label>
-                                                                                    <input type="date"
+                                                                                    <input type="text"
                                                                                         class="form-control"
                                                                                         id="deadline" name="deadline"
                                                                                         min="1" max="99"
-                                                                                        value="{{ $item->deadline }}">
+                                                                                        value="{{ dateConversion($item->deadline) }}"
+                                                                                        disabled>
                                                                                 </div>
 
                                                                                 <div class="modal-footer">

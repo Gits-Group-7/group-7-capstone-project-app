@@ -110,20 +110,20 @@
                                                     <select class="form-control @error('estimation') is-invalid @enderror"
                                                         id="estimation" name="estimation">
                                                         <option value="">Pilih Estimasi Pengerjaan Jasa</option>
-                                                        <option value="3 Hari"
-                                                            {{ $service->estimation == '3 Hari' ? 'selected' : '' }}>3 Hari
+                                                        <option value="3"
+                                                            {{ $service->estimation == '3' ? 'selected' : '' }}>3 Hari
                                                         </option>
-                                                        <option value="4 Hari"
-                                                            {{ $service->estimation == '4 Hari' ? 'selected' : '' }}>4 Hari
+                                                        <option value="4"
+                                                            {{ $service->estimation == '4' ? 'selected' : '' }}>4 Hari
                                                         </option>
-                                                        <option value="5 Hari"
-                                                            {{ $service->estimation == '5 Hari' ? 'selected' : '' }}>5 Hari
+                                                        <option value="5"
+                                                            {{ $service->estimation == '5' ? 'selected' : '' }}>5 Hari
                                                         </option>
-                                                        <option value="6 Hari"
-                                                            {{ $service->estimation == '6 Hari' ? 'selected' : '' }}>6 Hari
+                                                        <option value="6"
+                                                            {{ $service->estimation == '6' ? 'selected' : '' }}>6 Hari
                                                         </option>
-                                                        <option value="7 Hari"
-                                                            {{ $service->estimation == '7 Hari' ? 'selected' : '' }}>7 Hari
+                                                        <option value="7"
+                                                            {{ $service->estimation == '7' ? 'selected' : '' }}>7 Hari
                                                         </option>
                                                     </select>
                                                 </div>

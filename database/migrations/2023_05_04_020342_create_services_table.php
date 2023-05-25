@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('photo', 255)->nullable(false);
             $table->unsignedInteger('price_per_pcs')->nullable(false);
             $table->unsignedInteger('price_per_dozen')->nullable(false);
-            $table->string('estimation', 20)->nullable(false);
+            $table->unsignedInteger('estimation')->nullable(false);
             $table->text('description')->nullable(true);
             $table->string('category_id'); // foreign key
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); // foreign key access

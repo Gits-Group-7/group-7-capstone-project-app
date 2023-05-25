@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrderService;
 use App\Models\Service;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -42,10 +43,14 @@ class OrderServiceController extends Controller
         $service = Service::find($service_id);
         $user = User::find($user_id);
 
+        // Menghitung tanggal deadline dengan menambahkan hari sesuai dengan nilai 'estimation'
+        $deadline = Carbon::now()->addDays($service->estimation);
+
         // validasi field satu persatu sebelum melakukan insert
         OrderService::create([
             'quantity' => 1,
             'total_price' => $service->price_per_pcs,
+            'deadline' => $deadline->format('Y-m-d'),
             'service_id' => $service->id,
             'user_id' => $user->id,
         ]);
@@ -65,10 +70,14 @@ class OrderServiceController extends Controller
         $service = Service::find($service_id);
         $user = User::find($user_id);
 
+        // Menghitung tanggal deadline dengan menambahkan hari sesuai dengan nilai 'estimation'
+        $deadline = Carbon::now()->addDays($service->estimation);
+
         // validasi field satu persatu sebelum melakukan insert
         OrderService::create([
             'material' =>  $validated['material'],
             'quantity' =>  $validated['quantity'],
+            'deadline' => $deadline->format('Y-m-d'),
             'total_price' =>  $validated['quantity'] * $service->price_per_pcs,
             'service_id' => $service->id,
             'user_id' => $user->id,
@@ -145,7 +154,6 @@ class OrderServiceController extends Controller
             'quantity' => $validated['quantity'],
             'material' => $request->material,
             'custom_design' => $saveData['custom_design'],
-            'deadline' => $request->deadline,
             'total_price' => $price * $fix_quantity,
         ]);
 
