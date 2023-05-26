@@ -137,30 +137,40 @@
                                                             <p>
                                                                 <img src="{{ Storage::url($item->prof_order_payment) }}"
                                                                     class="img-fluid rounded mb-3">
-                                                                Jenis Pesanan :
+                                                                <span class="fw-medium">
+                                                                    Jenis Pesanan :
+                                                                </span>
                                                                 @if ($item->type_transaction_order == 'product')
                                                                     Order Jasa
                                                                 @elseif($item->type_transaction_order == 'service')
                                                                     Order Jasa
                                                                 @endif
                                                                 <br>
-                                                                Harga Pesanan : Rp.
+                                                                <span class="fw-medium">
+                                                                    Harga Pesanan :
+                                                                </span> Rp.
                                                                 {{ priceConversion($item->total_price_transaction_order) }}<br>
-                                                                Status Pesanan : {{ $item->status_delivery }}
+                                                                <span class="fw-medium">
+                                                                    Status Pesanan :
+                                                                </span> {{ $item->status_delivery }}
                                                             </p>
                                                         </div>
+
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-primary"
                                                                 data-dismiss="modal">Tutup</button>
-                                                            <form
-                                                                action="{{ route('admin.manage.order.confirm', $item->id) }}"
-                                                                method="POST">
-                                                                @method('put')
-                                                                @csrf
 
-                                                                <button type="submit" class="btn btn-success">Proses
-                                                                    Pesanan</button>
-                                                            </form>
+                                                            @if ($item->order_confirmed == 'No')
+                                                                <form
+                                                                    action="{{ route('admin.manage.order.confirm', $item->id) }}"
+                                                                    method="POST">
+                                                                    @method('put')
+                                                                    @csrf
+
+                                                                    <button type="submit" class="btn btn-success">Proses
+                                                                        Pesanan</button>
+                                                                </form>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>

@@ -138,6 +138,53 @@
                                                                             Alamat Pesanan :</span>
                                                                         {{ $items->order_address }}
                                                                     </p>
+                                                                    <hr>
+
+                                                                    @if ($items->type_transaction_order == 'product')
+                                                                        <p class="fw-medium">Daftar Produk yang dipesan:</p>
+                                                                        @foreach ($transaction_products as $product)
+                                                                            @if ($product->transaction_order_id == $items->id)
+                                                                                <div class="row justify-content-around">
+                                                                                    <div class="col-2">
+                                                                                        <img src="{{ Storage::url($product->product->photo) }}"
+                                                                                            class="img-fluid rounded"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                    <div class="col-10 d-flex">
+                                                                                        <span class="my-auto">
+                                                                                            {{ $product->product->name }}
+                                                                                            <span
+                                                                                                class="fw-medium">({{ $product->quantity }}x)
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @elseif($items->type_transaction_order == 'service')
+                                                                        <p class="fw-medium">Daftar Jasa yang dipesan:</p>
+                                                                        @foreach ($order_services as $service)
+                                                                            @if ($service->transaction_order_id == $items->id)
+                                                                                <div class="row justify-content-around">
+                                                                                    <div class="col-2">
+                                                                                        <img src="{{ Storage::url($service->service->photo) }}"
+                                                                                            class="img-fluid rounded"
+                                                                                            alt="">
+                                                                                    </div>
+                                                                                    <div class="col-10 d-flex">
+                                                                                        <span class="my-auto">
+                                                                                            {{ $service->service->name }}
+                                                                                            <span
+                                                                                                class="fw-medium">({{ $service->quantity }}x)
+                                                                                            </span>
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <hr>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    @endif
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button"

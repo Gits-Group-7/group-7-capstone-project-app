@@ -53,8 +53,14 @@ class PageController extends Controller
     // fungsi menu customer
     public function listTransaction($id)
     {
+        $customerId = auth()->user()->id;
+
         $data = [
             'customer' => User::findOrFail($id),
+            'customer_transactions' => TransactionOrder::where('type_transaction_order', 'product')->where('user_id', $customerId)->where('prof_order_payment', '!=', 'empty')->where('order_confirmed', 'Yes')->orderBy('created_at', 'desc')->with('user')->get(),
+            'transaction_products' => TransactionDetail::whereHas('transaction_orders', function ($query) use ($customerId) {
+                $query->where('user_id', $customerId);
+            })->with('product')->get(),
         ];
 
         return view('pages.user.riwayat-pesanan.daftar-transaksi', $data);
@@ -62,8 +68,14 @@ class PageController extends Controller
 
     public function listOrder($id)
     {
+        $customerId = auth()->user()->id;
+
         $data = [
             'customer' => User::findOrFail($id),
+            'customer_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('user_id', $customerId)->where('prof_order_payment', '!=', 'empty')->where('order_confirmed', 'Yes')->orderBy('created_at', 'desc')->with('user')->get(),
+            'order_services' => OrderDetail::whereHas('transaction_orders', function ($query) use ($customerId) {
+                $query->where('user_id', $customerId);
+            })->with('service')->get(),
         ];
 
         return view('pages.user.riwayat-pesanan.daftar-order', $data);
@@ -160,7 +172,7 @@ class PageController extends Controller
     public function manage_order()
     {
         $data = [
-            'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->with('user')->get(),
+            'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->get(),
         ];
 
         return view('pages.admin.transaksi-order.manage-order', $data);
@@ -181,6 +193,8 @@ class PageController extends Controller
             'transaction_orders' => TransactionOrder::whereHas('user', function ($query) {
                 $query->where('role', 'customer');
             })->orderBy('created_at', 'desc')->with('user')->get(),
+            'transaction_products' => TransactionDetail::whereHas('transaction_orders')->with('product')->get(),
+            'order_services' => OrderDetail::whereHas('transaction_orders')->with('service')->get(),
         ];
 
         return view('pages.admin.layanan-customer.transaction-order', $data);

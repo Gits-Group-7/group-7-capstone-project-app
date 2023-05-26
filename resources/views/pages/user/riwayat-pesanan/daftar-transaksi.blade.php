@@ -4,6 +4,33 @@
     <title>Daftar Transaksi Produk | Print-Shop</title>
 @endsection
 
+@php
+    function priceConversion($price)
+    {
+        $formattedPrice = number_format($price, 0, ',', '.');
+        return $formattedPrice;
+    }
+    
+    function timestampConversion($timestamp)
+    {
+        // Format tanggal dan waktu asli
+        $dateString = $timestamp;
+    
+        // Mengkonversi format menjadi waktu yang mudah dibaca
+        $data = strtotime($dateString);
+        $date = date('d-m-Y', $data);
+        $time = date('H:i:s', $data);
+    
+        // konversi tanggal
+        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $slug = explode('-', $date);
+        $result_date = $slug[0] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[2];
+    
+        $result = $result_date . ' ' . '(' . $time . ')';
+        return $result;
+    }
+@endphp
+
 @section('content')
     <div class="content mt-3">
         <div class="animated fadeIn">
@@ -21,7 +48,7 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Daftar Riwayat Pesanan</strong>
+                            <strong class="card-title">Daftar Transaksi Produk</strong>
                             <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan melihat Riwayat Pesanan
                                 atau Daftar Transaksi Produk yang pernah Anda lakukan.
                             </p>
@@ -45,25 +72,130 @@
                                         <thead>
                                             <tr class="mx-auto">
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Kode</th>
-                                                <th class="text-center" width="15%">Foto</th>
-                                                <th class="text-center">Nama Produk</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">Total</th>
+                                                <th class="text-center">Nama Pelanggan</th>
+                                                <th class="text-center">Kode Transaksi</th>
+                                                <th class="text-center">Tanggal Pemesanan</th>
+                                                <th class="text-center">Biaya Transaksi</th>
+                                                <th class="text-center">Status Pesanan</th>
+                                                <th class="text-center">Info Detail</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td class="text-center">BWX-1019</td>
-                                                <td class="text-center"><img
-                                                        src="{{ asset('admin/images/sample-product.jpg') }}"
-                                                        class="img-fluid rounded" alt="Foto Produk">
-                                                </td>
-                                                <td class="text-center">Kaos Desain Barong Vector Custom</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-center">Rp. 11.500</td>
-                                            </tr>
+                                            @php
+                                                $no = 1;
+                                            @endphp
+
+                                            @foreach ($customer_transactions as $item)
+                                                <tr class="shadow-sm">
+                                                    <td class="text-center">{{ $no }}</td>
+                                                    <td class="text-center">{{ $item->user->name }}</td>
+                                                    <td class="text-center">{{ $item->id }}</td>
+                                                    <td class="text-center">{{ timestampConversion($item->order_date) }}
+                                                    </td>
+                                                    <td class="text-center">Rp.
+                                                        {{ priceConversion($item->total_price_transaction_order) }}</td>
+                                                    <td class="text-center">{{ $item->status_delivery }}</td>
+
+                                                    <td class="text-center">
+                                                        @if ($item->order_confirmed == 'No')
+                                                            {{-- Konfirmasi Pesanan --}}
+                                                            <div class="btn-group-vertical" role="group"
+                                                                aria-label="Basic example">
+                                                                <button type="button"
+                                                                    class="btn btn-inverse-success py-3 px-3"
+                                                                    data-toggle="modal"
+                                                                    data-target="#prof-order-payment-{{ $item->id }}">
+                                                                    Konfirmasi</button>
+                                                            </div>
+                                                        @elseif($item->order_confirmed == 'Yes')
+                                                            {{-- Update Tracking --}}
+                                                            <div class="btn-group-vertical" role="group"
+                                                                aria-label="Basic example">
+                                                                <button type="button"
+                                                                    class="btn btn-inverse-success py-3 px-3"
+                                                                    data-toggle="modal"
+                                                                    data-target="#prof-order-payment-{{ $item->id }}">Detail
+                                                                    Info
+                                                                </button>
+                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                </tr>
+
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="prof-order-payment-{{ $item->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="prof-order-paymentLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="prof-order-paymentLabel">
+                                                                    Konfirmasi
+                                                                    Pesanan
+                                                                    <b>"{{ $item->user->name }}"</b>
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>
+                                                                    <img src="{{ Storage::url($item->prof_order_payment) }}"
+                                                                        class="img-fluid rounded mb-3">
+                                                                    <span class="fw-medium">
+                                                                        Jenis Pesanan :
+                                                                    </span>
+                                                                    @if ($item->type_transaction_order == 'product')
+                                                                        Transaksi Produk
+                                                                    @elseif($item->type_transaction_order == 'service')
+                                                                        Order Jasa
+                                                                    @endif
+                                                                    <br>
+                                                                    <span class="fw-medium">
+                                                                        Harga Pesanan :
+                                                                    </span> Rp.
+                                                                    {{ priceConversion($item->total_price_transaction_order) }}<br>
+                                                                    <span class="fw-medium">
+                                                                        Status Pesanan :
+                                                                    </span> {{ $item->status_delivery }}
+                                                                </p>
+                                                                <hr>
+
+                                                                <p class="fw-medium">Daftar Produk yang dipesan:</p>
+                                                                @foreach ($transaction_products as $product)
+                                                                    @if ($product->transaction_order_id == $item->id)
+                                                                        <div class="row justify-content-around">
+                                                                            <div class="col-2">
+                                                                                <img src="{{ Storage::url($product->product->photo) }}"
+                                                                                    class="img-fluid rounded"
+                                                                                    alt="">
+                                                                            </div>
+                                                                            <div class="col-10 d-flex">
+                                                                                <span class="my-auto">
+                                                                                    {{ $product->product->name }}
+                                                                                    <span
+                                                                                        class="fw-medium">({{ $product->quantity }}x)
+                                                                                    </span>
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <hr>
+                                                                    @endif
+                                                                @endforeach
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    data-dismiss="modal">Tutup</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @php
+                                                        $no++;
+                                                    @endphp
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
