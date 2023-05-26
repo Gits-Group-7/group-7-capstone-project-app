@@ -70,10 +70,10 @@
                 <div class="row">
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-blue">
-                            <a href="#!" class="menu-card">
+                            <a href="{{ route('admin.manage.transaction') }}" class="menu-card">
                                 <div class="card-body">
                                     <p class="mb-4 font-weight-bold">Manajemen Transaksi Produk</p>
-                                    <p class="fs-30 mb-2">52</p>
+                                    <p class="fs-30 mb-2">{{ $transactionCount }}</p>
                                     <p>Update Tracking Transaction</p>
                                 </div>
                             </a>
@@ -81,10 +81,10 @@
                     </div>
                     <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
                         <div class="card card-light-danger">
-                            <a href="#!" class="menu-card">
+                            <a href="{{ route('admin.manage.order') }}" class="menu-card">
                                 <div class="card-body">
                                     <p class="mb-4 font-weight-bold">Manajemen Pesanan Jasa</p>
-                                    <p class="fs-30 mb-2">20</p>
+                                    <p class="fs-30 mb-2">{{ $orderCount }}</p>
                                     <p>Update Tracking Order</p>
                                 </div>
                             </a>

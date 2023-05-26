@@ -1,8 +1,24 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Daftar Order Detail | Print-Shop</title>
+    <title>Daftar Detail Order | Print-Shop</title>
 @endsection
+
+@php
+    // fungsi konversi data tipe date ke tanggal
+    function dateConversion($date)
+    {
+        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $slug = explode('-', $date);
+        return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
+    }
+    
+    function priceConversion($price)
+    {
+        $formattedPrice = number_format($price, 0, ',', '.');
+        return $formattedPrice;
+    }
+@endphp
 
 @section('content')
     <div class="content mt-3">
@@ -22,7 +38,7 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">Daftar Order Details</strong>
-                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan mencocokkan data
+                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan mencocokkan data riwayat
                                 order detail dengan order jasa milik customer.
                             </p>
                         </div>
@@ -45,29 +61,41 @@
                                         <thead>
                                             <tr class="mx-auto">
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nama Customer</th>
-                                                <th class="text-center">Kode</th>
-                                                <th class="text-center" width="15%">Foto</th>
-                                                <th class="text-center">Jasa</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">Total</th>
-                                                <th class="text-center">Deadline</th>
+                                                <th class="text-center" width="15%">Nama Pelanggan</th>
+                                                <th class="text-center">Kode Pesanan</th>
+                                                <th class="text-center" width="15%">Foto Layanan</th>
+                                                <th class="text-center" width="20%">Nama Layanan</th>
+                                                <th class="text-center">Jumlah</th>
+                                                <th class="text-center" width="10%">Total Harga</th>
+                                                <th class="text-center">Estimasi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td class="text-center">Taufik Hidayat</td>
-                                                <td class="text-center">BWX-1019</td>
-                                                <td class="text-center"><img
-                                                        src="{{ asset('admin/images/sample-product.jpg') }}"
-                                                        class="img-fluid rounded" alt="Foto Jasa">
-                                                </td>
-                                                <td class="text-center">Kaos Desain Barong Vector Custom</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-center">Rp. 11.500</td>
-                                                <td class="text-center">12 Mei 2023</td>
-                                            </tr>
+                                            @php
+                                                $no = 1;
+                                            @endphp
+
+                                            @foreach ($list_detail_orders as $items)
+                                                <tr>
+                                                    <td class="text-center">{{ $no }}</td>
+                                                    <td class="text-center">{{ $items->transaction_orders->user->name }}
+                                                    </td>
+                                                    <td class="text-center">{{ $items->transaction_order_id }}</td>
+                                                    <td class="text-center"><img
+                                                            src="{{ Storage::url($items->service->photo) }}"
+                                                            class="img-fluid rounded" alt="Foto Jasa">
+                                                    </td>
+                                                    <td class="text-center">{{ $items->service->name }}</td>
+                                                    <td class="text-center">{{ $items->quantity }}</td>
+                                                    <td class="text-center">Rp. {{ priceConversion($items->total_price) }}
+                                                    </td>
+                                                    <td class="text-center">{{ dateConversion($items->deadline) }}</td>
+                                                </tr>
+
+                                                @php
+                                                    $no++;
+                                                @endphp
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\TransactionDetail;
+use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Foundation\Auth\User as AuthUser;
 use Illuminate\Http\Request;
@@ -30,6 +31,8 @@ class AuthAdminController extends Controller
             'productsCount' => Product::count(),
             'servicesCount' => Service::count(),
             'transaction_details' => TransactionDetail::all(),
+            'transactionCount' => TransactionOrder::where('type_transaction_order', 'product')->count(),
+            'orderCount' => TransactionOrder::where('type_transaction_order', 'service')->count(),
         ];
 
         return view('pages.admin.dashboard', $data);

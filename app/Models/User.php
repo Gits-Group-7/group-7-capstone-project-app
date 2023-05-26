@@ -76,4 +76,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(OrderService::class);
     }
+
+    // satu user dapat melakukan banyak order service
+    public function transaction_orders()
+    {
+        return $this->hasMany(TransactionOrder::class);
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Category;
+use App\Models\OrderDetail;
 use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\ProductRating;
@@ -12,6 +13,7 @@ use App\Models\PromoBanner;
 use App\Models\Service;
 use App\Models\ServiceRating;
 use App\Models\ShopRating;
+use App\Models\TransactionDetail;
 use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -158,7 +160,7 @@ class PageController extends Controller
     public function manage_order()
     {
         $data = [
-            'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->get(),
+            'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->with('user')->get(),
         ];
 
         return view('pages.admin.transaksi-order.manage-order', $data);
@@ -175,17 +177,31 @@ class PageController extends Controller
 
     public function transactionOrder()
     {
-        return view('pages.admin.layanan-customer.transaction-order');
+        $data = [
+            'transaction_orders' => TransactionOrder::whereHas('user', function ($query) {
+                $query->where('role', 'customer');
+            })->orderBy('created_at', 'desc')->with('user')->get(),
+        ];
+
+        return view('pages.admin.layanan-customer.transaction-order', $data);
     }
 
     public function transactionDetails()
     {
-        return view('pages.admin.layanan-customer.transaction-details');
+        $data = [
+            'list_detail_transactions' => TransactionDetail::with('transaction_orders.user', 'product')->get(),
+        ];
+
+        return view('pages.admin.layanan-customer.transaction-details', $data);
     }
 
     public function orderDetails()
     {
-        return view('pages.admin.layanan-customer.order-details');
+        $data = [
+            'list_detail_orders' => OrderDetail::with('transaction_orders.user', 'service')->get(),
+        ];
+
+        return view('pages.admin.layanan-customer.order-details', $data);
     }
 
     // fungsi auth logout

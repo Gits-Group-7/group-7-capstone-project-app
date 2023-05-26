@@ -1,8 +1,16 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Daftar Transaction Detail | Print-Shop</title>
+    <title>Daftar Detail Transaksi | Print-Shop</title>
 @endsection
+
+@php
+    function priceConversion($price)
+    {
+        $formattedPrice = number_format($price, 0, ',', '.');
+        return $formattedPrice;
+    }
+@endphp
 
 @section('content')
     <div class="content mt-3">
@@ -22,7 +30,7 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">Daftar Transaction Details</strong>
-                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan mencocokkan data
+                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan mencocokkan data riwayat
                                 transaksi detail dengan transaksi produk milik customer.
                             </p>
                         </div>
@@ -45,27 +53,39 @@
                                         <thead>
                                             <tr class="mx-auto">
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Nama Customer</th>
-                                                <th class="text-center">Kode</th>
-                                                <th class="text-center" width="15%">Foto</th>
-                                                <th class="text-center">Produk</th>
-                                                <th class="text-center">Quantity</th>
-                                                <th class="text-center">Total</th>
+                                                <th class="text-center">Nama Pelanggan</th>
+                                                <th class="text-center">Kode Pesanan</th>
+                                                <th class="text-center" width="15%">Foto Produk</th>
+                                                <th class="text-center" width="20%">Nama Produk</th>
+                                                <th class="text-center">Jumlah</th>
+                                                <th class="text-center">Total Harga</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td class="text-center">Taufik Hidayat</td>
-                                                <td class="text-center">BWX-1019</td>
-                                                <td class="text-center"><img
-                                                        src="{{ asset('admin/images/sample-product.jpg') }}"
-                                                        class="img-fluid rounded" alt="Foto Produk">
-                                                </td>
-                                                <td class="text-center">Kaos Desain Barong Vector Custom</td>
-                                                <td class="text-center">5</td>
-                                                <td class="text-center">Rp. 11.500</td>
-                                            </tr>
+                                            @php
+                                                $no = 1;
+                                            @endphp
+
+                                            @foreach ($list_detail_transactions as $items)
+                                                <tr>
+                                                    <td class="text-center">{{ $no }}</td>
+                                                    <td class="text-center">
+                                                        {{ $items->transaction_orders->user->name }}</td>
+                                                    <td class="text-center">{{ $items->transaction_order_id }}</td>
+                                                    <td class="text-center"><img
+                                                            src="{{ Storage::url($items->product->photo) }}"
+                                                            class="img-fluid rounded" alt="Foto Produk">
+                                                    </td>
+                                                    <td class="text-center">{{ $items->product->name }}</td>
+                                                    <td class="text-center">{{ $items->quantity }}</td>
+                                                    <td class="text-center">Rp. {{ priceConversion($items->total_price) }}
+                                                    </td>
+                                                </tr>
+
+                                                @php
+                                                    $no++;
+                                                @endphp
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

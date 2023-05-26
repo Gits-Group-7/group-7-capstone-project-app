@@ -48,6 +48,7 @@
                                                 <th class="text-center">Nama</th>
                                                 <th class="text-center" width="10%">Foto</th>
                                                 <th class="text-center">Role</th>
+                                                <th class="text-center">Nomor</th>
                                                 <th class="text-center">Email</th>
                                             </tr>
                                         </thead>
@@ -63,6 +64,7 @@
                                                     <td class="text-center"><img src="{{ Storage::url($data->photo) }}"
                                                             class="img-fluid rounded" alt="Foto {{ $data->name }}"></td>
                                                     <td class="text-center">{{ $data->role }}</td>
+                                                    <td class="text-center">{{ $data->phone }}</td>
                                                     <td class="text-center">{{ $data->email }}</td>
                                                 </tr>
                                                 @php

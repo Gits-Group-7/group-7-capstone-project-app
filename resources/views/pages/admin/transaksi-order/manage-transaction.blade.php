@@ -71,7 +71,7 @@
                                     <thead>
                                         <tr class="mx-auto">
                                             <th class="text-center">No</th>
-                                            <th class="text-center">Nama Customer</th>
+                                            <th class="text-center">Nama Pelanggan</th>
                                             <th class="text-center">Kode Transaksi</th>
                                             <th class="text-center">Tanggal Pemesanan</th>
                                             <th class="text-center">Biaya Transaksi</th>
