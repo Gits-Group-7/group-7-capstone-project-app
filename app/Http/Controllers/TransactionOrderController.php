@@ -379,7 +379,7 @@ class TransactionOrderController extends Controller
         return redirect()->route('transaction.order.customer.list');
     }
 
-    public function confirm_transaction(Request $request, $transaction_order_id)
+    public function confirm_transaction($transaction_order_id)
     {
         // mengambil data transaction order
         $data = TransactionOrder::findOrFail($transaction_order_id);
@@ -411,6 +411,24 @@ class TransactionOrderController extends Controller
         ]);
 
         return redirect()->route('admin.manage.transaction');
+    }
+
+    public function confirm_order($transaction_order_id)
+    {
+        // updatte transaksi order
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'order_confirmed' => 'Yes',
+            'status_delivery' => 'Order Confirmed',
+        ]);
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Pesanan Diproses',
+            'status' => 'Order Confirmed',
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        return redirect()->route('admin.manage.order');
     }
 
     /**

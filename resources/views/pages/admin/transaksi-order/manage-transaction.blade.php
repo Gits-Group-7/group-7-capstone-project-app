@@ -1,7 +1,8 @@
 @extends('layouts.admin.template-admin')
 
 @section('title')
-    <title>Manajemen Transaksi Transaksi Produk Customer | Print-Shop</title>
+    <title>
+        Manajemen Transaksi Produk Pelanggan | Print-Shop</title>
 @endsection
 
 @php
@@ -49,7 +50,7 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">Daftar Data Transaksi Produk</strong>
-                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mengkonfirmasi Pesanan Transaksi
+                            <p class="mt-2 text-secondary">Pada halaman ini Admin dapat mengkonfirmasi Pesanan Transaksi
                                 Produk milik Customer, dan Update Progress Pesanan (Tracking).
                             </p>
                         </div>
@@ -82,12 +83,6 @@
                                         @php
                                             $no = 1;
                                         @endphp
-
-                                        {{-- gambar --}}
-                                        {{-- <td class="td-center">
-                                                    <img src="{{ Storage::url($item->photo) }}" class="img-fluid rounded"
-                                                        alt="{{ $item->name }}">
-                                                </td> --}}
 
                                         @foreach ($list_transactions as $item)
                                             <tr class="shadow-sm">
@@ -142,7 +137,13 @@
                                                             <p>
                                                                 <img src="{{ Storage::url($item->prof_order_payment) }}"
                                                                     class="img-fluid rounded mb-3">
-                                                                Jenis Pesanan : {{ $item->type_transaction_order }}<br>
+                                                                Jenis Pesanan :
+                                                                @if ($item->type_transaction_order == 'product')
+                                                                    Transaksi Produk
+                                                                @elseif($item->type_transaction_order == 'service')
+                                                                    Order Jasa
+                                                                @endif
+                                                                <br>
                                                                 Harga Pesanan : Rp.
                                                                 {{ priceConversion($item->total_price_transaction_order) }}<br>
                                                                 Status Pesanan : {{ $item->status_delivery }}

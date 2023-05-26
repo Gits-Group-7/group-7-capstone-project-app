@@ -161,7 +161,7 @@ class PageController extends Controller
             'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->get(),
         ];
 
-        return view('pages.admin.transaksi-order.manage-transaction', $data);
+        return view('pages.admin.transaksi-order.manage-order', $data);
     }
 
     public function customer()
