@@ -66,6 +66,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/daftar-transaksi-details', [PageController::class, 'transactionDetails'])->name('admin.transaction.details');
     Route::get('/admin/daftar-order-details', [PageController::class, 'orderDetails'])->name('admin.order.details');
 
+    // Manajemen Pesanan (Konfirmasi & Update Tracking)
+    Route::get('/admin/manage-daftar-transaksi', [PageController::class, 'manage_transaction'])->name('admin.manage.transaction');
+    Route::get('/admin/manage-daftar-order', [PageController::class, 'manage_order'])->name('admin.manage.order');
+    Route::put('/admin/konfirmasi-transaksi-produk/{transaction_order_id}', [TransactionOrderController::class, 'confirm_transaction'])->name('admin.manage.transaction.confirm');
+    Route::put('/admin/konfirmasi-order-jasa/{transaction_order_id}', [TransactionOrderController::class, 'confirm_order'])->name('admin.manage.order.confirm');
+
     // update profile admin
     Route::get('/admin/{id}/profile', [AdminProfileController::class, 'show'])->name('admin.profile');
     Route::put('/admin/{id}/profile', [AdminProfileController::class, 'update'])->name('admin.profile.update');
@@ -101,11 +107,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/hapus-jasa/{id}', [ServiceController::class, 'destroy'])->name('service.destroy');
     Route::post('/admin/simpan-jasa', [ServiceController::class, 'store'])->name('service.store');
     Route::put('/admin/ubah-jasa/{id}', [ServiceController::class, 'update'])->name('service.update');
-
-    // Route Template Page (route tidak dipakai)
-    Route::get('/admin-button', [PageController::class, 'buttonPage'])->name('admin.button');
-    Route::get('/admin-form', [PageController::class, 'formPage'])->name('admin.form');
-    Route::get('/admin-chart', [PageController::class, 'chartPage'])->name('admin.chart');
 });
 
 // special route for role customer

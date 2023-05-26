@@ -12,6 +12,7 @@ use App\Models\PromoBanner;
 use App\Models\Service;
 use App\Models\ServiceRating;
 use App\Models\ShopRating;
+use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -145,6 +146,24 @@ class PageController extends Controller
     }
 
     // fungsi menu admin
+    public function manage_transaction()
+    {
+        $data = [
+            'list_transactions' => TransactionOrder::where('type_transaction_order', 'product')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->with('user')->get(),
+        ];
+
+        return view('pages.admin.transaksi-order.manage-transaction', $data);
+    }
+
+    public function manage_order()
+    {
+        $data = [
+            'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->get(),
+        ];
+
+        return view('pages.admin.transaksi-order.manage-transaction', $data);
+    }
+
     public function customer()
     {
         $data = [
@@ -178,21 +197,5 @@ class PageController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('customer.beranda');
-    }
-
-    // template function route (tidak dipakai)
-    public function buttonPage()
-    {
-        return view('template.button');
-    }
-
-    public function formPage()
-    {
-        return view('template.form');
-    }
-
-    public function chartPage()
-    {
-        return view('template.chart');
     }
 }

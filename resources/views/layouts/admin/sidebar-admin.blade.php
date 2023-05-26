@@ -83,7 +83,8 @@
             </a>
             <div class="collapse" id="transaction-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Transaksi</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.manage.transaction') }}">Daftar
+                            Transaksi</a>
                     </li>
                 </ul>
             </div>
@@ -97,7 +98,8 @@
             </a>
             <div class="collapse" id="order-nav">
                 <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="#!">Daftar Order</a>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.manage.order') }}">Daftar
+                            Order</a>
                     </li>
                 </ul>
             </div>
@@ -123,55 +125,6 @@
                     </li>
                     <li class="nav-item"> <a class="nav-link" href="{{ route('admin.order.details') }}">Order
                             Details</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-        {{-- start template menu --}}
-        <hr>
-        {{-- <li class="nav-item">
-            <a class="nav-link" href="pages/documentation/documentation.html">
-                <i class="icon-paper menu-icon"></i>
-                <span class="menu-title">Documentation</span>
-            </a>
-        </li> --}}
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                aria-controls="ui-basic">
-                <i class="icon-layout menu-icon"></i>
-                <span class="menu-title">UI Elements</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.button') }}">Buttons</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#form-elements" aria-expanded="false"
-                aria-controls="form-elements">
-                <i class="icon-columns menu-icon"></i>
-                <span class="menu-title">Form elements</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="form-elements">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.form') }}">Basic
-                            Form</a></li>
-                </ul>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-                <i class="icon-bar-graph menu-icon"></i>
-                <span class="menu-title">Charts</span>
-                <i class="menu-arrow"></i>
-            </a>
-            <div class="collapse" id="charts">
-                <ul class="nav flex-column sub-menu">
-                    <li class="nav-item"> <a class="nav-link" href="{{ route('admin.chart') }}">ChartJs</a>
                     </li>
                 </ul>
             </div>

@@ -369,6 +369,28 @@ class TransactionOrderController extends Controller
             'status_delivery' => 'Payment Success',
         ]);
 
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'note' => 'Berhasil Upload Pembayaran',
+            'status' => 'Success Upload Payment',
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        return redirect()->route('transaction.order.customer.list');
+    }
+
+    public function confirm_transaction(Request $request, $transaction_order_id)
+    {
+        // mengambil data transaction order
+        $data = TransactionOrder::findOrFail($transaction_order_id);
+
+        // updatte transaksi order
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'order_confirmed' => 'Yes',
+            'status_delivery' => 'Order Confirmed',
+        ]);
+
+        // update stock jika transaksi termasuk jenis product
         if ($data->type_transaction_order == 'product') {
             // Mendapatkan data Transaction Detail
             $transactionDetails = TransactionDetail::where('transaction_order_id', $transaction_order_id)->get();
@@ -383,12 +405,12 @@ class TransactionOrderController extends Controller
 
         // Membuat entri baru pada tabel TrackingLog
         TrackingLog::create([
-            'note' => 'Berhasil Upload Pembayaran',
-            'status' => 'Success Upload Payment',
+            'note' => 'Pesanan Diproses',
+            'status' => 'Order Confirmed',
             'transaction_order_id' => $transaction_order_id,
         ]);
 
-        return redirect()->route('transaction.order.customer.list');
+        return redirect()->route('admin.manage.transaction');
     }
 
     /**
