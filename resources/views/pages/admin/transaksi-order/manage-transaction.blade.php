@@ -110,14 +110,14 @@
                                                             aria-label="Basic example">
                                                             <button type="button" class="btn btn-inverse-success py-3 px-3"
                                                                 data-toggle="modal"
-                                                                data-target="#prof-order-payment-{{ $item->id }}">Ubah
+                                                                data-target="#update-tracking-{{ $item->id }}">Ubah
                                                             </button>
                                                         </div>
                                                     @endif
                                                 </td>
                                             </tr>
 
-                                            <!-- Modal -->
+                                            <!-- Modal Konfirmasi Pesanan Produk -->
                                             <div class="modal fade" id="prof-order-payment-{{ $item->id }}"
                                                 tabindex="-1" role="dialog" aria-labelledby="prof-order-paymentLabel"
                                                 aria-hidden="true">
@@ -171,6 +171,99 @@
                                                                         Pesanan</button>
                                                                 </form>
                                                             @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Modal Update Tracking Pesanan Produk -->
+                                            <div class="modal fade" id="update-tracking-{{ $item->id }}" tabindex="-1"
+                                                role="dialog" aria-labelledby="prof-order-paymentLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="prof-order-paymentLabel">Update
+                                                                Tracking Status Pesanan Produk
+                                                                <b>"{{ $item->id }}"</b>
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="">
+                                                                <div class="form-group">
+                                                                    <label for="status">Status</label>
+                                                                    <select
+                                                                        class="form-control @error('status') is-invalid @enderror"
+                                                                        id="status" name="status">
+                                                                        <option value="">Pilih Status Pesanan
+                                                                        </option>
+                                                                        <option value="Pesanan Diproses">Pesanan Diproses
+                                                                        </option>
+                                                                        <option value="Pesanan Dikirim">Pesanan Dikirim
+                                                                        </option>
+                                                                        <option value="Pesanan Dalam Perjalanan">Pesanan
+                                                                            Dalam Perjalanan
+                                                                        </option>
+                                                                        <option value="Pesanan Selesai">Pesanan Selesai
+                                                                        </option>
+                                                                        <option value="Pesanan Tertunda">Pesanan Tertunda
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                                @if ($errors->has('status'))
+                                                                    <div class="invalid feedback text-danger mb-3">
+                                                                        *option status harus di pilih
+                                                                    </div>
+                                                                @endif
+
+                                                                <div class="form-group">
+                                                                    <label for="location">Lokasi</label>
+                                                                    <input type="text"
+                                                                        class="form-control @error('location') is-invalid @enderror"
+                                                                        id="location" placeholder="Lokasi Pesanan"
+                                                                        name="location">
+                                                                </div>
+                                                                @if ($errors->has('location'))
+                                                                    <div class="invalid feedback text-danger mb-3">
+                                                                        *field lokasi harus di isi
+                                                                    </div>
+                                                                @endif
+
+                                                                <div class="form-group">
+                                                                    <label for="is_complete">Pesanan Selesai</label>
+                                                                    <select
+                                                                        class="form-control @error('is_complete') is-invalid @enderror"
+                                                                        id="is_complete" name="is_complete">
+                                                                        <option value="">Apakah Pesanan Selesai
+                                                                        </option>
+                                                                        <option value="No">Belum Selesai</option>
+                                                                        <option value="Yes">Selesai</option>
+                                                                    </select>
+                                                                </div>
+                                                                @if ($errors->has('is_complete'))
+                                                                    <div class="invalid feedback text-danger mb-3">
+                                                                        *option pesanan selesai harus di pilih
+                                                                    </div>
+                                                                @endif
+
+                                                                <div class="form-group">
+                                                                    <label for="note">Catatan Pesanan <span
+                                                                            class="text-primary">(*optional)</span></label>
+                                                                    <textarea class="form-control" id="note" rows="4" name="note"
+                                                                        placeholder="Berikan cacatan log pesanan"></textarea>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary"
+                                                                data-dismiss="modal">Tutup</button>
+
+                                                            <button type="submit" class="btn btn-success">Update
+                                                                Tracking</button>
                                                         </div>
                                                     </div>
                                                 </div>
