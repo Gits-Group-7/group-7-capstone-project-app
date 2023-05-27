@@ -13,6 +13,7 @@ use App\Models\PromoBanner;
 use App\Models\Service;
 use App\Models\ServiceRating;
 use App\Models\ShopRating;
+use App\Models\TrackingLog;
 use App\Models\TransactionDetail;
 use App\Models\TransactionOrder;
 use App\Models\User;
@@ -83,8 +84,15 @@ class PageController extends Controller
 
     public function transactionProduct($id)
     {
+        $customerId = auth()->user()->id;
+
         $data = [
             'customer' => User::findOrFail($id),
+            'customer_transactions' => TransactionOrder::where('type_transaction_order', 'product')->where('user_id', $customerId)->where('prof_order_payment', '!=', 'empty')->where('order_confirmed', 'Yes')->orderBy('created_at', 'desc')->with('user')->get(),
+            'tracking_transaction_log' => TrackingLog::with('transaction_order')->whereHas('transaction_order', function ($query) use ($customerId) {
+                $query->where('type_transaction_order', 'product')
+                    ->where('user_id', $customerId);
+            })->get(),
         ];
 
         return view('pages.user.tracking-pesanan.transaksi-produk', $data);
@@ -92,8 +100,15 @@ class PageController extends Controller
 
     public function orderService($id)
     {
+        $customerId = auth()->user()->id;
+
         $data = [
             'customer' => User::findOrFail($id),
+            'customer_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('user_id', $customerId)->where('prof_order_payment', '!=', 'empty')->where('order_confirmed', 'Yes')->orderBy('created_at', 'desc')->with('user')->get(),
+            'tracking_order_log' => TrackingLog::with('transaction_order')->whereHas('transaction_order', function ($query) use ($customerId) {
+                $query->where('type_transaction_order', 'service')
+                    ->where('user_id', $customerId);
+            })->get(),
         ];
 
         return view('pages.user.tracking-pesanan.order-jasa', $data);

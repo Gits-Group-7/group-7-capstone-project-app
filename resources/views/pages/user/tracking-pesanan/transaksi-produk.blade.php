@@ -4,6 +4,33 @@
     <title>Tracking Transaksi Produk | Print-Shop</title>
 @endsection
 
+@php
+    function priceConversion($price)
+    {
+        $formattedPrice = number_format($price, 0, ',', '.');
+        return $formattedPrice;
+    }
+    
+    function timestampConversion($timestamp)
+    {
+        // Format tanggal dan waktu asli
+        $dateString = $timestamp;
+    
+        // Mengkonversi format menjadi waktu yang mudah dibaca
+        $data = strtotime($dateString);
+        $date = date('d-m-Y', $data);
+        $time = date('H:i:s', $data);
+    
+        // konversi tanggal
+        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $slug = explode('-', $date);
+        $result_date = $slug[0] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[2];
+    
+        $result = $result_date . ' ' . '(' . $time . ')';
+        return $result;
+    }
+@endphp
+
 @section('content')
     <div class="content mt-3">
         <div class="animated fadeIn">
@@ -22,8 +49,8 @@
                     <div class="card">
                         <div class="card-header">
                             <strong class="card-title">Halaman Tracking Pesanan Produk</strong>
-                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan melihat Transaksi Produk
-                                dan Status Tracking Produk Pesanan Anda.
+                            <p class="mt-2 text-secondary">Pada halaman ini Anda dapat mencari dan melihat Riwayat Transaksi
+                                Produk dan Status Tracking Produk Pesanan Anda.
                             </p>
                         </div>
                     </div>
@@ -45,108 +72,137 @@
                                         <thead>
                                             <tr class="mx-auto">
                                                 <th class="text-center">No</th>
-                                                <th class="text-center">Kode</th>
-                                                <th class="text-center">Tanggal</th>
-                                                <th class="text-center">Catatan</th>
+                                                <th class="text-center">Kode Pesanan</th>
+                                                <th class="text-center">Tanggal Pesanan</th>
+                                                <th class="text-center">Catatan Pesanan</th>
                                                 <th class="text-center">Detail Pesanan</th>
                                                 <th class="text-center">Tracking Pesanan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td class="text-center">1</td>
-                                                <td class="text-center">BWX-1019</td>
-                                                <td class="text-center">8 Mei 2023</td>
-                                                <td class="text-center">Kaos Desain Barong Vector Custom</td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-inverse-primary py-3 px-3"
-                                                        data-toggle="modal" data-target="#modalDetail">Detail
-                                                        Info Lain</button>
-                                                </td>
-                                                <td class="text-center">
-                                                    <button type="button" class="btn btn-inverse-success py-3 px-3"
-                                                        data-toggle="modal" data-target="#modalTracking">Lacak
-                                                        Produk</button>
-                                                </td>
-                                            </tr>
+                                            @php
+                                                $no = 1;
+                                            @endphp
 
-                                            <!-- Modal Detail -->
-                                            <div class="modal fade" id="modalDetail" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Detail Pesanan
-                                                                Produk
-                                                                <b>"BWX-1019"</b>
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>
-                                                                Nama Pemesan : Customer<br>
-                                                                Harga Pengiriman : Rp. 50.000<br>
-                                                                Status Pesanan : Sedang diproses<br>
+                                            @foreach ($customer_transactions as $items)
+                                                <tr>
+                                                    <td class="text-center">{{ $no }}</td>
+                                                    <td class="text-center">{{ $items->id }}</td>
+                                                    <td class="text-center">
+                                                        {{ timestampConversion($items->order_date) }}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($items->order_note == null)
+                                                            Tidak Ada Catatan
+                                                        @else
+                                                            {{ $items->order_note }}
+                                                        @endif
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-inverse-primary py-3 px-3"
+                                                            data-toggle="modal"
+                                                            data-target="#modalDetail{{ $items->id }}">Detail
+                                                            Info Lain</button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button type="button" class="btn btn-inverse-success py-3 px-3"
+                                                            data-toggle="modal"
+                                                            data-target="#modalTracking{{ $items->id }}">Lacak
+                                                            Produk</button>
+                                                    </td>
+                                                </tr>
 
-                                                                <br>
-                                                                Detail Produk :<br>
-                                                                1. Kaos Jakarta Custom<br>
-                                                                2. Kaos Desain Barong<br>
-                                                            </p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary"
-                                                                data-dismiss="modal">Close</button>
+                                                <!-- Modal Detail -->
+                                                <div class="modal fade" id="modalDetail{{ $items->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Detail
+                                                                    Pesanan
+                                                                    Produk
+                                                                    <b>"{{ $items->id }}"</b>
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>
+                                                                    Nama Pemesan : {{ $items->user->name }}<br>
+                                                                    Harga Pengiriman : Rp.
+                                                                    {{ priceConversion($items->delivery_price) }}<br>
+                                                                    Total Harga Pesanan : Rp.
+                                                                    {{ priceConversion($items->total_price_transaction_order) }}<br>
+                                                                    Status Pesanan : {{ $items->status_delivery }}<br>
+                                                                </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary"
+                                                                    data-dismiss="modal">Close</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <!-- Modal Tracking -->
-                                            <div class="modal fade" id="modalTracking" tabindex="-1" role="dialog"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel">Tracking Pesanan
-                                                                Produk
-                                                                <b>"BWX-1019"</b>
-                                                            </h5>
-                                                            <button type="button" class="close" data-dismiss="modal"
-                                                                aria-label="Close">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="row mb-3">
-                                                                <div class="col font-weight-bold">Tanggal</div>
-                                                                <div class="col font-weight-bold">Lokasi</div>
-                                                                <div class="col font-weight-bold">Status</div>
+                                                <!-- Modal Tracking -->
+                                                <div class="modal fade" id="modalTracking{{ $items->id }}"
+                                                    tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">Tracking
+                                                                    Pesanan
+                                                                    Produk
+                                                                    <b>"{{ $items->id }}</b>
+                                                                </h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
                                                             </div>
-                                                            <hr>
-                                                            <div class="row">
-                                                                <div class="col">1 Mei 2023</div>
-                                                                <div class="col">Banyuwangi</div>
-                                                                <div class="col">Berhasil Checkout</div>
+                                                            <div class="modal-body">
+                                                                <div class="row mb-3">
+                                                                    <div class="col font-weight-bold text-center">Tanggal
+                                                                    </div>
+                                                                    <div class="col font-weight-bold text-center">Lokasi
+                                                                    </div>
+                                                                    <div class="col font-weight-bold">Status</div>
+                                                                </div>
+                                                                <hr>
+                                                                @foreach ($tracking_transaction_log as $logs)
+                                                                    @if ($logs->transaction_order_id == $items->id)
+                                                                        <div class="row">
+                                                                            <div class="col text-center">
+                                                                                {{ timestampConversion($logs->created_at) }}
+                                                                            </div>
+                                                                            <div class="col text-center">
+                                                                                @if ($logs->location == null)
+                                                                                    -
+                                                                                @else
+                                                                                    {{ $logs->location }}
+                                                                                @endif
+                                                                            </div>
+                                                                            <div class="col">
+                                                                                {{ $logs->status }}</div>
+                                                                        </div>
+                                                                        <hr>
+                                                                    @endif
+                                                                @endforeach
                                                             </div>
-                                                            <hr>
-                                                            <div class="row mb-3">
-                                                                <div class="col">3 Mei 2023</div>
-                                                                <div class="col">Banyuwangi</div>
-                                                                <div class="col">Sedang di Proses</div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-primary w-100"
+                                                                    data-dismiss="modal">Tutup</button>
                                                             </div>
-                                                            <hr>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary"
-                                                                data-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                @php
+                                                    $no++;
+                                                @endphp
+                                            @endforeach
 
                                         </tbody>
                                     </table>
