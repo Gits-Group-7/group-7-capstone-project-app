@@ -179,6 +179,11 @@ class PageController extends Controller
     {
         $data = [
             'list_transactions' => TransactionOrder::where('type_transaction_order', 'product')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->with('user')->get(),
+            'tracking_transaction_log' => TrackingLog::whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')->from('tracking_logs')->whereIn('transaction_order_id', function ($subquery) {
+                    $subquery->select('id')->from('transaction_orders')->where('type_transaction_order', 'product');
+                })->groupBy('transaction_order_id');
+            })->get(),
         ];
 
         return view('pages.admin.transaksi-order.manage-transaction', $data);

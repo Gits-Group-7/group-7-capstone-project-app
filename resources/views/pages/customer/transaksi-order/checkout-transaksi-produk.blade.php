@@ -125,7 +125,7 @@
                                                 class="text-danger">(*wajib)</small></label>
                                         <div class="form-outline">
                                             <textarea class="form-control @error('order_address') is-invalid @enderror" name="order_address" id="order_address"
-                                                name="order_address" cols="30" rows="5" placeholder="Tambahkan alamat pengiriman pesanan produk Anda">{{ $transaction_product->order_address }}</textarea>
+                                                name="order_address" cols="30" rows="5" placeholder="Tambahkan alamat pengiriman pesanan produk Anda"></textarea>
                                         </div>
                                         @if ($errors->has('order_address'))
                                             <div class="invalid feedback text-danger mb-3">
@@ -139,7 +139,7 @@
                                                 class="text-primary">(*optional)</small></label>
                                         <div class="form-outline">
                                             <textarea class="form-control" name="order_note" id="order_note" name="order_note" cols="30" rows="3"
-                                                placeholder="Tambahkan catatan detail untuk pemesanan produk Anda">{{ $transaction_product->order_note }}</textarea>
+                                                placeholder="Tambahkan catatan detail untuk pemesanan produk Anda"></textarea>
                                         </div>
                                     </div>
                                 </div>

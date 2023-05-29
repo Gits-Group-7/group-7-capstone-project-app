@@ -69,6 +69,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Manajemen Pesanan (Konfirmasi & Update Tracking)
     Route::get('/admin/manage-daftar-transaksi', [PageController::class, 'manage_transaction'])->name('admin.manage.transaction');
     Route::get('/admin/manage-daftar-order', [PageController::class, 'manage_order'])->name('admin.manage.order');
+    Route::put('/admin/manage-tracking-transaction-order/{transaction_order_id}', [TransactionOrderController::class, 'update_tracking'])->name('admin.update.tracking');
+
+    // route delete track log
+    Route::put('/admin/clearing-transaction-order/{transaction_order_id}', [TransactionOrderController::class, 'clearing_transaction_order'])->name('admin.clear.transaction.order');
+
+    // konfirmasi pesanan
     Route::put('/admin/konfirmasi-transaksi-produk/{transaction_order_id}', [TransactionOrderController::class, 'confirm_transaction'])->name('admin.manage.transaction.confirm');
     Route::put('/admin/konfirmasi-order-jasa/{transaction_order_id}', [TransactionOrderController::class, 'confirm_order'])->name('admin.manage.order.confirm');
 
@@ -147,4 +153,7 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/cusomer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');
     Route::get('/cusomer/{id}/transaksi-produk', [PageController::class, 'transactionProduct'])->name('customer.transaction.product');
     Route::get('/cusomer/{id}/order-jasa', [PageController::class, 'orderService'])->name('customer.order.service');
+
+    // route completing transaction order customer
+    Route::put('/customer/transaction-order-completed/{transaction_order_id}', [CustomerProfileController::class, 'transaction_order_accepted'])->name('customer.transaction.order.accepted');
 });

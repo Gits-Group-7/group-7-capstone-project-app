@@ -82,7 +82,7 @@ class TransactionOrderController extends Controller
 
         // Membuat transaksi baru dan mendapatkan ID transaksi
         $transactionOrder = TransactionOrder::create([
-            'order_address' => '',
+            'order_address' => 'Sistem',
             'order_confirmed' => 'No',
             'type_transaction_order' => 'product',
             'status_delivery' => 'Start Order',
@@ -109,7 +109,7 @@ class TransactionOrderController extends Controller
 
         // Membuat transaksi baru dan mendapatkan ID transaksi
         $transactionOrder = TransactionOrder::create([
-            'order_address' => '',
+            'order_address' => 'Sistem',
             'order_confirmed' => 'No',
             'type_transaction_order' => 'service',
             'status_delivery' => 'Start Order',
@@ -429,6 +429,58 @@ class TransactionOrderController extends Controller
         ]);
 
         return redirect()->route('admin.manage.order');
+    }
+
+    public function update_tracking(Request $request, $transaction_order_id)
+    {
+        // mengambil data transaction order
+        $data = TransactionOrder::findOrFail($transaction_order_id);
+
+        // fungsi validasi update tracking log
+        $validated = $request->validate([
+            'status' => 'required',
+            'location' => 'required',
+        ]);
+
+        if ($validated['status'] == 'Orders On the Go') {
+            $address = $data->order_address;
+            $completed = 'No';
+        } else {
+            $completed = 'No';
+            $address = $validated['location'];
+        }
+
+        // Membuat entri baru pada tabel TrackingLog
+        $newTrackingLog = TrackingLog::create([
+            'status' => $validated['status'],
+            'location' => $address,
+            'is_complete' => $completed,
+            'note' => $request->note,
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        // melakukan update data transaction order
+        $data->order_note = $newTrackingLog->note;
+        $data->status_delivery = $newTrackingLog->status;
+        $data->track_delivery_location = $newTrackingLog->location;
+        $data->delivery_complete = $newTrackingLog->is_complete;
+        $data->save();
+
+        return redirect()->route('admin.manage.transaction');
+    }
+
+    public function clearing_transaction_order($transaction_order_id)
+    {
+        // updatte transaksi order
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'status_delivery' => 'Order Done',
+        ]);
+
+        // Menghapus seluruh data TransactionLog dengan transaction_order_id yang sesuai
+        TrackingLog::where('transaction_order_id', $transaction_order_id)->delete();
+
+
+        return redirect()->route('admin.manage.transaction');
     }
 
     /**

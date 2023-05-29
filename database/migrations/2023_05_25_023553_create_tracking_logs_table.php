@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tracking_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('location', 50)->nullable(true);
+            $table->string('location')->nullable(true)->default('Sistem');
             $table->text('note')->nullable(true);
             $table->string('status', 30)->nullable(false);
             $table->string('is_complete', 20)->default('No')->nullable(false);

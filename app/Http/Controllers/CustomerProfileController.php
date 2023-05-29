@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TrackingLog;
+use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -115,6 +117,29 @@ class CustomerProfileController extends Controller
         ]);
 
         return redirect()->route('customer.profile', $data);
+    }
+
+    public function transaction_order_accepted($transaction_order_id)
+    {
+        // update transaksi order
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'status_delivery' => 'Completed Order',
+            'delivery_complete' => 'Yes',
+        ]);
+
+        // Mengambil data transaksi order
+        $transactionOrder = TransactionOrder::findOrFail($transaction_order_id);
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'location' => $transactionOrder->track_delivery_location,
+            'note' => 'Pesanan Diterima',
+            'status' => 'Completed Order',
+            'is_complete' => 'Yes',
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        return redirect()->route('customer.transaction.product', auth()->user()->id);
     }
 
     /**
