@@ -108,6 +108,27 @@
 
             <div class="row">
                 <div class="col-xl-8 col-lg-7 mb-4">
+                    <div class="card shadow-sm card-hover">
+                        <div class="p-4">
+                            <h6 class="card-title mb-2"><i class="fa-regular fa-credit-card"></i> &ensp; Metode Pembayaran
+                            </h6>
+                            <p class="text-justify">*Untuk <span class="text-theme fw-medium">Metode
+                                    Pembayaran,</span>
+                                Anda dapat melakukan
+                                pembayaran <span class="text-theme fw-medium">Via Digital</span> dengan menggunakan nomor
+                                <span class="text-theme fw-medium">(082-332-743-884)</span>. Tersedia untuk Metode
+                                Pembayaran <span class="text-theme fw-medium">Aplikasi Dompet Digital</span> Kesayangan
+                                Anda
+                                <span class="text-theme fw-medium">(Ovo,
+                                    Dana, Go-Pay dan ShopeePay).</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-8 col-lg-7 mb-4">
                     <!-- Checkout -->
                     <div class="card shadow-sm card-hover">
                         <div class="p-4">

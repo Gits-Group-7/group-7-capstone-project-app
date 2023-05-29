@@ -12,40 +12,40 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
-    
+
     function timestampConversion($timestamp)
     {
         // Format tanggal dan waktu asli
         $dateString = $timestamp;
-    
+
         // Mengkonversi format menjadi waktu yang mudah dibaca
         $data = strtotime($dateString);
         $date = date('d-m-Y', $data);
         $time = date('H:i:s', $data);
-    
+
         // konversi tanggal
         $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
         $slug = explode('-', $date);
         $result_date = $slug[0] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[2];
-    
+
         $result = $result_date . ' ' . '(' . $time . ')';
         return $result;
     }
@@ -275,7 +275,7 @@
                                                                         <span class="fw-medium">Informasi Pesanan</span>
                                                                         <br>
                                                                         <span class="text-secondary">
-                                                                            @if ($item->order_address == '')
+                                                                            @if ($item->order_address == 'Sistem')
                                                                                 Alamat : <i>Belum ditambahkan</i>.
                                                                             @else
                                                                                 Alamat : {{ $item->order_address }}.
@@ -552,7 +552,7 @@
                                                                         <span class="fw-medium">Informasi Pesanan</span>
                                                                         <br>
                                                                         <span class="text-secondary">
-                                                                            @if ($item->order_address == '')
+                                                                            @if ($item->order_address == 'Sistem')
                                                                                 Alamat : <i>Belum ditambahkan</i>.
                                                                             @else
                                                                                 Alamat : {{ $item->order_address }}.

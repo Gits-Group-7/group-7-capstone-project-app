@@ -130,7 +130,7 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="prof-order-paymentLabel">
-                                                                    Konfirmasi
+                                                                    Detail
                                                                     Pesanan
                                                                     <b>"{{ $item->user->name }}"</b>
                                                                 </h5>

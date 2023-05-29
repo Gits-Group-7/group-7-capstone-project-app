@@ -113,7 +113,7 @@
                                                         </div>
                                                     @elseif($item->delivery_complete == 'Yes')
                                                         <form
-                                                            action="{{ route('admin.clear.transaction.order', $item->id) }}"
+                                                            action="{{ route('admin.clear.transaction.product', $item->id) }}"
                                                             method="POST">
                                                             @method('put')
                                                             @csrf
@@ -186,8 +186,8 @@
                                                                     @method('put')
                                                                     @csrf
 
-                                                                    <button type="submit" class="btn btn-success">Proses
-                                                                        Pesanan</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-success">Konfirmasi Pesanan</button>
                                                                 </form>
                                                             @endif
                                                         </div>
@@ -212,7 +212,8 @@
                                                             </button>
                                                         </div>
 
-                                                        <form action="{{ route('admin.update.tracking', $item->id) }}"
+                                                        <form
+                                                            action="{{ route('admin.update.tracking.product', $item->id) }}"
                                                             method="POST">
                                                             @method('put')
                                                             @csrf

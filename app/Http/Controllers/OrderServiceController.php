@@ -137,12 +137,14 @@ class OrderServiceController extends Controller
             'custom_design' => 'nullable|mimes:jpg,jpeg,png,webp|max:10240',
         ]);
 
-        // mengecek apakah field untuk upload photo sudah upload atau belum
-        if ($request->file('custom_design')) {
-            // hapus data photo sebelumnya terlbih dahulu
+        // hapus data photo sebelumnya jika ada
+        if ($request->file('custom_design') && $data->custom_design) {
+            // hapus file sebelumnya
             Storage::delete($data->custom_design);
+        }
 
-            // simpan photo yang baru
+        // simpan photo yang baru jika ada
+        if ($request->file('custom_design')) {
             $saveData['custom_design'] = Storage::putFile('public/custom-design', $request->file('custom_design'));
         } else {
             $saveData['custom_design'] = $data->custom_design;

@@ -105,10 +105,16 @@
                                                             Info Lain</button>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-inverse-success py-3 px-3"
-                                                            data-toggle="modal"
-                                                            data-target="#modalTracking{{ $items->id }}">Lacak
-                                                            Pelayanan</button>
+                                                        @if ($items->delivery_complete == 'No')
+                                                            <button type="button" class="btn btn-inverse-success py-3 px-3"
+                                                                data-toggle="modal"
+                                                                data-target="#modalTracking{{ $items->id }}">Lacak
+                                                                Pesanan</button>
+                                                        @else
+                                                            <div type="button" class="btn btn-inverse-success py-3 px-3">
+                                                                Pesanan Selesai
+                                                            </div>
+                                                        @endif
                                                     </td>
                                                 </tr>
 
@@ -192,10 +198,31 @@
                                                                     @endif
                                                                 @endforeach
                                                             </div>
+
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-primary"
-                                                                    data-dismiss="modal">Close</button>
+                                                                @if ($items->status_delivery != 'Orders On the Go')
+                                                                    <button type="button" class="btn btn-primary w-100"
+                                                                        data-dismiss="modal">Tutup</button>
+                                                                @elseif($items->status_delivery == 'Completed Order')
+                                                                    <button type="button" class="btn btn-primary w-100"
+                                                                        data-dismiss="modal">Tutup</button>
+                                                                @elseif ($items->status_delivery == 'Orders On the Go')
+                                                                    <button type="button" class="btn btn-primary"
+                                                                        data-dismiss="modal">Tutup</button>
+
+                                                                    <form
+                                                                        action="{{ route('customer.order.service.accepted', $items->id) }}"
+                                                                        method="POST">
+                                                                        @method('put')
+                                                                        @csrf
+
+                                                                        <button type="submit"
+                                                                            class="btn btn-success">Pesanan
+                                                                            Diterima</button>
+                                                                    </form>
+                                                                @endif
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>

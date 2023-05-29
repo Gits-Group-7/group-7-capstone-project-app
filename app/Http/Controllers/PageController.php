@@ -193,6 +193,11 @@ class PageController extends Controller
     {
         $data = [
             'list_orders' => TransactionOrder::where('type_transaction_order', 'service')->where('prof_order_payment', '!=', 'empty')->orderBy('created_at', 'desc')->get(),
+            'tracking_order_log' => TrackingLog::whereIn('id', function ($query) {
+                $query->selectRaw('MAX(id)')->from('tracking_logs')->whereIn('transaction_order_id', function ($subquery) {
+                    $subquery->select('id')->from('transaction_orders')->where('type_transaction_order', 'service');
+                })->groupBy('transaction_order_id');
+            })->get(),
         ];
 
         return view('pages.admin.transaksi-order.manage-order', $data);
@@ -210,7 +215,7 @@ class PageController extends Controller
     public function transactionOrder()
     {
         $data = [
-            'transaction_orders' => TransactionOrder::whereHas('user', function ($query) {
+            'transaction_orders' => TransactionOrder::where('prof_order_payment', '!=', 'empty')->whereHas('user', function ($query) {
                 $query->where('role', 'customer');
             })->orderBy('created_at', 'desc')->with('user')->get(),
             'transaction_products' => TransactionDetail::whereHas('transaction_orders')->with('product')->get(),

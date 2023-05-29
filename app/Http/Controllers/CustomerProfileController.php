@@ -119,11 +119,12 @@ class CustomerProfileController extends Controller
         return redirect()->route('customer.profile', $data);
     }
 
-    public function transaction_order_accepted($transaction_order_id)
+    public function transaction_product_accepted($transaction_order_id)
     {
         // update transaksi order
         TransactionOrder::where('id', $transaction_order_id)->update([
             'status_delivery' => 'Completed Order',
+            'order_note' => 'Pesanan Diterima',
             'delivery_complete' => 'Yes',
         ]);
 
@@ -140,6 +141,30 @@ class CustomerProfileController extends Controller
         ]);
 
         return redirect()->route('customer.transaction.product', auth()->user()->id);
+    }
+
+    public function order_service_accepted($transaction_order_id)
+    {
+        // update transaksi order
+        TransactionOrder::where('id', $transaction_order_id)->update([
+            'status_delivery' => 'Completed Order',
+            'order_note' => 'Pesanan Diterima',
+            'delivery_complete' => 'Yes',
+        ]);
+
+        // Mengambil data transaksi order
+        $transactionOrder = TransactionOrder::findOrFail($transaction_order_id);
+
+        // Membuat entri baru pada tabel TrackingLog
+        TrackingLog::create([
+            'location' => $transactionOrder->track_delivery_location,
+            'note' => 'Pesanan Diterima',
+            'status' => 'Completed Order',
+            'is_complete' => 'Yes',
+            'transaction_order_id' => $transaction_order_id,
+        ]);
+
+        return redirect()->route('customer.order.service', auth()->user()->id);
     }
 
     /**

@@ -109,7 +109,7 @@
                                                             <button type="button" class="btn btn-inverse-success py-3 px-3"
                                                                 data-toggle="modal"
                                                                 data-target="#modalTracking{{ $items->id }}">Lacak
-                                                                Produk</button>
+                                                                Pesanan</button>
                                                         @else
                                                             <div type="button" class="btn btn-inverse-success py-3 px-3">
                                                                 Pesanan Selesai
@@ -211,7 +211,7 @@
                                                                         data-dismiss="modal">Tutup</button>
 
                                                                     <form
-                                                                        action="{{ route('customer.transaction.order.accepted', $items->id) }}"
+                                                                        action="{{ route('customer.transaction.product.accepted', $items->id) }}"
                                                                         method="POST">
                                                                         @method('put')
                                                                         @csrf

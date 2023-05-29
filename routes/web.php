@@ -69,10 +69,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Manajemen Pesanan (Konfirmasi & Update Tracking)
     Route::get('/admin/manage-daftar-transaksi', [PageController::class, 'manage_transaction'])->name('admin.manage.transaction');
     Route::get('/admin/manage-daftar-order', [PageController::class, 'manage_order'])->name('admin.manage.order');
-    Route::put('/admin/manage-tracking-transaction-order/{transaction_order_id}', [TransactionOrderController::class, 'update_tracking'])->name('admin.update.tracking');
+    Route::put('/admin/manage-tracking-transaction-product/{transaction_order_id}', [TransactionOrderController::class, 'update_tracking_product'])->name('admin.update.tracking.product');
+    Route::put('/admin/manage-tracking-order-service/{transaction_order_id}', [TransactionOrderController::class, 'update_tracking_service'])->name('admin.update.tracking.service');
 
     // route delete track log
-    Route::put('/admin/clearing-transaction-order/{transaction_order_id}', [TransactionOrderController::class, 'clearing_transaction_order'])->name('admin.clear.transaction.order');
+    Route::put('/admin/clearing-transaction-product-logs/{transaction_order_id}', [TransactionOrderController::class, 'clearing_transaction_product'])->name('admin.clear.transaction.product');
+    Route::put('/admin/clearing-order-service-logs/{transaction_order_id}', [TransactionOrderController::class, 'clearing_order_service'])->name('admin.clear.order.service');
 
     // konfirmasi pesanan
     Route::put('/admin/konfirmasi-transaksi-produk/{transaction_order_id}', [TransactionOrderController::class, 'confirm_transaction'])->name('admin.manage.transaction.confirm');
@@ -155,5 +157,6 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/cusomer/{id}/order-jasa', [PageController::class, 'orderService'])->name('customer.order.service');
 
     // route completing transaction order customer
-    Route::put('/customer/transaction-order-completed/{transaction_order_id}', [CustomerProfileController::class, 'transaction_order_accepted'])->name('customer.transaction.order.accepted');
+    Route::put('/customer/transaction-product-completed/{transaction_order_id}', [CustomerProfileController::class, 'transaction_product_accepted'])->name('customer.transaction.product.accepted');
+    Route::put('/customer/order-service-completed/{transaction_order_id}', [CustomerProfileController::class, 'order_service_accepted'])->name('customer.order.service.accepted');
 });
