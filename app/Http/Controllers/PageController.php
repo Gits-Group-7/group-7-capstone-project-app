@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Category;
 use App\Models\OrderDetail;
@@ -44,8 +43,6 @@ class PageController extends Controller
             'promo_banners' => PromoBanner::where('status', 'Aktif')->get(),
             'categories_products' => Product::with('category')->select('category_id')->groupBy('category_id')->get(),
             'categories_services' => Service::with('category')->select('category_id')->groupBy('category_id')->get(),
-
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
         ];
 
         return view('pages.customer.beranda', $data);
@@ -142,7 +139,6 @@ class PageController extends Controller
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_products' => Product::latest()->take(4)->get(),
             'ratings' => ProductRating::where('product_id', $id)->latest()->take(2)->get(),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'product' => Product::findOrFail($id),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),
@@ -165,7 +161,6 @@ class PageController extends Controller
             'autocomplete_product_and_service' => Product::select('name')->union(Service::select('name'))->get(),
             'latest_services' => Service::latest()->take(4)->get(),
             'ratings' => ServiceRating::where('service_id', $id)->latest()->take(2)->get(),
-            'carts' => Cart::orderBy('created_at', 'desc')->get(),
             'service' => Service::findOrFail($id),
             'category_products' => Category::select('name')->where('status', 'Aktif')->where('type', 'product')->orderBy('name', 'asc')->get(),
             'category_services' => Category::select('name')->where('status', 'Aktif')->where('type', 'service')->orderBy('name', 'asc')->get(),

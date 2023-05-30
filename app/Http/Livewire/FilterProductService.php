@@ -2,10 +2,7 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Cart;
-use App\Models\CartProduct;
 use App\Models\Category;
-use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
 use App\Models\ShopRating;
@@ -25,7 +22,6 @@ class FilterProductService extends Component
         // controller variables
         $latest_rating = ShopRating::latest()->take(2)->with('user')->get();
         $categories = Category::orderBy('type', 'asc')->where('status', 'Aktif')->whereHas('product')->orWhereHas('service')->get();
-        $carts = Cart::orderBy('created_at', 'desc')->get();
 
         $query_products = Product::query();
         $query_services = Service::query();
@@ -41,7 +37,7 @@ class FilterProductService extends Component
         $services = $query_services->with('service_rating')->get();
 
         // dd($this->byCategories);
-        return view('livewire.filter-product-service', compact('products', 'services', 'categories', 'carts', 'latest_rating'));
+        return view('livewire.filter-product-service', compact('products', 'services', 'categories', 'latest_rating'));
     }
 
     public function filterByCategories($categoryId)

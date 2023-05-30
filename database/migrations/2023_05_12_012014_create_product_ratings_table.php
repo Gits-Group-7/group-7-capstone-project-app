@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->tinyInteger('rating')->nullable(false)->default(1);
             $table->text('comment')->nullable(true);
-            $table->date('rating_date')->nullable(false)->default(date('Y-m-d'));
+            $table->date('rating_date')->default(DB::raw('CURRENT_DATE'))->nullable(false);
             $table->string('product_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

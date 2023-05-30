@@ -7,7 +7,6 @@ use App\Models\Category;
 use App\Models\OrderService;
 use App\Models\Product;
 use App\Models\Service;
-use App\Models\Transaction;
 use App\Models\TransactionOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -63,10 +62,6 @@ class CartOrderController extends Controller
             // contain product & service
             'list_product_carts' => CartProduct::orderBy('created_at', 'desc')->get(),
             'list_service_orders' => OrderService::orderBy('created_at', 'desc')->get(),
-
-            // transaksi
-            'transaction' => Transaction::all(),
-            'last_transaction' => Transaction::latest()->first(),
 
             'category_product_name' => Product::all(),
             'category_service_name' => Service::all(),

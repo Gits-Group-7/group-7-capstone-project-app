@@ -109,9 +109,15 @@
                 @endforeach
             </div>
 
-            <div class="row">
-                <div class="d-flex justify-content-center">
-                    {{ $ratings->links() }}
+            <div class="row pb-3">
+                <div class="d-flex justify-content-end">
+                    @if ($ratings->previousPageUrl())
+                        <a href="{{ $ratings->previousPageUrl() }}" class="btn btn-checklist mr-2">Sebelumnya</a>
+                    @endif
+
+                    @if ($ratings->nextPageUrl())
+                        <a href="{{ $ratings->nextPageUrl() }}" class="btn btn-checklist">Berikutnya</a>
+                    @endif
                 </div>
             </div>
 
