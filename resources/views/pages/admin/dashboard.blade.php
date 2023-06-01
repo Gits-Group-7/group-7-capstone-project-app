@@ -95,44 +95,19 @@
         </div>
 
         {{-- <div class="row">
-            <div class="col-md-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body card-hover rounded">
-                        <p class="card-title">Tabel data Detail Transaksi</p>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="table-responsive">
-                                    <table id="example" class="display expandable-table" style="width:100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Kode Transaksi</th>
-                                                <th>Nama Produk</th>
-                                                <th>Jumlah Produk</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @php
-                                                $no = 1;
-                                            @endphp
-
-                                            @foreach ($transaction_details as $item)
-                                                <tr>
-                                                    <td>{{ $no }}</td>
-                                                    <td>{{ $item->transaction_id }}</td>
-                                                    <td>{{ $item->product->name }}</td>
-                                                    <td>{{ $item->quantity }}</td>
-                                                </tr>
-
-                                                @php
-                                                    $no++;
-                                                @endphp
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card card-hover">
+                    <div class="card-body">
+                        <h4 class="card-title">Segmentasi Konten Penjualan</h4>
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 grid-margin stretch-card">
+                <div class="card card-hover">
+                    <div class="card-body">
+                        <h4 class="card-title">Jumlah Penjualan Per-Bulan</h4>
+                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -141,12 +116,8 @@
 @endsection
 
 @section('script')
-    {{-- Datatable init --}}
-    <script>
-        $(document).ready(function() {
-            $('#example').DataTable();
-        });
-    </script>
+    <script src="{{ asset('admin/vendors/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('admin/js/analytics-print-shop.js') }}"></script>
 
     <script>
         const DashboardNav = document.getElementById('dashboard-nav');

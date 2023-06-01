@@ -28,11 +28,13 @@ class AuthAdminController extends Controller
     public function dashboard()
     {
         $data = [
-            'productsCount' => Product::count(),
-            'servicesCount' => Service::count(),
             'transaction_details' => TransactionDetail::all(),
             'transactionCount' => TransactionOrder::where('type_transaction_order', 'product')->count(),
             'orderCount' => TransactionOrder::where('type_transaction_order', 'service')->count(),
+
+            // analitics data
+            'productsCount' => Product::count(),
+            'servicesCount' => Service::count(),
         ];
 
         return view('pages.admin.dashboard', $data);

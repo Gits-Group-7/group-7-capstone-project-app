@@ -1,80 +1,95 @@
 
-# GITS UTS Group 7 Project - POS APP (Gadget Web Store) 🛒
+# GITS CAPSTONE PROJECT: Group 7 [ Kancil ] - Mini E-Commerce Print-Shop Webstore 👕
 
-"Gadget Web Store" merupakan sebuah aplikasi yang menggambarkan kegiatan toko online yang menawarkan produk teknologi atau gadget yang dapat diakses dari mana saja melalui web browser. Aplikasi ini mendukung berbagai operasi seperti halnya untuk memanajemen data produk yang dapat dilakukan oleh Admin secara langsung menggunakan fitur CMS.
+"Print-Shop Webstore" merupakan sebuah aplikasi berbasis web yang menyediakan beragai layanan pemesanan Produk seperti kaos, jaket, dan lain sebagainya. Tidak hanya itu Aplikasi ini juga menyediakan layanan untuk pemesanan jasa pembuatan Baju seperti Desain Kaos, Konveksi Baju dan lain sebagainya.
 
 
-# Members of This Project 🚀
+# Members of Group 7🧑🏻‍🎓
 
 - Leader : Taufik Hidayat
 - Members 1st : Dinda Hirya Hirmaya
-- Members 2nd : Sholeh Budi Utomo
-- Members 3rd : Nurfanis
+- Members 2nd : Nurfanis Mulyana
+- Members 3rd : Sholeh Budi Utomo
 - Members 4rd : Silviana
-## Features or Stack 🤖
+## Preview Pages of Print-Shop Webstore App 🛒
 
-- Authentication (Register, Login, & Logout)
-- CMS for Admin (CRUD Product, & CRUD Category)
-- Upload Image Product using Storage
-- Add to Cart System for Customer (Guest)
-- Transaction System for Customer (Guest)
-- Transaction Log Management for Customer (Guest)
-- Catalog Product for Customer (Guest)
+![Admin Print-Shop Webstore App](https://i.postimg.cc/XqmcQgXH/print-shop-admin.png)
 
-## Function Features ✨
+![Home 1 Print-Shop Webstore App](https://i.postimg.cc/HL1bLjb8/print-shop-home-1.png)
 
-- Sebagai identifikasi dan pembatas untuk pengguna dalam melakukan operasi pada aplikasi.
-- CMS sebuah aplikasi atau platform yang memungkinkan pengguna untuk membuat, mengelola, dan mengatur konten di sebuah situs web, dalam hal ini yaitu pada konten Manajemen data oleh pengguna Admin.
-- Fungsi upload data image product menggunakan storage, yaitu memungkinkan pengguna untuk mengunggah gambar produk ke server atau penyimpanan cloud yang ditentukan oleh aplikasi atau platform.
-- Fitur "add to cart" pada aplikasi biasanya digunakan dalam konteks e-commerce, dan fungsinya adalah memungkinkan pengguna untuk menambahkan produk yang mereka ingin beli ke dalam keranjang belanjaan mereka, untuk memudahkan proses pembayaran pada tahap selanjutnya.
-- Fitur "transaction system" pada aplikasi biasanya berkaitan dengan fungsi pembayaran dan manajemen transaksi keuangan dalam aplikasi. Dalam hal ini pada aplikasi kami masih belum mengimplementasikan "Transaction" yang sebenarnya (backend).
-- Fitur "transaction log management" pada aplikasi berfungsi untuk mencatat, memantau, dan mengelola log transaksi pada aplikasi setelah pengguna berhasil melakukan transaksi.
-- Fitur "catalog product" pada aplikasi berfungsi untuk menampilkan daftar atau katalog produk yang dijual pada aplikasi tersebut. Dalam hal ini yaitu Katalog Produk ditampilkan pada Beranda website.
-## Installation 🎨
+![Home 2 Print-Shop Webstore App](https://i.postimg.cc/fLwXxF2w/print-shop-home-2.png)
+
+![Home 3 Print-Shop Webstore App](https://i.postimg.cc/qqD8BLGp/print-shop-home-3.png)
+
+## Application Features or Stack 🤖
+
+Features for Manager :
+- Authentication for Manager (Register, Login, & Logout)
+- Profile Management for Manager Users
+- CMS (Content Management System) for Manager
+- Support for CMS System like Search and Datatable Features
+- Make Promo Banner for the Website
+- Confirm Transaction Order of Customer's
+- Tracking Transaction Order of Customer's
+
+Features for Customer :
+- Authentication for Customer (Register, Login, & Logout)
+- Profile Management for Customer Users
+- Rating Store for Customer
+- Rating Products and Services for Customer
+- Search Products and Services for Customer
+- Add to Cart Products for Customer
+- Add to Order Services for Customer
+- Management Cart Products and Order Services for Customer
+- Do some Transaction of Products and Orders for Customer
+- Checkout Transaction Product and Order Service for Customer
+- Tracking Transaction Product or Order Service of Customer's
+## Installation Web App 🎨
 
 - start with clone this project
 ```bash
-  git clone https://github.com/Gits-Group-7/group-7-pos-app.git
+  git clone https://github.com/Gits-Group-7/group-7-capstone-project-app.git
 ```
 - install composer (*if you dont have artisan)
 ```bash
   composer install
 ```
-- make database db_pos_app on mysql
+- install livewire on your terminal project
 ```bash
-  create database db_pos_app;
+  composer require livewire/livewire
+
 ```
-- modify file .env - change database dan port mysql
+- make database db_gits_capstone on mysql (*option 1)
 ```bash
-  database = db_pos_app
-  port = 3306
+  create database db_gits_capstone;
 ```
-- import database on this project to your mysql (*option 1)
+- modify file .env - change database and port mysql (*option 1)
 ```bash
-  "check database file on this project and please insert manual to your database on php my admin"
+  DB_PORT=3306
+  DB_DATABASE=db_gits_capstone
 ```
-- running migration to your mysql (*option 2)
+- running migration with seeder to your mysql (*option 1)
 ```bash
-  php artisan migrate
+  php artisan migrate --seed "or" php artisan migrate:fresh --seed
 ```
-- running migration to your mysql with seed (*option 3 & recommended) - still not added yet
+- or import database on this project to your mysql (*option 2)
 ```bash
-  php artisan migrate:fresh --seed
+  "check database file on this project and please import manually to your database on php my admin"
 ```
-- making storage folder link to your public folder
+- make storage folder link to your public folder
 ```bash
   php artisan storage:link
 ```
-- starts the app
+- run the app
 ```bash
   php artisan serve
 ```
-- for best practice, please modify image photo product from CMS Admin on this url
+- for best practice, please modify image photo of products and services from CMS Manager on this url
 ```bash
-  http://127.0.0.1/admin/index-produk
+  http://127.0.0.1/admin/daftar-produk and http://127.0.0.1/admin/daftar-jasa
 ```
 - thank you, your app have been succesfully runned into your system
-## Support and Question 👀
+## Support and Thanks ✨
 
-For support, email leader of this project : taufikhidayat09121@gmail.com, Thank you 🤍
+For support credit, please email leader of this project : taufikhidayat09121@gmail.com. Thank you to team 7 members, our regards are mentors Ala Rai and GITS Indonesia 🎉🎉🎉
 
