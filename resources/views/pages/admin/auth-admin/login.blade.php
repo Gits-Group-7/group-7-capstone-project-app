@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Login Page | Admin Print Shop</title>
+    <title>Login Admin | Print Shop</title>
 @endsection
 
 @section('content')

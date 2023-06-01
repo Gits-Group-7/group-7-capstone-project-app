@@ -74,7 +74,8 @@
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <img src="{{ asset('customer/images/banner/promo-banner-default.png') }}"
-                                        class="d-block w-100 rounded" alt="" title="Welcome Banner" />
+                                        class="d-block w-100 rounded" alt=""
+                                        title="Selamat Datang, nikmati pelayanan menarik produk keren dan berkualitas dari kami 🥰" />
                                 </div>
                                 @foreach ($promo_banners as $item)
                                     <div class="carousel-item">
@@ -139,8 +140,7 @@
                                                 <a href="{{ route('customer.product.detail', $value->id) }}"
                                                     class="img-wrap">
                                                     <img src="{{ Storage::url($value->photo) }}"
-                                                        class="card-img-top rounded" title="{{ $value->name }}"
-                                                        style="aspect-ratio: 1 / 1">
+                                                        class="card-img-top rounded" title="{{ $value->name }}">
                                                 </a>
                                                 <div class="card-body p-0 pt-2">
                                                     <h6 class="card-title product-title mt-2 pt-2 limit-text"
@@ -152,7 +152,7 @@
                                                         <div class="row">
                                                             <div class="col d-flex">
                                                                 <span class="card-text mx-auto my-auto">
-                                                                    <span class="text-theme-two fw-bold">Rp.
+                                                                    <span class="text-theme-two fw-bold price-size">Rp.
                                                                         {{ priceConversion($value->price) }}</span>
                                                                 </span>
                                                             </div>
@@ -356,8 +356,7 @@
                                                 <a href="{{ route('customer.service.detail', $value->id) }}"
                                                     class="img-wrap">
                                                     <img src="{{ Storage::url($value->photo) }}"
-                                                        class="card-img-top rounded" title="{{ $value->name }}"
-                                                        style="aspect-ratio: 1 / 1">
+                                                        class="card-img-top rounded" title="{{ $value->name }}">
                                                 </a>
                                                 <div class="card-body p-0 pt-2">
                                                     <h6 class="card-title mt-2 pt-2 limit-text"
@@ -368,7 +367,7 @@
                                                     <div class="row">
                                                         <div class="col d-flex">
                                                             <span class="card-text mx-auto my-auto">
-                                                                <span class="text-theme-two fw-bold">Rp.
+                                                                <span class="text-theme-two fw-bold price-size">Rp.
                                                                     {{ priceConversion($value->price_per_pcs) }}</span>
                                                             </span>
                                                         </div>

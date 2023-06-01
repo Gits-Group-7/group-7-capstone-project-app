@@ -586,6 +586,10 @@ input[type="submit"] {
     font-size: 14px !important;
 }
 
+.price-size {
+    font-size: 15px !important;
+}
+
 /* CSS untuk layar dengan lebar kurang dari 992px */
 @media (max-width: 991px) {
     .margin-responsive {

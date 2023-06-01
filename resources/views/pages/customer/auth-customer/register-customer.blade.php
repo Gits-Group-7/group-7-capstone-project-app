@@ -1,7 +1,7 @@
 @extends('layouts.auth.template-auth')
 
 @section('title')
-    <title>Register Akun | Pelanggan Baru Print Shop</title>
+    <title>Register Akun - Pelanggan Baru | Print Shop</title>
 @endsection
 
 @section('content')

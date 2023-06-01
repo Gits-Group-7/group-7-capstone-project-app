@@ -7,18 +7,18 @@
             $slug = explode('-', $date);
             return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
         }
-
+        
         function priceConversion($price)
         {
             $formattedPrice = number_format($price, 0, ',', '.');
             return $formattedPrice;
         }
-
+        
         function convertToTitleCase($string)
         {
             return ucfirst($string);
         }
-
+        
         function roundToOneDecimal($number)
         {
             $rounded = round($number, 1); // Bulatkan angka dengan satu angka di belakang koma
@@ -282,8 +282,7 @@
                                             <a href="{{ route('customer.product.detail', $product->id) }}"
                                                 class="img-wrap">
                                                 <img src="{{ Storage::url($product->photo) }}"
-                                                    class="card-img-top rounded" title="{{ $product->name }}"
-                                                    style="aspect-ratio: 1 / 1">
+                                                    class="card-img-top rounded" title="{{ $product->name }}">
                                             </a>
                                             <div class="card-body p-0 pt-2">
                                                 <h6 class="card-title product-title mt-2 pt-2 limit-text"
@@ -295,7 +294,7 @@
                                                     <div class="row">
                                                         <div class="col d-flex">
                                                             <span class="card-text mx-auto my-auto">
-                                                                <span class="text-theme-two fw-bold">Rp.
+                                                                <span class="text-theme-two fw-bold price-size">Rp.
                                                                     {{ priceConversion($product->price) }}</span>
                                                             </span>
                                                         </div>
@@ -304,7 +303,7 @@
                                                                 @php
                                                                     $product_id = $product->id;
                                                                     $averageRating = $product->product_rating->where('product_id', $product_id)->avg('rating');
-
+                                                                    
                                                                     $rating = $averageRating;
                                                                     $whole = floor($rating);
                                                                     $fraction = $rating - $whole;
@@ -464,8 +463,7 @@
                                             <a href="{{ route('customer.service.detail', $service->id) }}"
                                                 class="img-wrap">
                                                 <img src="{{ Storage::url($service->photo) }}"
-                                                    class="card-img-top rounded" title="{{ $service->name }}"
-                                                    style="aspect-ratio: 1 / 1">
+                                                    class="card-img-top rounded" title="{{ $service->name }}">
                                             </a>
                                             <div class="card-body p-0 pt-2">
                                                 <h6 class="card-title mt-2 pt-2 limit-text"
@@ -476,7 +474,7 @@
                                                 <div class="row">
                                                     <div class="col d-flex">
                                                         <span class="card-text mx-auto my-auto">
-                                                            <span class="text-theme-two fw-bold">Rp.
+                                                            <span class="text-theme-two fw-bold price-size">Rp.
                                                                 {{ priceConversion($service->price_per_pcs) }}</span>
                                                         </span>
                                                     </div>
@@ -485,7 +483,7 @@
                                                             @php
                                                                 $service_id = $service->id;
                                                                 $averageRating = $service->service_rating->where('service_id', $service_id)->avg('rating');
-
+                                                                
                                                                 $rating = $averageRating;
                                                                 $whole = floor($rating);
                                                                 $fraction = $rating - $whole;
@@ -598,7 +596,7 @@
                                 <div class="card my-2 shadow-sm p-4 card-hover">
                                     <a href="{{ route('customer.product.detail', $value->id) }}" class="img-wrap">
                                         <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
-                                            title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
+                                            title="{{ $value->name }}">
                                     </a>
                                     <div class="card-body p-0 pt-2">
                                         <h6 class="card-title product-title mt-2 pt-2 limit-text"
@@ -610,7 +608,7 @@
                                             <div class="row">
                                                 <div class="col d-flex">
                                                     <span class="card-text mx-auto my-auto">
-                                                        <span class="text-theme-two fw-bold">Rp.
+                                                        <span class="text-theme-two fw-bold price-size">Rp.
                                                             {{ priceConversion($value->price) }}</span>
                                                     </span>
                                                 </div>
@@ -619,7 +617,7 @@
                                                         @php
                                                             $product_id = $value->id;
                                                             $averageRating = $value->product_rating->where('product_id', $product_id)->avg('rating');
-
+                                                            
                                                             $rating = $averageRating;
                                                             $whole = floor($rating);
                                                             $fraction = $rating - $whole;
@@ -774,7 +772,7 @@
                                 <div class="card my-2 shadow-sm p-4 card-hover">
                                     <a href="{{ route('customer.service.detail', $value->id) }}" class="img-wrap">
                                         <img src="{{ Storage::url($value->photo) }}" class="card-img-top rounded"
-                                            title="{{ $value->name }}" style="aspect-ratio: 1 / 1">
+                                            title="{{ $value->name }}">
                                     </a>
                                     <div class="card-body p-0 pt-2">
                                         <h6 class="card-title mt-2 pt-2 limit-text" title="{{ $value->name }}">
@@ -784,7 +782,7 @@
                                         <div class="row">
                                             <div class="col d-flex">
                                                 <span class="card-text mx-auto my-auto">
-                                                    <span class="text-theme-two fw-bold">Rp.
+                                                    <span class="text-theme-two fw-bold price-size">Rp.
                                                         {{ priceConversion($value->price_per_pcs) }}</span>
                                                 </span>
                                             </div>
@@ -793,7 +791,7 @@
                                                     @php
                                                         $service_id = $value->id;
                                                         $averageRating = $value->service_rating->where('service_id', $service_id)->avg('rating');
-
+                                                        
                                                         $rating = $averageRating;
                                                         $whole = floor($rating);
                                                         $fraction = $rating - $whole;

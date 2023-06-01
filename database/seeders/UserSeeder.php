@@ -14,26 +14,32 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        // User Role Admin
         User::create([
-            'name' => 'Admin',
+            'name' => 'Admin Print-Shop',
             'role' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => bcrypt('smuheroday'),
+            'password' => bcrypt('admin123'),
         ]);
         User::create([
-            'name' => 'Customer',
+            'name' => 'Manager Print-Shop',
+            'role' => 'admin',
+            'email' => 'manager@gmail.com',
+            'password' => bcrypt('manager123'),
+        ]);
+
+        // User Role Customer
+        User::create([
+            'name' => 'Customer Rabbit',
             'role' => 'customer',
-            'email' => 'customer@gmail.com',
-            'password' => bcrypt('12345678'),
+            'email' => 'customerrabbit@gmail.com',
+            'password' => bcrypt('rabbit123'),
         ]);
         User::create([
-            'name' => 'Taufik Hidayat',
+            'name' => 'Customer Bunny',
             'role' => 'customer',
-            'birthdate' => '2001-09-12',
-            'gender' => 'Laki-laki',
-            'email' => 'taufikhidayat@gmail.com',
-            'phone' => '082332743884',
-            'password' => bcrypt('smuheroday'),
+            'email' => 'customerbunny@gmail.com',
+            'password' => bcrypt('bunny123'),
         ]);
     }
 }

@@ -54,7 +54,7 @@
                                     <div class="card my-2 shadow-sm p-4 card-hover">
                                         <a href="{{ route('customer.product.detail', $product->id) }}" class="img-wrap">
                                             <img src="{{ Storage::url($product->photo) }}" class="card-img-top rounded"
-                                                title="{{ $product->name }}" style="aspect-ratio: 1 / 1">
+                                                title="{{ $product->name }}">
                                         </a>
                                         <div class="card-body p-0 pt-2">
                                             <h6 class="card-title product-title mt-2 pt-2 limit-text"
@@ -66,7 +66,7 @@
                                                 <div class="row">
                                                     <div class="col d-flex">
                                                         <span class="card-text mx-auto my-auto">
-                                                            <span class="text-theme-two fw-bold">Rp.
+                                                            <span class="text-theme-two fw-bold price-size">Rp.
                                                                 {{ priceConversion($product->price) }}</span>
                                                         </span>
                                                     </div>
@@ -245,7 +245,7 @@
                                     <div class="card my-2 shadow-sm p-4 card-hover">
                                         <a href="{{ route('customer.service.detail', $service->id) }}" class="img-wrap">
                                             <img src="{{ Storage::url($service->photo) }}" class="card-img-top rounded"
-                                                title="{{ $service->name }}" style="aspect-ratio: 1 / 1">
+                                                title="{{ $service->name }}">
                                         </a>
                                         <div class="card-body p-0 pt-2">
                                             <h6 class="card-title mt-2 pt-2 limit-text" title="{{ $service->name }}">
@@ -255,7 +255,7 @@
                                             <div class="row">
                                                 <div class="col d-flex">
                                                     <span class="card-text mx-auto my-auto">
-                                                        <span class="text-theme-two fw-bold">Rp.
+                                                        <span class="text-theme-two fw-bold price-size">Rp.
                                                             {{ priceConversion($service->price_per_pcs) }}</span>
                                                     </span>
                                                 </div>

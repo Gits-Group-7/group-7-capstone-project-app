@@ -477,9 +477,8 @@
                                 @foreach ($latest_products as $item)
                                     <div class="d-flex mb-3">
                                         <a href="{{ route('customer.product.detail', $item->id) }}" class="me-3">
-                                            <img src="{{ Storage::url($item->photo) }}"
-                                                style="min-width: 96px; height: 96px;"
-                                                class="img-md rounded border p-2" />
+                                            <img src="{{ Storage::url($item->photo) }}" class="border rounded me-3 p-2"
+                                                style="width: 96px;" />
                                         </a>
                                         <div class="info">
                                             <a href="#" class="nav-link mb-1 fw-medium">

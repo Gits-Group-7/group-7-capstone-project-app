@@ -65,7 +65,7 @@
                     <div class="input-group float-center my-auto">
                         <div class="form-outline">
                             <input type="search" id="search-input" name="search-input" class="form-control"
-                                placeholder="Temukan produk dan jasa yang Anda butuhkan!"
+                                placeholder="Temukan produk dan jasa yang menarik!"
                                 value="{{ session('searchTerm') }}" />
                         </div>
                         <button type="button" class="btn search-theme shadow-0" onclick="searchProductAndService()">

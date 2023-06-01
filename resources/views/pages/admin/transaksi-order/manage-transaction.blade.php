@@ -108,7 +108,7 @@
                                                         {{-- Jika tracking pesanan sudah selesai --}}
                                                         <div class="btn-group-vertical">
                                                             <button type="button"
-                                                                class="btn btn-inverse-success py-3 px-3">Selesai
+                                                                class="btn btn-inverse-success py-3 px-3">Transaksi Selesai
                                                             </button>
                                                         </div>
                                                     @elseif($item->delivery_complete == 'Yes')
