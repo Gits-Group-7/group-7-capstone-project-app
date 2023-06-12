@@ -12,22 +12,22 @@
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
 @endphp
@@ -420,8 +420,13 @@
                                                 <div class="card-body m-3">
                                                     <div class="row align-items-center">
                                                         <div class="col-md-4 col-12 mb-3 mb-md-0">
-                                                            <img src="{{ Storage::url($item->user->photo) }}"
-                                                                alt="" class="img-thumbnail rounded-circle">
+                                                            @if ($item->user->photo == 'empty')
+                                                                <img src="{{ asset('customer/images/profile-customer.png') }}"
+                                                                    alt="" class="img-thumbnail rounded-circle">
+                                                            @else
+                                                                <img src="{{ Storage::url($item->user->photo) }}"
+                                                                    alt="" class="img-thumbnail rounded-circle">
+                                                            @endif
                                                         </div>
                                                         <div class="col-md-8 col-12">
                                                             <h5 class="mb-0">{{ $item->user->name }}</h5>

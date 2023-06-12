@@ -59,8 +59,13 @@
                             <div class="card-body m-3">
                                 <div class="row align-items-center">
                                     <div class="col-md-4 col-12 mb-3 mb-md-0">
-                                        <img src="{{ Storage::url($item->user->photo) }}" alt=""
-                                            class="img-thumbnail rounded-circle">
+                                        @if ($item->user->photo == 'empty')
+                                            <img src="{{ asset('customer/images/profile-customer.png') }}" alt=""
+                                                class="img-thumbnail rounded-circle">
+                                        @else
+                                            <img src="{{ Storage::url($item->user->photo) }}" alt=""
+                                                class="img-thumbnail rounded-circle">
+                                        @endif
                                     </div>
                                     <div class="col-md-8 col-12">
                                         <h5 class="mb-0">{{ $item->user->name }}</h5>

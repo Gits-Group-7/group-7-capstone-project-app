@@ -151,10 +151,10 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::put('/checkout-order-jasa/{order_id}', [TransactionOrderController::class, 'update_order_service'])->name('transaction.order.checkout_order_jasa'); // checkout service (update)
     Route::put('/upload-prof-transaction-order-payment/{transaction_order_id}', [TransactionOrderController::class, 'upload_transaction_order_payment'])->name('transaction.order.upload_transaction_order_payment'); // upload transaction order payment (product & service)
 
-    Route::get('/cusomer/{id}/daftar-transaksi', [PageController::class, 'listTransaction'])->name('customer.transaction.list');
-    Route::get('/cusomer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');
-    Route::get('/cusomer/{id}/transaksi-produk', [PageController::class, 'transactionProduct'])->name('customer.transaction.product');
-    Route::get('/cusomer/{id}/order-jasa', [PageController::class, 'orderService'])->name('customer.order.service');
+    Route::get('/customer/{id}/daftar-transaksi', [PageController::class, 'listTransaction'])->name('customer.transaction.list');
+    Route::get('/customer/{id}/daftar-order', [PageController::class, 'listOrder'])->name('customer.order.list');
+    Route::get('/customer/{id}/transaksi-produk', [PageController::class, 'transactionProduct'])->name('customer.transaction.product');
+    Route::get('/customer/{id}/order-jasa', [PageController::class, 'orderService'])->name('customer.order.service');
 
     // route completing transaction order customer
     Route::put('/customer/transaction-product-completed/{transaction_order_id}', [CustomerProfileController::class, 'transaction_product_accepted'])->name('customer.transaction.product.accepted');
