@@ -47,7 +47,7 @@ class AuthAdminController extends Controller
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'max:100', 'email', 'unique:' . AuthUser::class],
             'password' => ['required', 'confirmed'],
-            'password_confirmation' => ['required', Rules\password::defaults()],
+            'password_confirmation' => ['required', Rules\Password::defaults()],
         ]);
 
         // insert data user dengan menggunakan validasi
@@ -69,7 +69,7 @@ class AuthAdminController extends Controller
         // fungsi validasi sebelum melakukan login
         $credentials = $request->validate([
             'email' => ['required', 'string', 'max:100', 'email'],
-            'password' => ['required', Rules\password::defaults()],
+            'password' => ['required', Rules\Password::defaults()],
         ]);
 
         // mengecek kredential ketika request login berlangsung
