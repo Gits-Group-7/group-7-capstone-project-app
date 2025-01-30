@@ -57,7 +57,10 @@ Features for Customer :
 - install livewire on your terminal project
 ```bash
   composer require livewire/livewire
-
+```
+- install midtrans
+```bash
+  composer require midtrans/midtrans-php
 ```
 - make database db_gits_capstone on mysql (*option 1)
 ```bash

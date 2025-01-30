@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('transaction_orders', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('snap_token', 255)->nullable(false);
             $table->timestamp('order_date')->default(DB::raw('CURRENT_TIMESTAMP'))->nullable(false);
             $table->text('order_address')->nullable(false);
             $table->text('order_note')->nullable(true);

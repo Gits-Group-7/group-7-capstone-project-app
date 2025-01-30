@@ -15,6 +15,7 @@ use App\Models\TransactionOrder;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TransactionOrderController extends Controller
 {
@@ -86,6 +87,7 @@ class TransactionOrderController extends Controller
             'order_confirmed' => 'No',
             'type_transaction_order' => 'product',
             'status_delivery' => 'Start Order',
+            'snap_token' => '',
             'user_id' => $user->id,
         ]);
 
@@ -113,6 +115,7 @@ class TransactionOrderController extends Controller
             'order_confirmed' => 'No',
             'type_transaction_order' => 'service',
             'status_delivery' => 'Start Order',
+            'snap_token' => '',
             'user_id' => $user->id,
         ]);
 
@@ -259,6 +262,36 @@ class TransactionOrderController extends Controller
             'total_price_transaction_order' => $total_price_cart + $deliveryPriceCart,
         ]);
 
+        $transaction_order = TransactionOrder::where('id', $transaction_id)->first();
+
+        // midtrans preparation for getting snap_token
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+        // creating snap token
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => 'ORDER-' . Str::uuid(),
+                'gross_amount' =>  $transaction_order->total_price_transaction_order,
+            ),
+            'customer_details' => array(
+                'first_name' => $transaction_order->user->name,
+                'email' => $transaction_order->user->email,
+            )
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        // update snap token on transaction order
+        $transaction_order->snap_token = $snapToken;
+        $transaction_order->save();
+
         // Mendapatkan ID transaksi yang baru saja dibuat
         $transactionOrderId = $transaction_id;
 
@@ -311,6 +344,36 @@ class TransactionOrderController extends Controller
             'delivery_price' => $deliveryPriceOrder,
             'total_price_transaction_order' => $total_price_order + $deliveryPriceOrder + $servicePrice,
         ]);
+
+        $transaction_order = TransactionOrder::where('id', $order_id)->first();
+
+        // midtrans preparation for getting snap_token
+        // Set your Merchant Server Key
+        \Midtrans\Config::$serverKey = config('midtrans.serverKey');
+        // Set to Development/Sandbox Environment (default). Set to true for Production Environment (accept real transaction).
+        \Midtrans\Config::$isProduction = config('midtrans.isProduction');
+        // Set sanitization on (default)
+        \Midtrans\Config::$isSanitized = config('midtrans.isSanitized');
+        // Set 3DS transaction for credit card to true
+        \Midtrans\Config::$is3ds = config('midtrans.is3ds');
+
+        // creating snap token
+        $params = array(
+            'transaction_details' => array(
+                'order_id' => 'ORDER-' . Str::uuid(),
+                'gross_amount' =>  $transaction_order->total_price_transaction_order,
+            ),
+            'customer_details' => array(
+                'first_name' => $transaction_order->user->name,
+                'email' => $transaction_order->user->email,
+            )
+        );
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+
+        // update snap token on transaction order
+        $transaction_order->snap_token = $snapToken;
+        $transaction_order->save();
 
         // Mendapatkan ID transaksi yang baru saja dibuat
         $transactionOrderId = $order_id;

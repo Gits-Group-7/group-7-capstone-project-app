@@ -8,44 +8,70 @@
     // fungsi konversi data tipe date ke tanggal
     function dateConversion($date)
     {
-        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $month = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
         $slug = explode('-', $date);
         return $slug[2] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[0];
     }
-    
+
     function priceConversion($price)
     {
         $formattedPrice = number_format($price, 0, ',', '.');
         return $formattedPrice;
     }
-    
+
     // fungsi auto repair one word
     function underscore($string)
     {
         // Ubah string menjadi lowercase
         $string = strtolower($string);
-    
+
         // Ganti spasi dengan underscore
         $string = str_replace(' ', '_', $string);
-    
+
         return $string;
     }
-    
+
     function timestampConversion($timestamp)
     {
         // Format tanggal dan waktu asli
         $dateString = $timestamp;
-    
+
         // Mengkonversi format menjadi waktu yang mudah dibaca
         $data = strtotime($dateString);
         $date = date('d-m-Y', $data);
         $time = date('H:i:s', $data);
-    
+
         // konversi tanggal
-        $month = [1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        $month = [
+            1 => 'Januari',
+            'Februari',
+            'Maret',
+            'April',
+            'Mei',
+            'Juni',
+            'Juli',
+            'Agustus',
+            'September',
+            'Oktober',
+            'November',
+            'Desember',
+        ];
         $slug = explode('-', $date);
         $result_date = $slug[0] . ' ' . $month[(int) $slug[1]] . ' ' . $slug[2];
-    
+
         $result = $result_date . ' ' . '(' . $time . ')';
         return $result;
     }
@@ -127,6 +153,41 @@
                                                                                 data-bs-target="#upload-transaction-product{{ $item->id }}">
                                                                                 Upload Bukti Pembayaran
                                                                             </button>
+
+                                                                            @if (!empty($item->snap_token))
+                                                                                <button id="pay-button-{{ $item->id }}"
+                                                                                    type="button"
+                                                                                    class="btn btn-theme mb-2"
+                                                                                    title="Lakukan Pembayaran">
+                                                                                    <i class="fa-solid fa-credit-card"></i>
+                                                                                </button>
+                                                                            @endif
+
+                                                                            @if (isset($item) && !empty($item->snap_token))
+                                                                                <script type="text/javascript">
+                                                                                    document.getElementById('pay-button-{{ $item->id }}').onclick = function() {
+                                                                                        // SnapToken acquired from previous step
+                                                                                        snap.pay('{{ $item->snap_token }}', {
+                                                                                            // Optional
+                                                                                            onSuccess: function(result) {
+                                                                                                window.location.href = '{{ route('transaction.order.customer.list') }}';
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            },
+                                                                                            // Optional
+                                                                                            onPending: function(result) {
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            },
+                                                                                            // Optional
+                                                                                            onError: function(result) {
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            }
+                                                                                        });
+                                                                                    };
+                                                                                </script>
+                                                                            @endif
 
                                                                             <!-- Modal Upload Bukti Pembayaran Transaksi -->
                                                                             <div class="modal fade"
@@ -405,6 +466,42 @@
                                                                                 Upload Bukti Pembayaran
                                                                             </button>
 
+                                                                            @if (!empty($item->snap_token))
+                                                                                <button
+                                                                                    id="pay-button-service-{{ $item->id }}"
+                                                                                    type="button"
+                                                                                    class="btn btn-theme mb-2"
+                                                                                    title="Lakukan Pembayaran">
+                                                                                    <i class="fa-solid fa-credit-card"></i>
+                                                                                </button>
+                                                                            @endif
+
+                                                                            @if (isset($item) && !empty($item->snap_token))
+                                                                                <script type="text/javascript">
+                                                                                    document.getElementById('pay-button-service-{{ $item->id }}').onclick = function() {
+                                                                                        // SnapToken acquired from previous step
+                                                                                        snap.pay('{{ $item->snap_token }}', {
+                                                                                            // Optional
+                                                                                            onSuccess: function(result) {
+                                                                                                window.location.href = '{{ route('transaction.order.customer.list') }}';
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                // document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            },
+                                                                                            // Optional
+                                                                                            onPending: function(result) {
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            },
+                                                                                            // Optional
+                                                                                            onError: function(result) {
+                                                                                                /* You may add your own js here, this is just example */
+                                                                                                document.getElementById('result-json').innerHTML += JSON.stringify(result, null, 2);
+                                                                                            }
+                                                                                        });
+                                                                                    };
+                                                                                </script>
+                                                                            @endif
+
                                                                             <!-- Modal Upload Bukti Pembayaran Order -->
                                                                             <div class="modal fade"
                                                                                 id="upload-order-service{{ $item->id }}"
@@ -655,4 +752,9 @@
 
         </div>
     </section>
+@endsection
+
+@section('script')
+    <!-- TODO: Remove ".sandbox" from script src URL for production environment. Also input your client key in "data-client-key" -->
+    <script src="{{ env('MIDTRANS_URL_ACTIVE') }}" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 @endsection

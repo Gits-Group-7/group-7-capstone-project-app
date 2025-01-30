@@ -30,6 +30,7 @@ class TransactionOrder extends Model
     }
 
     protected $fillable = [
+        'snap_token',
         'order_date',
         'order_address',
         'order_note',
